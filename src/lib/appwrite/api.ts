@@ -105,11 +105,7 @@ export async function getCurrentStakeholder() {
 
     if (!currentStakeholder) throw Error
 
-    const stakeholder = {
-      ...currentStakeholder.documents[0],
-    }
-
-    return { stakeholder, error: null }
+    return { stakeholder: currentStakeholder.documents[0], error: null }
   } catch (error) {
     console.log(error)
     return { stakeholder: null, error }
