@@ -19,6 +19,7 @@ import { Card } from "@/components/ui/card"
 import { IOpportunity } from "@/types"
 import CreateMilestone from "@/components/shared/CreateMilestone"
 import { Models } from "appwrite"
+import ProjectSkeleton from "@/components/shared/skeletons/ProjectSkeleton"
 
 const Project = () => {
   const { projectId } = useParams()
@@ -35,7 +36,7 @@ const Project = () => {
   return (
     <div className="pb-24">
       {!project || isPending ? (
-        <FadeIn>Loading...</FadeIn>
+        <ProjectSkeleton />
       ) : (
         <FadeIn>
           <div className="flex flex-col lg:flex-row justify-between">

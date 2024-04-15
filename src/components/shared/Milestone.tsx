@@ -16,6 +16,7 @@ import {
 import { toast } from "sonner"
 import { useConfirm } from "./AlertDialogProvider"
 import Update from "./Update"
+import { Skeleton } from "../ui/skeleton"
 
 const getMilestoneStatus = (feedback: string) => {
   switch (feedback) {
@@ -67,7 +68,7 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
   return (
     <div className="relative">
       {!milestone || isPending ? (
-        <div>milestone skeleton</div>
+        <Skeleton className="w-full h-[16rem]" />
       ) : (
         <>
           {approvalRequested && (
