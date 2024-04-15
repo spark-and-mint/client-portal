@@ -9,6 +9,7 @@ import {
   INewMilestone,
   INewFeedback,
   IFeedback,
+  IMilestone,
 } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
@@ -37,6 +38,7 @@ import {
   createFeedback,
   getMilestoneById,
   deleteFeedback,
+  updateMilestone,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
@@ -246,6 +248,18 @@ export const useCreateMilestone = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_PROJECT_BY_ID, data?.project.$id],
+      })
+    },
+  })
+}
+
+export const useUpdateMilestone = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (milestone: IMilestone) => updateMilestone(milestone),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MILESTONE_BY_ID, data?.$id],
       })
     },
   })

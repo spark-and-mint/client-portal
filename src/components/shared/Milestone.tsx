@@ -1,4 +1,11 @@
-import { CircleSlash, MoreHorizontal, Pickaxe, ThumbsUp } from "lucide-react"
+import {
+  CircleSlash,
+  MoreHorizontal,
+  Pickaxe,
+  RotateCw,
+  ThumbsUp,
+  TriangleAlert,
+} from "lucide-react"
 import { Button } from "../ui"
 import {
   DropdownMenu,
@@ -12,11 +19,21 @@ import { Models } from "appwrite"
 import {
   useDeleteMilestone,
   useGetMilestoneById,
+  useUpdateMilestone,
 } from "@/lib/react-query/queries"
 import { toast } from "sonner"
 import { useConfirm } from "./AlertDialogProvider"
 import Update from "./Update"
 import { Skeleton } from "../ui/skeleton"
+import { useState } from "react"
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog"
+import MilestoneForm from "./MilestoneForm"
 
 const getMilestoneStatus = (feedback: string) => {
   switch (feedback) {
@@ -32,10 +49,22 @@ const getMilestoneStatus = (feedback: string) => {
           In progress <Pickaxe className="w-4 h-4 ml-1.5 pb-0.25" />
         </span>
       )
+    case "approval requested":
+      return (
+        <span className="flex items-center  px-1.5 py-1 text-cyan-400 font-medium text-sm bg-muted border border-cyan-400/30 rounded-md">
+          Approval requested <TriangleAlert className="w-4 h-4 ml-1.5" />
+        </span>
+      )
+    case "approval rejected":
+      return (
+        <span className="flex items-center  px-1.5 py-1 text-red-500 font-medium text-sm bg-red-400/20 border border-red-400/20 rounded-md">
+          Approval rejected <CircleSlash className="w-4 h-4 ml-1.5 pb-0.25" />
+        </span>
+      )
     default:
       return (
-        <span className="flex items-center  px-1.5 py-1 text-cyan-500 font-medium text-sm bg-muted border border-cyan-400/20 rounded-md">
-          Not started <CircleSlash className="w-4 h-4 ml-1.5 pb-0.25" />
+        <span className="flex items-center  px-1.5 py-1 text-gray-400 font-medium text-sm bg-muted border border-gray-400/20 rounded-md">
+          Not started
         </span>
       )
   }
@@ -44,8 +73,11 @@ const getMilestoneStatus = (feedback: string) => {
 const Milestone = ({ milestoneId }: { milestoneId: string }) => {
   const { data: milestone, isPending } = useGetMilestoneById(milestoneId)
   const { mutateAsync: deleteMilestone } = useDeleteMilestone()
+  const { mutateAsync: updateMilestone } = useUpdateMilestone()
   const confirm = useConfirm()
-  const approvalRequested = false
+  const [showEditDialog, setShowEditDialog] = useState(false)
+  const [loadingApproval, setLoadingApproval] = useState(false)
+  const [loadingReject, setLoadingReject] = useState(false)
 
   const handleDelete = async (milestoneId: string) => {
     const declineConfirmed = await confirm({
@@ -65,62 +97,151 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
     }
   }
 
+  const handleApprove = async () => {
+    if (!milestone) return
+
+    if (milestone.status === "approved") {
+      try {
+        setLoadingApproval(true)
+        await updateMilestone({
+          milestoneId: milestone.$id,
+          title: milestone.title,
+          status: "in progress",
+        })
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoadingApproval(false)
+      }
+
+      return
+    }
+
+    try {
+      setLoadingApproval(true)
+      await updateMilestone({
+        milestoneId: milestone.$id,
+        title: milestone.title,
+        status: "approved",
+      })
+      toast.success("Milestone approved.")
+    } catch (error) {
+      toast.error("Could not approve milestone. Please try again.")
+      console.error(error)
+    } finally {
+      setLoadingApproval(false)
+    }
+  }
+
+  const handleReject = async () => {
+    if (!milestone) return
+
+    try {
+      setLoadingReject(true)
+      await updateMilestone({
+        milestoneId: milestone.$id,
+        title: milestone.title,
+        status: "approval rejected",
+      })
+    } catch (error) {
+      toast.error("Could not reject milestone. Please try again.")
+      console.error(error)
+    } finally {
+      setLoadingReject(false)
+    }
+  }
+
   return (
     <div className="relative">
       {!milestone || isPending ? (
         <Skeleton className="w-full h-[16rem]" />
       ) : (
         <>
-          {approvalRequested && (
-            <span className="absolute -inset-0.5 bg-gradient-to-r from-cyan-600/80 to-blue-600/80 rounded-xl"></span>
-          )}
           <Card className="relative p-2 z-10">
             <CardHeader>
               <div className="flex flex-col gap-4 justify-between lg:flex-row lg:items-center mb-4">
                 <div className="flex items-center">
                   <h5 className="h5">{milestone.title}</h5>
                   <div className="ml-4">
-                    {getMilestoneStatus(
-                      milestone.title === "Research"
-                        ? "in progress"
-                        : milestone.status
-                    )}
+                    {getMilestoneStatus(milestone.status)}
                   </div>
-                  {approvalRequested && (
-                    <div className="ml-4">
-                      <span className="flex items-center px-1.5 py-1 bg-gradient-to-br from-cyan-800/80 to-blue-800/80 text-white font-medium text-sm bg-muted border border-cyan-600 rounded-md">
-                        Approval requested
-                      </span>
-                    </div>
-                  )}
                 </div>
 
                 <div className="flex gap-4">
+                  {milestone.status === "approval requested" && (
+                    <Button
+                      variant="outline"
+                      disabled={loadingReject}
+                      onClick={handleReject}
+                      className="text-red-500"
+                    >
+                      {loadingReject ? (
+                        <div className="flex items-center gap-2">
+                          <RotateCw className="h-4 w-4 animate-spin" />
+                          Rejecting...
+                        </div>
+                      ) : (
+                        "Reject milestone"
+                      )}
+                    </Button>
+                  )}
                   <Button
                     variant="secondary"
-                    disabled={milestone.updates.length === 0}
+                    disabled={loadingApproval || milestone.updates.length === 0}
+                    onClick={handleApprove}
                   >
-                    Approve milestone
+                    {loadingApproval ? (
+                      <div className="flex items-center gap-2">
+                        <RotateCw className="h-4 w-4 animate-spin" />
+                        {milestone.status === "approved"
+                          ? "Withdrawing..."
+                          : "Approving..."}
+                      </div>
+                    ) : (
+                      <>
+                        {milestone.status === "approved"
+                          ? "Withdraw approval"
+                          : "Approve milestone"}
+                      </>
+                    )}
                   </Button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="icon">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal className="h-6 w-6" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Edit milestone</DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => handleDelete(milestone.$id)}
-                      >
-                        <span className="font-medium text-[#e40808]">
-                          Delete
-                        </span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <Dialog
+                    open={showEditDialog}
+                    onOpenChange={setShowEditDialog}
+                  >
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="icon">
+                          <span className="sr-only">Open menu</span>
+                          <MoreHorizontal className="h-6 w-6" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DialogTrigger asChild>
+                          <DropdownMenuItem>Edit milestone</DropdownMenuItem>
+                        </DialogTrigger>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={() => handleDelete(milestone.$id)}
+                        >
+                          <span className="font-medium text-[#e40808]">
+                            Delete
+                          </span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Edit milestone</DialogTitle>
+                      </DialogHeader>
+
+                      <MilestoneForm
+                        action="update"
+                        setOpen={setShowEditDialog}
+                        milestone={milestone}
+                      />
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </CardHeader>

@@ -11,6 +11,7 @@ import {
   INewMilestone,
   IFeedback,
   INewFeedback,
+  IMilestone,
 } from "@/types"
 import { nanoid } from "nanoid"
 
@@ -549,6 +550,28 @@ export async function createMilestone(milestone: INewMilestone) {
     )
 
     return newMilestone
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function updateMilestone(milestone: IMilestone) {
+  try {
+    const updatedMilestone = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.milestoneCollectionId,
+      milestone.milestoneId,
+      {
+        title: milestone.title,
+        status: milestone.status,
+      }
+    )
+
+    if (!updatedMilestone) {
+      throw Error
+    }
+
+    return updatedMilestone
   } catch (error) {
     console.log(error)
   }

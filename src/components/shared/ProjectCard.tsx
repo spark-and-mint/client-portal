@@ -36,11 +36,7 @@ const ProjectCard = ({ project }: { project: Models.Document }) => {
               <div className="text-primary tracking-[0.08em] uppercase text-xs font-semibold">
                 Type
               </div>
-              <p className="font-medium">
-                {project.title === "Bitcoin.org Redesign"
-                  ? "Milestone-based"
-                  : "Ongoing retainer"}
-              </p>
+              <p className="font-medium">Milestone-based</p>
             </div>
             <div className="flex flex-col gap-2">
               <div className="text-primary tracking-[0.08em] uppercase text-xs font-semibold">
