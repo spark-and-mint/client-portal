@@ -3,11 +3,12 @@ export type INewStakeholder = {
   password: string
   firstName: string
   lastName: string
+  clientId: string
 }
 
 export type IStakeholder = {
-  accountId: string
-  clientId: string
+  id: string
+  client: IClient
   email: string
   firstName: string
   lastName: string
@@ -19,7 +20,6 @@ export type IStakeholder = {
 
 export type IUpdateStakeholder = {
   stakeholderId: string
-  clientId: string
   email: string
   firstName: string
   lastName: string
@@ -29,12 +29,47 @@ export type IUpdateStakeholder = {
   emailVerification?: boolean
 }
 
+export type IMember = {
+  id: string
+  email: string
+  firstName: string
+  lastName: string
+  emailVerification: boolean
+  importedAnswers: boolean
+  name: string
+  timezone: string
+  status: "form completed" | "1on1 done" | "accepted" | "rejected" | null
+  profileId: string
+  profile: {
+    workStatus: string
+    seniority: string
+    rate: string
+    roles: string[]
+    skills: string[]
+    domains: string[]
+    availability: string
+    lookingFor: string
+    website: string
+    linkedin: string
+    github: string
+    x: string
+    farcaster: string
+    dribbble: string
+    behance: string
+  }
+  avatarUrl: string
+  avatarId: string
+  contractSigned: boolean
+  projects: IProject[]
+}
+
 export type IClient = {
   id: string
   name: string
   logoUrl: URL | string
   logoId: string
   file: File[]
+  website?: string
   description?: string
   stakeholders?: IStakeholder[]
   resources?: IResource[]
@@ -58,10 +93,10 @@ export type IProject = {
   title: string
   briefLink?: string
   additionalLink?: string
-  sparkRep?: string
+  sparkRep?: IMember
   status?: string
   client?: IClient
-  team?: IStakeholder[] | null
+  team?: IMember[]
 }
 
 export type IOpportunity = {
@@ -71,6 +106,7 @@ export type IOpportunity = {
   background?: string
   description?: string
   duration?: string
+  member?: IMember
   type?: string
   estimatedEarnings?: string
   responsibilities?: string
@@ -85,7 +121,7 @@ export type IMilestone = {
   milestoneId: string
   title: string
   updates?: IUpdate[]
-  status?: "in progress" | "approved"
+  status?: string
 }
 
 export type IUpdate = {
@@ -95,6 +131,7 @@ export type IUpdate = {
   link?: string
   file?: File[]
   description?: string
+  isViewed?: boolean
 }
 
 export type INewFeedback = {

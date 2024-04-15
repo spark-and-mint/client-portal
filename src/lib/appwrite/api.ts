@@ -8,7 +8,11 @@ import {
   IProject,
   IUpdate,
   IUpdateStakeholder,
+  INewMilestone,
+  IFeedback,
+  INewFeedback,
 } from "@/types"
+import { nanoid } from "nanoid"
 
 export async function createStakeholderAccount(stakeholder: INewStakeholder) {
   try {
@@ -27,6 +31,7 @@ export async function createStakeholderAccount(stakeholder: INewStakeholder) {
 
     const newStakeholder = await saveStakeholderToDB({
       accountId: newAccount.$id,
+      clientId: stakeholder.clientId,
       email: newAccount.email,
       name: `${stakeholder.firstName} ${stakeholder.lastName}`,
       firstName: stakeholder.firstName,
@@ -43,6 +48,7 @@ export async function createStakeholderAccount(stakeholder: INewStakeholder) {
 
 export async function saveStakeholderToDB(stakeholder: {
   accountId: string
+  clientId: string
   email: string
   name: string
   firstName: string
@@ -50,23 +56,19 @@ export async function saveStakeholderToDB(stakeholder: {
   avatarUrl: URL
 }) {
   try {
-    const newProfile = await databases.createDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.profileCollectionId,
-      ID.unique(),
-      {
-        stakeholderId: stakeholder.accountId,
-      }
-    )
-
     const newStakeholder = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.stakeholderCollectionId,
       ID.unique(),
       {
-        ...stakeholder,
-        avatarId: ID.unique(),
-        profileId: newProfile.$id,
+        accountId: stakeholder.accountId,
+        client: stakeholder.clientId,
+        email: stakeholder.email,
+        name: stakeholder.name,
+        firstName: stakeholder.firstName,
+        lastName: stakeholder.lastName,
+        avatarUrl: stakeholder.avatarUrl,
+        avatarId: nanoid(),
       }
     )
 
@@ -160,6 +162,7 @@ export async function getStakeholderById(stakeholderId: string) {
 
 export async function updateStakeholder(stakeholder: IUpdateStakeholder) {
   const hasFileToUpdate = stakeholder.file.length > 0
+
   try {
     let avatar = {
       avatarUrl: stakeholder.avatarUrl,
@@ -168,9 +171,11 @@ export async function updateStakeholder(stakeholder: IUpdateStakeholder) {
 
     if (hasFileToUpdate) {
       const uploadedFile = await uploadFile(stakeholder.file[0])
+
       if (!uploadedFile) throw Error
 
       const fileUrl = getFilePreview(uploadedFile.$id)
+
       if (!fileUrl) {
         await deleteFile(uploadedFile.$id)
         throw Error
@@ -188,8 +193,8 @@ export async function updateStakeholder(stakeholder: IUpdateStakeholder) {
         email: stakeholder.email,
         firstName: stakeholder.firstName,
         lastName: stakeholder.lastName,
-        avatarUrl: stakeholder.avatarUrl,
-        avatarId: stakeholder.avatarId,
+        avatarUrl: avatar.avatarUrl,
+        avatarId: avatar.avatarId,
       }
     )
 
@@ -398,6 +403,7 @@ export async function updateUpdate(update: IUpdate) {
       update.updateId,
       {
         title: update.title,
+        isViewed: update.isViewed,
       }
     )
 
@@ -470,14 +476,14 @@ export async function updateOpportunity(opportunity: IOpportunity) {
   }
 }
 
-export async function getStakeholderProjects(stakeholderId?: string) {
-  if (!stakeholderId) return
+export async function getClientProjects(clientId?: string) {
+  if (!clientId) return
 
   try {
     const projects = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.projectCollectionId,
-      [Query.equal("stakeholder", stakeholderId)]
+      [Query.equal("client", clientId)]
     )
 
     if (!projects) throw Error
@@ -525,6 +531,117 @@ export async function getProjectById(projectId?: string) {
     if (!project) throw Error
 
     return project
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function createMilestone(milestone: INewMilestone) {
+  try {
+    const newMilestone = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.milestoneCollectionId,
+      ID.unique(),
+      {
+        project: milestone.projectId,
+        title: milestone.title,
+      }
+    )
+
+    return newMilestone
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function deleteMilestone(milestoneId?: string) {
+  if (!milestoneId) return
+
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.milestoneCollectionId,
+      milestoneId
+    )
+
+    if (!statusCode) throw Error
+
+    return { status: "Ok" }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getMilestoneById(milestoneId?: string) {
+  if (!milestoneId) throw Error
+
+  try {
+    const milestone = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.milestoneCollectionId,
+      milestoneId
+    )
+
+    if (!milestone) throw Error
+
+    return milestone
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function createFeedback(feedback: INewFeedback) {
+  try {
+    const newFeedback = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.feedbackCollectionId,
+      ID.unique(),
+      {
+        update: feedback.updateId,
+        text: feedback.text,
+      }
+    )
+
+    return newFeedback
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function updateFeedback(feedback: IFeedback) {
+  try {
+    const updatedFeedback = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.feedbackCollectionId,
+      feedback.feedbackId,
+      {
+        text: feedback.text,
+      }
+    )
+
+    if (!updatedFeedback) {
+      throw Error
+    }
+
+    return updatedFeedback
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function deleteFeedback(feedbackId?: string) {
+  if (!feedbackId) return
+
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.feedbackCollectionId,
+      feedbackId
+    )
+
+    if (!statusCode) throw Error
+
+    return { status: "Ok" }
   } catch (error) {
     console.log(error)
   }

@@ -131,6 +131,8 @@ module.exports = {
         "ping-slow": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
         "pulse-reverse":
           "pulse-reverse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;",
+        "collapsible-down": "collapsible-down 250ms ease-out",
+        "collapsible-up": "collapsible-up 250ms ease-out",
       },
       keyframes: {
         "accordion-down": {
@@ -148,6 +150,14 @@ module.exports = {
           "50%": {
             opacity: 1,
           },
+        },
+        "collapsible-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-collapsible-content-height)" },
+        },
+        "collapsible-up": {
+          from: { height: "var(--radix-collapsible-content-height)" },
+          to: { height: "0" },
         },
       },
     },

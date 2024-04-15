@@ -2,7 +2,13 @@ import { Button } from "@/components/ui"
 import { Card } from "@/components/ui/card"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { cn } from "@/lib/utils"
-import { ArrowRight, ExternalLink, Heart, ScrollText, User } from "lucide-react"
+import {
+  ArrowRight,
+  ExternalLink,
+  Heart,
+  Landmark,
+  ScrollText,
+} from "lucide-react"
 import FadeIn from "react-fade-in"
 import { Link } from "react-router-dom"
 
@@ -11,7 +17,7 @@ const Home = () => {
 
   return (
     <FadeIn className="pb-16 space-y-4">
-      <div className="relative flex justify-between items-center mb-10 -mt-2">
+      <div className="relative flex justify-between items-center mb-8 -mt-2">
         <div>
           <h4 className="h4 mb-1">
             Hello, <span className="capitalize">{stakeholder.firstName}</span>!
@@ -23,17 +29,17 @@ const Home = () => {
         <img src="/assets/stars-multiple.svg" className="w-14 h-14 mr-3" />
       </div>
 
-      <Link to="/profile" className="block">
+      <Link to="/details" className="block">
         <Card className="flex items-center justify-between group hover:bg-slate-400/15 hover:border-cyan-400 transition-colors duration-100">
           <div className="flex items-center gap-6">
             <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full transition-colors duration-100">
-              <User strokeWidth={2} className="w-6 h-6" />
+              <Landmark strokeWidth={2} className="w-5 h-5" />
             </div>
             <div>
               <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
-                Complete your Profile
+                Add company details
               </h6>
-              <p>Add more details to get started on your journey.</p>
+              <p>Help us learn more about your mission.</p>
             </div>
           </div>
           <div className="flex items-center">

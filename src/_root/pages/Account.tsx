@@ -17,7 +17,6 @@ import { useStakeholderContext } from "@/context/AuthContext"
 import { useUpdateStakeholder } from "@/lib/react-query/queries"
 import { RotateCw } from "lucide-react"
 import ImageUploader from "@/components/shared/ImageUploader"
-import { useEffect } from "react"
 import FadeIn from "react-fade-in"
 
 const AccountPage = () => {
@@ -31,18 +30,16 @@ const AccountPage = () => {
       file: [],
     },
   })
-  const { reset } = form
 
   const { mutateAsync: updateStakeholder, isPending: isLoadingUpdate } =
     useUpdateStakeholder()
 
   const handleUpdate = async (values: z.infer<typeof AccountValidation>) => {
     const updatedStakeholder = await updateStakeholder({
-      stakeholderId: stakeholder.accountId,
+      stakeholderId: stakeholder.id,
       avatarUrl: stakeholder.avatarUrl,
       avatarId: stakeholder.avatarId,
       email: stakeholder.email,
-      clientId: stakeholder.clientId,
       ...values,
     })
 
@@ -57,15 +54,6 @@ const AccountPage = () => {
       ...updatedStakeholder,
     })
   }
-
-  useEffect(() => {
-    if (stakeholder.accountId) {
-      reset({
-        ...stakeholder,
-        file: [],
-      })
-    }
-  }, [stakeholder, reset])
 
   if (isLoading) {
     return <Loader />

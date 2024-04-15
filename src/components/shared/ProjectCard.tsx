@@ -5,15 +5,9 @@ import { Link } from "react-router-dom"
 import { ArrowRight } from "lucide-react"
 import { Models } from "appwrite"
 
-const ProjectCard = ({
-  project,
-  role,
-}: {
-  project: Models.Document
-  role: string
-}) => {
+const ProjectCard = ({ project }: { project: Models.Document }) => {
   return (
-    <Card className="flex flex-col justify-between h-full p-2">
+    <Card className="flex flex-col justify-between gap-2 p-2">
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between">
@@ -40,15 +34,19 @@ const ProjectCard = ({
           <div className="space-y-8">
             <div className="flex flex-col gap-2">
               <div className="text-primary tracking-[0.08em] uppercase text-xs font-semibold">
-                Client
+                Type
               </div>
-              <p className="font-medium">{project.client.name}</p>
+              <p className="font-medium">
+                {project.title === "Bitcoin.org Redesign"
+                  ? "Milestone-based"
+                  : "Ongoing retainer"}
+              </p>
             </div>
             <div className="flex flex-col gap-2">
               <div className="text-primary tracking-[0.08em] uppercase text-xs font-semibold">
-                Your role
+                Status
               </div>
-              <p className="font-medium">{role}</p>
+              <p className="font-medium">{project.status ?? "In progress"}</p>
             </div>
           </div>
 

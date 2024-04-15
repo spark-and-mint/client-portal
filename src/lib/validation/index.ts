@@ -33,3 +33,27 @@ export const AccountValidation = z.object({
     .min(2, { message: "Last name must be at least 2 characters." }),
   file: z.custom<File[]>(),
 })
+
+export const ClientValidation = z.object({
+  name: z
+    .string()
+    .min(2, { message: "Minimum 2 characters." })
+    .max(2200, { message: "Maximum 2,200 caracters" }),
+  website: z.string().url().optional(),
+  description: z.string().optional(),
+  file: z.custom<File[]>(),
+})
+
+export const MilestoneValidation = z.object({
+  title: z
+    .string()
+    .min(2, { message: "Minimum 2 characters." })
+    .max(255, { message: "Maximum 255 caracters" }),
+})
+
+export const FeedbackValidation = z.object({
+  text: z
+    .string()
+    .min(2, { message: "Please add more information." })
+    .max(2200, { message: "Maximum 2200 caracters" }),
+})

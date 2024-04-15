@@ -11,34 +11,38 @@ import {
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "../ui"
 
-const ViewTeamStakeholders = ({ team }) => {
+interface TeamMember {
+  firstName: string
+  lastName: string
+  avatarUrl: string
+  role: string
+}
+
+const ViewTeamMembers = ({ team }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           <Users className="h-4 w-4 mr-2 pb-0.25" />
-          Team stakeholders
+          View team members
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Team stakeholders</DialogTitle>
+          <DialogTitle>Team members</DialogTitle>
         </DialogHeader>
         <div className="mt-6 space-y-8 gap-4">
-          {team.map((stakeholder: any) => (
-            <div
-              key={stakeholder.firstName}
-              className="flex items-center space-x-3"
-            >
+          {team.map((member: TeamMember) => (
+            <div key={member.firstName} className="flex items-center space-x-3">
               <Avatar className="w-10 h-10">
-                <AvatarImage src={stakeholder.avatarUrl} />
+                <AvatarImage src={member.avatarUrl} />
               </Avatar>
               <div>
                 <p className="font-medium leading-none">
-                  {stakeholder.firstName} {stakeholder.lastName}
+                  {member.firstName} {member.lastName}
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {stakeholder.role}
+                  {member.role}
                 </p>
               </div>
             </div>
@@ -56,4 +60,4 @@ const ViewTeamStakeholders = ({ team }) => {
   )
 }
 
-export default ViewTeamStakeholders
+export default ViewTeamMembers

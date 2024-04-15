@@ -73,6 +73,12 @@ const Header = () => {
           <img src="/assets/logo.svg" alt="logo" className="w-[4.5rem]" />
         </Link>
 
+        {import.meta.env.DEV && (
+          <div className="fixed left-4 bottom-4 font-medium tracking-wide">
+            CLIENT PORTAL
+          </div>
+        )}
+
         {isAuthenticated ? (
           <UserNav />
         ) : (

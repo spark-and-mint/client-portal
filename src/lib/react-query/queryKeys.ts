@@ -1,11 +1,11 @@
 export enum QUERY_KEYS {
   // AUTH KEYS
-  CREATE_MEMBER_ACCOUNT = "createStakeholderAccount",
+  CREATE_STAKEHOLDER_ACCOUNT = "createStakeholderAccount",
 
-  // MEMBER KEYS
-  GET_CURRENT_MEMBER = "getCurrentStakeholder",
-  GET_MEMBERS = "getStakeholders",
-  GET_MEMBER_BY_ID = "getStakeholderById",
+  // STAKEHOLDER KEYS
+  GET_CURRENT_STAKEHOLDER = "getCurrentStakeholder",
+  GET_STAKEHOLDERS = "getStakeholders",
+  GET_STAKEHOLDER_BY_ID = "getStakeholderById",
 
   // CLIENT KEYS
   GET_CLIENTS = "getClients",
@@ -14,14 +14,17 @@ export enum QUERY_KEYS {
   // UPDATE KEYS
   GET_UPDATES_BY_PROJECT_ID = "getUpdatesByProjectId",
   GET_UPDATE_BY_ID = "getUpdateById",
-  GET_MEMBER_UPDATES = "getStakeholderUpdates",
+  GET_STAKEHOLDER_UPDATES = "getStakeholderUpdates",
 
   // OPPORTUNITY KEYS
-  GET_MEMBER_OPPORTUNITY = "getStakeholderOpportunity",
+  GET_STAKEHOLDER_OPPORTUNITY = "getStakeholderOpportunity",
 
   // PROJECTS KEYS
-  GET_MEMBER_PROJECTS = "getStakeholderProjects",
+  GET_CLIENT_PROJECTS = "getClientProjects",
   GET_PROJECT_BY_ID = "getProjectById",
+
+  // MILESTONE KEYS
+  GET_MILESTONE_BY_ID = "getMilestoneById",
 
   // OTHER KEYS
   GET_TYPEFORM_ANSWERS_BY_EMAIL = "getTypeformAnswersByEmail",

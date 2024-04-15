@@ -1,7 +1,13 @@
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { NavLink } from "react-router-dom"
-import { HomeIcon, BriefcaseBusinessIcon } from "lucide-react"
+import {
+  HomeIcon,
+  BriefcaseBusinessIcon,
+  Scale,
+  FileText,
+  Landmark,
+} from "lucide-react"
 import FadeIn from "react-fade-in"
 
 export function SidebarNav() {
@@ -15,6 +21,21 @@ export function SidebarNav() {
       title: "My Projects",
       icon: BriefcaseBusinessIcon,
       to: "/projects",
+    },
+    {
+      title: "Company Details",
+      icon: Landmark,
+      to: "/details",
+    },
+    {
+      title: "Legal Documents",
+      icon: Scale,
+      to: "/documents",
+    },
+    {
+      title: "Invoices",
+      icon: FileText,
+      to: "/invoices",
     },
   ]
 

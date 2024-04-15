@@ -14,7 +14,7 @@ const RootLayout = () => {
     return <ServerError />
   }
 
-  if (!stakeholder.accountId) {
+  if (!stakeholder.id) {
     return null
   }
 

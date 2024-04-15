@@ -6,6 +6,9 @@ import {
   IProject,
   IUpdate,
   IUpdateStakeholder,
+  INewMilestone,
+  INewFeedback,
+  IFeedback,
 } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
@@ -16,7 +19,6 @@ import {
   getClients,
   getStakeholderById,
   getStakeholderOpportunity,
-  getStakeholderProjects,
   getStakeholderUpdates,
   getStakeholders,
   getProjectById,
@@ -28,8 +30,16 @@ import {
   updateOpportunity,
   updateProject,
   updateUpdate,
+  getClientProjects,
+  createMilestone,
+  deleteMilestone,
+  updateFeedback,
+  createFeedback,
+  getMilestoneById,
+  deleteFeedback,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
+import { useParams } from "react-router-dom"
 
 export const useCreateStakeholderAccount = () => {
   return useMutation({
@@ -53,7 +63,7 @@ export const useSignOutAccount = () => {
 
 export const useGetStakeholderById = (stakeholderId: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_MEMBER_BY_ID, stakeholderId],
+    queryKey: [QUERY_KEYS.GET_STAKEHOLDER_BY_ID, stakeholderId],
     queryFn: () => getStakeholderById(stakeholderId),
     enabled: !!stakeholderId,
   })
@@ -66,10 +76,10 @@ export const useUpdateStakeholder = () => {
       updateStakeholder(stakeholder),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_CURRENT_MEMBER],
+        queryKey: [QUERY_KEYS.GET_CURRENT_STAKEHOLDER],
       })
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MEMBER_BY_ID, data?.$id],
+        queryKey: [QUERY_KEYS.GET_STAKEHOLDER_BY_ID, data?.$id],
       })
     },
   })
@@ -77,7 +87,7 @@ export const useUpdateStakeholder = () => {
 
 export const useGetStakeholders = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_MEMBERS],
+    queryKey: [QUERY_KEYS.GET_STAKEHOLDERS],
     queryFn: getStakeholders,
   })
 }
@@ -128,7 +138,7 @@ export const useAssignStakeholderToClient = () => {
         queryKey: [QUERY_KEYS.GET_CLIENTS],
       })
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MEMBERS],
+        queryKey: [QUERY_KEYS.GET_STAKEHOLDERS],
       })
     },
   })
@@ -170,9 +180,15 @@ export const useUpdateUpdate = () => {
   })
 }
 
+export const useUpdateIsViewed = () => {
+  return useMutation({
+    mutationFn: (update: IUpdate) => updateUpdate(update),
+  })
+}
+
 export const useGetStakeholderUpdates = (stakeholderId?: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_MEMBER_UPDATES, stakeholderId],
+    queryKey: [QUERY_KEYS.GET_STAKEHOLDER_UPDATES, stakeholderId],
     queryFn: () => getStakeholderUpdates(stakeholderId),
     enabled: !!stakeholderId,
   })
@@ -180,7 +196,7 @@ export const useGetStakeholderUpdates = (stakeholderId?: string) => {
 
 export const useGetStakeholderOpportunity = (stakeholderId?: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_MEMBER_OPPORTUNITY, stakeholderId],
+    queryKey: [QUERY_KEYS.GET_STAKEHOLDER_OPPORTUNITY, stakeholderId],
     queryFn: () => getStakeholderOpportunity(stakeholderId),
     enabled: !!stakeholderId,
   })
@@ -192,17 +208,12 @@ export const useUpdateOpportunity = () => {
     mutationFn: (opportunity: IOpportunity) => updateOpportunity(opportunity),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MEMBER_OPPORTUNITY, data?.stakeholder.$id],
+        queryKey: [
+          QUERY_KEYS.GET_STAKEHOLDER_OPPORTUNITY,
+          data?.stakeholder.$id,
+        ],
       })
     },
-  })
-}
-
-export const useGetStakeholderProjects = (stakeholderId?: string) => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_MEMBER_PROJECTS, stakeholderId],
-    queryFn: () => getStakeholderProjects(stakeholderId),
-    enabled: !!stakeholderId,
   })
 }
 
@@ -217,5 +228,84 @@ export const useGetProjectById = (projectId?: string) => {
     queryKey: [QUERY_KEYS.GET_PROJECT_BY_ID, projectId],
     queryFn: () => getProjectById(projectId),
     enabled: !!projectId,
+  })
+}
+
+export const useGetClientProjects = (clientId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CLIENT_PROJECTS, clientId],
+    queryFn: () => getClientProjects(clientId),
+    enabled: !!clientId,
+  })
+}
+
+export const useCreateMilestone = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (milestone: INewMilestone) => createMilestone(milestone),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_PROJECT_BY_ID, data?.project.$id],
+      })
+    },
+  })
+}
+
+export const useDeleteMilestone = () => {
+  const queryClient = useQueryClient()
+  const { projectId } = useParams()
+  return useMutation({
+    mutationFn: ({ milestoneId }: { milestoneId?: string }) =>
+      deleteMilestone(milestoneId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_PROJECT_BY_ID, projectId],
+      })
+    },
+  })
+}
+
+export const useGetMilestoneById = (milestoneId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_MILESTONE_BY_ID, milestoneId],
+    queryFn: () => getMilestoneById(milestoneId),
+    enabled: !!milestoneId,
+  })
+}
+
+export const useCreateFeedback = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (feedback: INewFeedback) => createFeedback(feedback),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MILESTONE_BY_ID, data?.update.milestone.$id],
+      })
+    },
+  })
+}
+
+export const useUpdateFeedback = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (feedback: IFeedback) => updateFeedback(feedback),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MILESTONE_BY_ID],
+      })
+    },
+  })
+}
+
+export const useDeleteFeedback = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ feedbackId }: { feedbackId?: string }) =>
+      deleteFeedback(feedbackId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MILESTONE_BY_ID],
+      })
+    },
   })
 }

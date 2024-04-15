@@ -94,7 +94,7 @@ const SignUpForm = () => {
   }
 
   return (
-    <div>
+    <div className="pb-16">
       <Form {...form}>
         <h1 className="h5 mb-8 text-center">Create your account</h1>
         <form onSubmit={form.handleSubmit(handleSignUp)} className="space-y-4">

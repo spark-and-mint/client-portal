@@ -22,8 +22,7 @@ const EmailVerification = () => {
       try {
         await account.updateVerification(userId, secret)
         const updatedStakeholder = await updateStakeholder({
-          stakeholderId: stakeholder.accountId,
-          clientId: stakeholder.clientId,
+          stakeholderId: stakeholder.id,
           firstName: stakeholder.firstName,
           lastName: stakeholder.lastName,
           email: stakeholder.email,

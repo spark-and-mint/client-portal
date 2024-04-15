@@ -7,6 +7,8 @@ import {
   EmailVerification,
   Project,
   Support,
+  Documents,
+  Invoices,
 } from "./_root/pages"
 import SignUpForm from "./_auth/forms/SignUpForm"
 import AuthLayout from "./_auth/AuthLayout"
@@ -15,6 +17,7 @@ import { Toaster } from "sonner"
 import "./globals.css"
 import Header from "./components/shared/Header"
 import Section from "./components/shared/Section"
+import Details from "./_root/pages/Details"
 
 const App = () => {
   return (
@@ -34,6 +37,9 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/project/:projectId" element={<Project />} />
+            <Route path="/details" element={<Details />} />
+            <Route path="/documents" element={<Documents />} />
+            <Route path="/invoices" element={<Invoices />} />
             <Route path="/account" element={<Account />} />
             <Route path="/verify" element={<EmailVerification />} />
             <Route path="/support" element={<Support />} />

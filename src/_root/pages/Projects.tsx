@@ -2,27 +2,20 @@ import ProjectCard from "@/components/shared/ProjectCard"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useStakeholderContext } from "@/context/AuthContext"
-import { useGetStakeholderOpportunity } from "@/lib/react-query/queries"
+import { useGetClientProjects } from "@/lib/react-query/queries"
 import { Models } from "appwrite"
 import { TreePalm } from "lucide-react"
 import FadeIn from "react-fade-in"
 
 const Projects = () => {
   const { stakeholder } = useStakeholderContext()
-  const { data: opportunityData, isPending } = useGetStakeholderOpportunity(
-    stakeholder.accountId
+  const { data: projects, isPending } = useGetClientProjects(
+    stakeholder.client.id
   )
-
-  const opportunities = opportunityData?.documents
-    .filter((opportunity: Models.Document) => opportunity.status === "accepted")
-    .sort(
-      (a: Models.Document, b: Models.Document) =>
-        new Date(b.$createdAt).getTime() - new Date(a.$createdAt).getTime()
-    )
 
   return (
     <div className="pb-16">
-      {!opportunities || isPending ? (
+      {!projects || isPending ? (
         <Card className="flex flex-col justify-between h-full p-2">
           <CardHeader>
             <CardTitle>
@@ -55,14 +48,11 @@ const Projects = () => {
         </Card>
       ) : (
         <>
-          {opportunities && opportunities.length > 0 ? (
+          {projects && projects.documents.length > 0 ? (
             <FadeIn className="flex flex-col gap-12">
-              {opportunities.map((opportunity: Models.Document) => (
-                <div key={opportunity.$id}>
-                  <ProjectCard
-                    project={opportunity.project}
-                    role={opportunity.role}
-                  />
+              {projects.documents.map((project: Models.Document) => (
+                <div key={project.$id}>
+                  <ProjectCard project={project} />
                 </div>
               ))}
             </FadeIn>
@@ -71,10 +61,10 @@ const Projects = () => {
               <Card className="flex flex-col items-center justify-center h-full py-16">
                 <TreePalm strokeWidth={1} className="h-14 w-14 text-primary" />
                 <h6 className="h6 text-[1.325rem] mt-3 text-center">
-                  No projects yet
+                  No projects started yet
                 </h6>
                 <p className="mt-2 text-muted-foreground text-center ">
-                  All your accepted opportunities will be listed here.
+                  All your projects will be listed here.
                 </p>
               </Card>
             </FadeIn>
