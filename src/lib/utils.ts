@@ -17,7 +17,7 @@ export const mockSearch = async (
       resolve(options)
     }
     const res = options.filter((option) =>
-      option.value.toLowerCase().includes(value.toLowerCase())
+      option.label.toLowerCase().includes(value.toLowerCase())
     )
     resolve(res)
   })

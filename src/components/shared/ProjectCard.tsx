@@ -5,16 +5,22 @@ import { Link } from "react-router-dom"
 import { ArrowRight } from "lucide-react"
 import { Models } from "appwrite"
 
-const ProjectCard = ({ project }: { project: Models.Document }) => {
+const ProjectCard = ({
+  project,
+  client,
+}: {
+  project: Models.Document
+  client: Models.Document
+}) => {
   return (
     <Card className="flex flex-col justify-between gap-2 p-2">
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between">
             <h4 className="h4">{project.title}</h4>
-            {project.client?.logoUrl ? (
+            {client?.logoUrl ? (
               <img
-                src={project.client?.logoUrl.toString()}
+                src={client?.logoUrl.toString()}
                 className="w-14 h-14 rounded-full"
               />
             ) : (
@@ -42,7 +48,9 @@ const ProjectCard = ({ project }: { project: Models.Document }) => {
               <div className="text-primary tracking-[0.08em] uppercase text-xs font-semibold">
                 Status
               </div>
-              <p className="font-medium">{project.status ?? "In progress"}</p>
+              <p className="font-medium first-letter:uppercase">
+                {project.status}
+              </p>
             </div>
           </div>
 

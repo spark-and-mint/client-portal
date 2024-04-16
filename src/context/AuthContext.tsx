@@ -6,17 +6,7 @@ import { Models } from "appwrite"
 
 export const INITIAL_STAKEHOLDER: IStakeholder = {
   id: "",
-  client: {
-    id: "",
-    name: "",
-    logoUrl: "",
-    logoId: "",
-    file: [],
-    description: "",
-    stakeholders: [],
-    resources: [],
-    projects: [],
-  },
+  clientId: "",
   email: "",
   firstName: "",
   lastName: "",
@@ -78,6 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (stakeholder) {
         setStakeholder({
           id: stakeholder.$id,
+          clientId: stakeholder.clientId,
           email: stakeholder.email,
           firstName: stakeholder.firstName,
           lastName: stakeholder.lastName,
@@ -85,17 +76,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           avatarUrl: stakeholder.avatarUrl,
           avatarId: stakeholder.avatarId,
           emailVerification: stakeholder.emailVerification,
-          client: {
-            id: stakeholder.client.$id,
-            name: stakeholder.client.name,
-            logoUrl: stakeholder.client.logoUrl,
-            logoId: stakeholder.client.logoId,
-            file: stakeholder.client.file,
-            description: stakeholder.client.description,
-            stakeholders: stakeholder.client.stakeholders,
-            resources: stakeholder.client.resources,
-            projects: stakeholder.client.projects,
-          },
         })
         setIsAuthenticated(true)
         return true

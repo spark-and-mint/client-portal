@@ -22,7 +22,7 @@ import ImageUploader from "@/components/shared/ImageUploader"
 
 const Details = () => {
   const { stakeholder } = useStakeholderContext()
-  const { data: client, isPending } = useGetClientById(stakeholder.client.id)
+  const { data: client, isPending } = useGetClientById(stakeholder.clientId)
 
   const form = useForm<z.infer<typeof ClientValidation>>({
     resolver: zodResolver(ClientValidation),
@@ -38,10 +38,12 @@ const Details = () => {
     useUpdateClient()
 
   const handleSubmit = async (values: z.infer<typeof ClientValidation>) => {
+    if (!client) return
+
     const updatedClient = await updateClient({
-      id: stakeholder.client.id,
-      logoId: stakeholder.client.logoId,
-      logoUrl: stakeholder.client.logoUrl,
+      id: client.$id,
+      logoId: client.logoId,
+      logoUrl: client.logoUrl,
       ...values,
     })
 
@@ -123,7 +125,7 @@ const Details = () => {
                   <FormControl>
                     <ImageUploader
                       fieldChange={field.onChange}
-                      mediaUrl={stakeholder.client.logoUrl.toString()}
+                      mediaUrl={client?.logoUrl.toString()}
                     />
                   </FormControl>
                   <FormMessage />

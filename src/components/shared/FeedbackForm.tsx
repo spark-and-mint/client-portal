@@ -25,17 +25,18 @@ import {
 } from "../ui/dialog"
 
 type FeedbackFormProps = {
-  update: Models.Document
+  update?: Models.Document
+  feedback?: Models.Document
   action: "create" | "update"
 }
 
-const FeedbackForm = ({ update, action }: FeedbackFormProps) => {
+const FeedbackForm = ({ update, feedback, action }: FeedbackFormProps) => {
   const [showDialog, setShowDialog] = useState(false)
 
   const form = useForm<z.infer<typeof FeedbackValidation>>({
     resolver: zodResolver(FeedbackValidation),
     defaultValues: {
-      text: update.feedback?.text,
+      text: feedback?.text ?? "",
     },
   })
 
@@ -46,9 +47,9 @@ const FeedbackForm = ({ update, action }: FeedbackFormProps) => {
 
   const handleSubmit = async (values: z.infer<typeof FeedbackValidation>) => {
     // UPDATE
-    if (update.feedback && action === "update") {
+    if (feedback && action === "update") {
       const updatedFeedback = await updateFeedback({
-        feedbackId: update.feedback.$id,
+        feedbackId: feedback.$id,
         text: values.text,
       })
 
@@ -63,16 +64,18 @@ const FeedbackForm = ({ update, action }: FeedbackFormProps) => {
     }
 
     // CREATE
-    const newFeedback = await createFeedback({
-      updateId: update.$id,
-      text: values.text,
-    })
+    if (update) {
+      const newFeedback = await createFeedback({
+        updateId: update.$id,
+        text: values.text,
+      })
 
-    if (!newFeedback) {
-      toast.error("Could not add feedback. Please try again.")
-    } else {
-      toast.success("Feedback added successfully.")
-      setShowDialog(false)
+      if (!newFeedback) {
+        toast.error("Could not add feedback. Please try again.")
+      } else {
+        toast.success("Feedback added successfully.")
+        setShowDialog(false)
+      }
     }
   }
 

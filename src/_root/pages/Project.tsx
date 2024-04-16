@@ -2,21 +2,22 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import {
   ArrowLeft,
-  CalendarIcon,
   LinkIcon,
   MilestoneIcon,
   PickaxeIcon,
   Waypoints,
 } from "lucide-react"
 import FadeIn from "react-fade-in"
-import { FigmaLogoIcon } from "@radix-ui/react-icons"
 import { Link, useParams } from "react-router-dom"
 import Milestone from "@/components/shared/Milestone"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import ViewTeamMembers from "@/components/shared/ViewTeamMembers"
-import { useGetProjectById } from "@/lib/react-query/queries"
+import {
+  useGetProjectById,
+  useGetProjectMilestones,
+  useGetProjectTeam,
+} from "@/lib/react-query/queries"
 import { Card } from "@/components/ui/card"
-import { IOpportunity } from "@/types"
 import CreateMilestone from "@/components/shared/CreateMilestone"
 import { Models } from "appwrite"
 import ProjectSkeleton from "@/components/shared/skeletons/ProjectSkeleton"
@@ -24,14 +25,8 @@ import ProjectSkeleton from "@/components/shared/skeletons/ProjectSkeleton"
 const Project = () => {
   const { projectId } = useParams()
   const { data: project, isPending } = useGetProjectById(projectId)
-  const teamMembers = project?.opportunities
-    .filter((opportunity: IOpportunity) => opportunity.status === "accepted")
-    .map((opportunity: IOpportunity) => ({
-      firstName: opportunity.member?.firstName,
-      lastName: opportunity.member?.lastName,
-      avatarUrl: opportunity.member?.avatarUrl,
-      role: opportunity.role,
-    }))
+  const { data: teamMembers } = useGetProjectTeam(project?.$id, project?.team)
+  const { data: milestones } = useGetProjectMilestones(projectId)
 
   return (
     <div className="pb-24">
@@ -47,40 +42,43 @@ const Project = () => {
                   Back
                 </Link>
               </Button>
-
               <div className="flex flex-col justify-between gap-8 mb-8 lg:gap-0 lg:flex-row lg:mb-0">
                 <div>
                   <h3 className="h3 mb-2">{project?.title}</h3>
 
                   <div className="flex gap-4 lg:gap-0 lg:mt-0 flex-wrap space-x-8">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <PickaxeIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-primary" />
-                      In progress
+                    <div className="flex items-center text-sm text-muted-foreground ">
+                      <PickaxeIcon className="mr-2 h-5 w-5 flex-shrink-0 text-primary" />
+                      <span className="first-letter:uppercase">
+                        {project?.status}
+                      </span>
                     </div>
                     <div className="flex items-center text-sm text-muted-foreground">
-                      <CalendarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-primary" />
-                      3 months
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <MilestoneIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-primary" />
+                      <MilestoneIcon className="mr-2 h-5 w-5 flex-shrink-0 text-primary" />
                       Milestone-based
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 mt-8">
-                    <Button variant="outline" size="sm">
-                      <LinkIcon className="h-4 w-4 mr-2 pb-0.25" />
-                      Project brief
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Waypoints className="h-4 w-4 mr-2 pb-0.25" />
-                      Roadmap
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <FigmaLogoIcon className="h-4 w-4 mr-2 pb-0.25" />
-                      Figma
-                    </Button>
-                  </div>
+                  {project?.briefLink && project?.roadmapLink && (
+                    <div className="flex items-center gap-4 mt-8">
+                      {project?.briefLink && (
+                        <Link to={project?.briefLink}>
+                          <Button variant="outline" size="sm">
+                            <LinkIcon className="h-4 w-4 mr-2 pb-0.25" />
+                            Project brief
+                          </Button>
+                        </Link>
+                      )}
+                      {project?.roadmapLink && (
+                        <Link to={project?.roadmapLink}>
+                          <Button variant="outline" size="sm">
+                            <Waypoints className="h-4 w-4 mr-2 pb-0.25" />
+                            Roadmap
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -110,7 +108,7 @@ const Project = () => {
                   </div>
                 </div>
 
-                {teamMembers.length > 0 && (
+                {teamMembers && teamMembers.length > 0 && (
                   <div>
                     <div className="mt-4 text-primary tracking-[0.08em] uppercase text-xs font-semibold">
                       Team Members
@@ -134,7 +132,7 @@ const Project = () => {
             </div>
 
             <div className="mt-12 space-y-20">
-              {project?.milestones.length === 0 ? (
+              {milestones && milestones.length === 0 ? (
                 <Card className="flex flex-col items-center justify-center h-full pt-14 pb-16">
                   <MilestoneIcon
                     strokeWidth={1}
@@ -144,17 +142,19 @@ const Project = () => {
                     There are no milestones added yet
                   </h6>
                   <p className="mt-2 text-muted-foreground text-center max-w-md">
-                    All your project milestones will be listed here.
+                    Get started by adding one to your project.
                   </p>
                 </Card>
               ) : (
                 <>
-                  {project?.milestones.map((milestone: Models.Document) => (
-                    <Milestone
-                      key={milestone.$id}
-                      milestoneId={milestone.$id}
-                    />
-                  ))}
+                  {milestones &&
+                    milestones.length > 0 &&
+                    milestones.map((milestone: Models.Document) => (
+                      <Milestone
+                        key={milestone.$id}
+                        milestoneId={milestone.$id}
+                      />
+                    ))}
                 </>
               )}
             </div>

@@ -1,4 +1,4 @@
-import { ID, Query } from "appwrite"
+import { ID, Models, Query } from "appwrite"
 import { appwriteConfig, account, databases, storage, avatars } from "./config"
 import {
   IClient,
@@ -63,7 +63,7 @@ export async function saveStakeholderToDB(stakeholder: {
       ID.unique(),
       {
         accountId: stakeholder.accountId,
-        client: stakeholder.clientId,
+        clientId: stakeholder.clientId,
         email: stakeholder.email,
         name: stakeholder.name,
         firstName: stakeholder.firstName,
@@ -484,7 +484,7 @@ export async function getClientProjects(clientId?: string) {
     const projects = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.projectCollectionId,
-      [Query.equal("client", clientId)]
+      [Query.equal("clientId", clientId)]
     )
 
     if (!projects) throw Error
@@ -537,6 +537,53 @@ export async function getProjectById(projectId?: string) {
   }
 }
 
+export async function getProjectTeam(
+  projectId?: string,
+  memberIds: string[] = []
+) {
+  if (!projectId || !memberIds.length)
+    throw Error("Invalid project ID or member IDs")
+
+  try {
+    const opportunities = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.opportunityCollectionId,
+      [Query.equal("projectId", projectId)]
+    )
+
+    // Extract roles for each member based on the opportunities linked to projectId
+    const memberRoles = opportunities.documents.reduce((acc, doc) => {
+      if (memberIds.includes(doc.memberId)) {
+        acc[doc.memberId] = doc.role
+      }
+      return acc
+    }, {})
+
+    const teamMembers = await Promise.all(
+      memberIds.map(async (memberId) => {
+        const memberDetails = await databases.getDocument(
+          appwriteConfig.databaseId,
+          appwriteConfig.memberCollectionId,
+          memberId
+        )
+
+        return {
+          id: memberId,
+          firstName: memberDetails.firstName,
+          lastName: memberDetails.lastName,
+          avatarUrl: memberDetails.avatarUrl,
+          role: memberRoles[memberId] || "Team member",
+        }
+      })
+    )
+
+    return teamMembers
+  } catch (error) {
+    console.error("Failed to fetch project team: ", error)
+    throw new Error("Error fetching project team")
+  }
+}
+
 export async function createMilestone(milestone: INewMilestone) {
   try {
     const newMilestone = await databases.createDocument(
@@ -544,7 +591,7 @@ export async function createMilestone(milestone: INewMilestone) {
       appwriteConfig.milestoneCollectionId,
       ID.unique(),
       {
-        project: milestone.projectId,
+        projectId: milestone.projectId,
         title: milestone.title,
       }
     )
@@ -589,7 +636,7 @@ export async function deleteMilestone(milestoneId?: string) {
 
     if (!statusCode) throw Error
 
-    return { status: "Ok" }
+    return { status: "Ok", milestoneId }
   } catch (error) {
     console.log(error)
   }
@@ -614,13 +661,14 @@ export async function getMilestoneById(milestoneId?: string) {
 }
 
 export async function createFeedback(feedback: INewFeedback) {
+  console.log(feedback)
   try {
     const newFeedback = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.feedbackCollectionId,
       ID.unique(),
       {
-        update: feedback.updateId,
+        updateId: feedback.updateId,
         text: feedback.text,
       }
     )
@@ -631,7 +679,29 @@ export async function createFeedback(feedback: INewFeedback) {
   }
 }
 
+export async function getUpdateFeedback(updateId?: string) {
+  if (!updateId) return
+
+  try {
+    const feedback = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.feedbackCollectionId
+    )
+
+    if (!feedback) throw Error
+
+    const feedbackUpdate = feedback.documents.filter(
+      (feedback: Models.Document) => feedback.updateId === updateId
+    )
+
+    return feedbackUpdate
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function updateFeedback(feedback: IFeedback) {
+  console.log(feedback)
   try {
     const updatedFeedback = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -652,7 +722,7 @@ export async function updateFeedback(feedback: IFeedback) {
   }
 }
 
-export async function deleteFeedback(feedbackId?: string) {
+export async function deleteFeedback(feedbackId: string, updateId: string) {
   if (!feedbackId) return
 
   try {
@@ -664,7 +734,65 @@ export async function deleteFeedback(feedbackId?: string) {
 
     if (!statusCode) throw Error
 
-    return { status: "Ok" }
+    return { status: "Ok", updateId }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getProjectMilestones(projectId?: string) {
+  if (!projectId) return
+
+  try {
+    const milestones = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.milestoneCollectionId
+    )
+
+    if (!milestones) throw Error
+
+    const projectMilestones = milestones.documents.filter(
+      (milestone: Models.Document) => milestone.projectId === projectId
+    )
+
+    return projectMilestones
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getMilestoneUpdates(milestoneId?: string) {
+  if (!milestoneId) return
+
+  try {
+    const updates = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.updateCollectionId
+    )
+
+    if (!updates) throw Error
+
+    const milestoneUpdates = updates.documents.filter(
+      (update: Models.Document) => update.milestoneId === milestoneId
+    )
+
+    return milestoneUpdates
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getMemberById(memberId: string) {
+  try {
+    const member = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.memberCollectionId,
+      memberId
+    )
+
+    if (!member) throw Error
+
+    return member
   } catch (error) {
     console.log(error)
   }

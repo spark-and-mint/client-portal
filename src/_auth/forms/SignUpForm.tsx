@@ -76,7 +76,7 @@ const SignUpForm = () => {
       }
 
       account.createVerification(
-        "https://talent-spark-and-mint.netlify.app/verify"
+        "https://spark-and-mint-client-portal.netlify.app/verify"
       )
 
       const isLoggedIn = await checkAuthStakeholder()

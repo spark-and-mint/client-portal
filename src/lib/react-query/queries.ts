@@ -39,6 +39,11 @@ import {
   getMilestoneById,
   deleteFeedback,
   updateMilestone,
+  getProjectTeam,
+  getProjectMilestones,
+  getMilestoneUpdates,
+  getMemberById,
+  getUpdateFeedback,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
@@ -183,8 +188,14 @@ export const useUpdateUpdate = () => {
 }
 
 export const useUpdateIsViewed = () => {
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (update: IUpdate) => updateUpdate(update),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_UPDATE_FEEDBACK],
+      })
+    },
   })
 }
 
@@ -241,13 +252,21 @@ export const useGetClientProjects = (clientId?: string) => {
   })
 }
 
+export const useGetProjectTeam = (projectId?: string, memberIds?: string[]) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_PROJECT_TEAM, memberIds],
+    queryFn: () => getProjectTeam(projectId, memberIds),
+    enabled: !!memberIds,
+  })
+}
+
 export const useCreateMilestone = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (milestone: INewMilestone) => createMilestone(milestone),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_PROJECT_BY_ID, data?.project.$id],
+        queryKey: [QUERY_KEYS.GET_PROJECT_MILESTONES, data?.projectId],
       })
     },
   })
@@ -273,7 +292,7 @@ export const useDeleteMilestone = () => {
       deleteMilestone(milestoneId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_PROJECT_BY_ID, projectId],
+        queryKey: [QUERY_KEYS.GET_PROJECT_MILESTONES, projectId],
       })
     },
   })
@@ -287,13 +306,21 @@ export const useGetMilestoneById = (milestoneId?: string) => {
   })
 }
 
+export const useGetUpdateFeedback = (updateId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_UPDATE_FEEDBACK, updateId],
+    queryFn: () => getUpdateFeedback(updateId),
+    enabled: !!updateId,
+  })
+}
+
 export const useCreateFeedback = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (feedback: INewFeedback) => createFeedback(feedback),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MILESTONE_BY_ID, data?.update.milestone.$id],
+        queryKey: [QUERY_KEYS.GET_UPDATE_FEEDBACK, data?.updateId],
       })
     },
   })
@@ -303,9 +330,9 @@ export const useUpdateFeedback = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (feedback: IFeedback) => updateFeedback(feedback),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MILESTONE_BY_ID],
+        queryKey: [QUERY_KEYS.GET_UPDATE_FEEDBACK, data?.updateId],
       })
     },
   })
@@ -314,12 +341,41 @@ export const useUpdateFeedback = () => {
 export const useDeleteFeedback = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ feedbackId }: { feedbackId?: string }) =>
-      deleteFeedback(feedbackId),
-    onSuccess: () => {
+    mutationFn: ({
+      feedbackId,
+      updateId,
+    }: {
+      feedbackId: string
+      updateId: string
+    }) => deleteFeedback(feedbackId, updateId),
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MILESTONE_BY_ID],
+        queryKey: [QUERY_KEYS.GET_UPDATE_FEEDBACK, data?.updateId],
       })
     },
+  })
+}
+
+export const useGetProjectMilestones = (projectId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_PROJECT_MILESTONES, projectId],
+    queryFn: () => getProjectMilestones(projectId),
+    enabled: !!projectId,
+  })
+}
+
+export const useGetMilestoneUpdates = (milestoneId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_MILESTONE_UPDATES, milestoneId],
+    queryFn: () => getMilestoneUpdates(milestoneId),
+    enabled: !!milestoneId,
+  })
+}
+
+export const useGetMemberById = (memberId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_MEMBER_BY_ID, memberId],
+    queryFn: () => getMemberById(memberId),
+    enabled: !!memberId,
   })
 }

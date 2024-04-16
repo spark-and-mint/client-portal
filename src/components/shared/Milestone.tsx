@@ -19,6 +19,7 @@ import { Models } from "appwrite"
 import {
   useDeleteMilestone,
   useGetMilestoneById,
+  useGetMilestoneUpdates,
   useUpdateMilestone,
 } from "@/lib/react-query/queries"
 import { toast } from "sonner"
@@ -71,7 +72,12 @@ const getMilestoneStatus = (feedback: string) => {
 }
 
 const Milestone = ({ milestoneId }: { milestoneId: string }) => {
-  const { data: milestone, isPending } = useGetMilestoneById(milestoneId)
+  const { data: milestone, isPending: isPendingMilestone } =
+    useGetMilestoneById(milestoneId)
+  const { data: updates, isPending: isPendingUpdates } =
+    useGetMilestoneUpdates(milestoneId)
+  const isPending = isPendingMilestone || isPendingUpdates
+
   const { mutateAsync: deleteMilestone } = useDeleteMilestone()
   const { mutateAsync: updateMilestone } = useUpdateMilestone()
   const confirm = useConfirm()
@@ -154,7 +160,17 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
   return (
     <div className="relative">
       {!milestone || isPending ? (
-        <Skeleton className="w-full h-[16rem]" />
+        <Card>
+          <div className="flex justify-between">
+            <Skeleton className="w-56 h-12" />
+            <Skeleton className="w-56 h-12" />
+          </div>
+          <div className="mt-8">
+            <Card>
+              <Skeleton className="w-full h-32" />
+            </Card>
+          </div>
+        </Card>
       ) : (
         <>
           <Card className="relative p-2 z-10">
@@ -187,7 +203,9 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
                   )}
                   <Button
                     variant="secondary"
-                    disabled={loadingApproval || milestone.updates.length === 0}
+                    disabled={
+                      loadingApproval || (updates && updates?.length === 0)
+                    }
                     onClick={handleApprove}
                   >
                     {loadingApproval ? (
@@ -247,7 +265,7 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
             </CardHeader>
 
             <CardContent>
-              {milestone.updates.length === 0 ? (
+              {updates && updates.length === 0 ? (
                 <Card className="flex flex-col items-center justify-center h-full pt-14 pb-16">
                   <h4 className="h4 text-[1.325rem] mt-3 text-center">
                     There are no updates added yet
@@ -259,9 +277,11 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
                 </Card>
               ) : (
                 <div className="space-y-8">
-                  {milestone.updates?.map((update: Models.Document) => (
-                    <Update key={update.$id} update={update} />
-                  ))}
+                  {updates &&
+                    updates.length > 0 &&
+                    updates?.map((update: Models.Document) => (
+                      <Update key={update.$id} update={update} />
+                    ))}
                 </div>
               )}
             </CardContent>

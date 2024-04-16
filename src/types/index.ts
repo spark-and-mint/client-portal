@@ -8,7 +8,7 @@ export type INewStakeholder = {
 
 export type IStakeholder = {
   id: string
-  client: IClient
+  clientId: string
   email: string
   firstName: string
   lastName: string

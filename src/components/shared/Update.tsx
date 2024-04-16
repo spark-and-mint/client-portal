@@ -5,7 +5,12 @@ import { Card } from "../ui/card"
 import FeedbackForm from "./FeedbackForm"
 import { Link } from "react-router-dom"
 import { useConfirm } from "./AlertDialogProvider"
-import { useDeleteFeedback, useUpdateIsViewed } from "@/lib/react-query/queries"
+import {
+  useDeleteFeedback,
+  useGetMemberById,
+  useGetUpdateFeedback,
+  useUpdateIsViewed,
+} from "@/lib/react-query/queries"
 import { toast } from "sonner"
 import { useEffect, useState } from "react"
 import {
@@ -18,6 +23,8 @@ import { Badge } from "../ui/badge"
 
 const Update = ({ update }: { update: Models.Document }) => {
   const confirm = useConfirm()
+  const { data: creator } = useGetMemberById(update.creatorId)
+  const { data: feedback } = useGetUpdateFeedback(update.$id)
   const { mutateAsync: deleteFeedback } = useDeleteFeedback()
   const { mutateAsync: updateIsViewed } = useUpdateIsViewed()
   const [isOpen, setIsOpen] = useState(false)
@@ -32,7 +39,7 @@ const Update = ({ update }: { update: Models.Document }) => {
     if (!declineConfirmed) return
 
     try {
-      await deleteFeedback({ feedbackId })
+      await deleteFeedback({ feedbackId, updateId: update.$id })
       toast.success("Feedback deleted successfully.")
     } catch (error) {
       toast.error("Could not delete feedback. Please try again.")
@@ -76,8 +83,7 @@ const Update = ({ update }: { update: Models.Document }) => {
                   {!update.isViewed && <Badge variant="outline">New</Badge>}
                 </div>
                 <p className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
-                  {update.creator.firstName} {update.creator.lastName}{" "}
-                  <span>•</span>{" "}
+                  {creator?.firstName} {creator?.lastName} <span>•</span>{" "}
                   {toRelativeTimeString(new Date(update.$createdAt))}
                 </p>
               </div>
@@ -119,17 +125,15 @@ const Update = ({ update }: { update: Models.Document }) => {
                   Your feedback
                 </dt>
                 <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0">
-                  {update.feedback ? (
+                  {feedback && feedback.length > 0 ? (
                     <div className="flex justify-between items-center gap-8">
-                      <p>{update.feedback.text}</p>
+                      <p>{feedback[0].text}</p>
                       <div className="flex gap-3">
-                        <FeedbackForm action="update" update={update} />
+                        <FeedbackForm action="update" feedback={feedback[0]} />
                         <Button
                           variant="outline"
                           size="icon"
-                          onClick={() =>
-                            handleDeleteFeedback(update.feedback.$id)
-                          }
+                          onClick={() => handleDeleteFeedback(feedback[0].$id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

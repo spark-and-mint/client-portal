@@ -2,20 +2,26 @@ import ProjectCard from "@/components/shared/ProjectCard"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useStakeholderContext } from "@/context/AuthContext"
-import { useGetClientProjects } from "@/lib/react-query/queries"
+import {
+  useGetClientById,
+  useGetClientProjects,
+} from "@/lib/react-query/queries"
 import { Models } from "appwrite"
 import { TreePalm } from "lucide-react"
 import FadeIn from "react-fade-in"
 
 const Projects = () => {
   const { stakeholder } = useStakeholderContext()
-  const { data: projects, isPending } = useGetClientProjects(
-    stakeholder.client.id
+  const { data: projects, isPending: isPendingProjects } = useGetClientProjects(
+    stakeholder?.clientId
+  )
+  const { data: client, isPending: isPendingClient } = useGetClientById(
+    stakeholder?.clientId
   )
 
   return (
     <div className="pb-16">
-      {!projects || isPending ? (
+      {!projects || !client || isPendingProjects || isPendingClient ? (
         <Card className="flex flex-col justify-between h-full p-2">
           <CardHeader>
             <CardTitle>
@@ -52,7 +58,7 @@ const Projects = () => {
             <FadeIn className="flex flex-col gap-12">
               {projects.documents.map((project: Models.Document) => (
                 <div key={project.$id}>
-                  <ProjectCard project={project} />
+                  <ProjectCard project={project} client={client} />
                 </div>
               ))}
             </FadeIn>

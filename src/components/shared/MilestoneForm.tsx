@@ -34,7 +34,7 @@ const MilestoneForm = ({
   const form = useForm<z.infer<typeof MilestoneValidation>>({
     resolver: zodResolver(MilestoneValidation),
     defaultValues: {
-      title: milestone?.title,
+      title: milestone?.title ?? "",
     },
   })
 

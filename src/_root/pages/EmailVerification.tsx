@@ -47,8 +47,6 @@ const EmailVerification = () => {
     verifyEmail()
   }, [secret, userId])
 
-  if (isVerifying) return null
-
   return (
     <div className="container h-full">
       <div className="flex flex-col gap-4 mt-24 text-center">
@@ -59,7 +57,7 @@ const EmailVerification = () => {
         <h4 className="h4">
           {isVerifying ? "Verifying your email..." : "Check your inbox!"}
         </h4>
-        <p className="leading-6 text-muted-foreground">
+        <div className="leading-6 text-muted-foreground">
           {isVerifying ? (
             "Hang tight."
           ) : (
@@ -73,7 +71,7 @@ const EmailVerification = () => {
               </a>
             </div>
           )}
-        </p>
+        </div>
       </div>
     </div>
   )
