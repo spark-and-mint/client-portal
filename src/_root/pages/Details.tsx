@@ -27,11 +27,11 @@ const Details = () => {
   const form = useForm<z.infer<typeof ClientValidation>>({
     resolver: zodResolver(ClientValidation),
     defaultValues: {
-      name: client?.name ?? "",
-      description: client?.description ?? "",
-      website: client?.website ?? "",
-      x: client?.x ?? "",
-      linkedin: client?.linkedin ?? "",
+      name: client?.name,
+      description: client?.description,
+      website: client?.website,
+      x: client?.x,
+      linkedin: client?.linkedin,
       file: [],
     },
   })
@@ -79,6 +79,7 @@ const Details = () => {
             <FormField
               control={form.control}
               name="name"
+              defaultValue={client?.name}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
@@ -92,6 +93,7 @@ const Details = () => {
             <FormField
               control={form.control}
               name="description"
+              defaultValue={client?.description}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
@@ -119,6 +121,7 @@ const Details = () => {
             <FormField
               control={form.control}
               name="x"
+              defaultValue={client?.x}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>X</FormLabel>
@@ -132,6 +135,7 @@ const Details = () => {
             <FormField
               control={form.control}
               name="linkedin"
+              defaultValue={client?.linkedin}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>LinkedIn</FormLabel>
