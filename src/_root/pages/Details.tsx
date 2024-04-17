@@ -27,9 +27,11 @@ const Details = () => {
   const form = useForm<z.infer<typeof ClientValidation>>({
     resolver: zodResolver(ClientValidation),
     defaultValues: {
-      name: client?.name,
-      website: client?.website,
-      description: client?.description,
+      name: client?.name ?? "",
+      description: client?.description ?? "",
+      website: client?.website ?? "",
+      x: client?.x ?? "",
+      linkedin: client?.linkedin ?? "",
       file: [],
     },
   })
@@ -77,12 +79,24 @@ const Details = () => {
             <FormField
               control={form.control}
               name="name"
-              defaultValue={client?.name}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea className="resize-none" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -96,7 +110,7 @@ const Details = () => {
                 <FormItem>
                   <FormLabel>Website</FormLabel>
                   <FormControl>
-                    <Input type="url" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -104,13 +118,28 @@ const Details = () => {
             />
             <FormField
               control={form.control}
-              name="description"
-              defaultValue={client?.description}
+              name="x"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>X</FormLabel>
                   <FormControl>
-                    <Textarea className="resize-none" {...field} />
+                    <Input {...field} placeholder="https://x.com/client" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="linkedin"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>LinkedIn</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="https://linkedin.com/in/client"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

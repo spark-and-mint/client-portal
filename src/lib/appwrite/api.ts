@@ -551,7 +551,6 @@ export async function getProjectTeam(
       [Query.equal("projectId", projectId)]
     )
 
-    // Extract roles for each member based on the opportunities linked to projectId
     const memberRoles = opportunities.documents.reduce((acc, doc) => {
       if (memberIds.includes(doc.memberId)) {
         acc[doc.memberId] = doc.role

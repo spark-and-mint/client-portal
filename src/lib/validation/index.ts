@@ -39,8 +39,22 @@ export const ClientValidation = z.object({
     .string()
     .min(2, { message: "Minimum 2 characters." })
     .max(2200, { message: "Maximum 2,200 caracters" }),
-  website: z.string().url().optional(),
   description: z.string().optional(),
+  website: z
+    .string()
+    .url({ message: "Invalid url. Please add https." })
+    .optional()
+    .or(z.literal("")),
+  x: z
+    .string()
+    .url({ message: "Invalid url. Please add https." })
+    .optional()
+    .or(z.literal("")),
+  linkedin: z
+    .string()
+    .url({ message: "Invalid url. Please add https." })
+    .optional()
+    .or(z.literal("")),
   file: z.custom<File[]>(),
 })
 
