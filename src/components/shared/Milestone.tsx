@@ -77,7 +77,6 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
   const { data: updates, isPending: isPendingUpdates } =
     useGetMilestoneUpdates(milestoneId)
   const isPending = isPendingMilestone || isPendingUpdates
-
   const { mutateAsync: deleteMilestone } = useDeleteMilestone()
   const { mutateAsync: updateMilestone } = useUpdateMilestone()
   const confirm = useConfirm()

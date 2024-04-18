@@ -18,7 +18,6 @@ import {
   useGetProjectTeam,
 } from "@/lib/react-query/queries"
 import { Card } from "@/components/ui/card"
-import CreateMilestone from "@/components/shared/CreateMilestone"
 import { Models } from "appwrite"
 import ProjectSkeleton from "@/components/shared/skeletons/ProjectSkeleton"
 
@@ -126,13 +125,10 @@ const Project = () => {
           <Separator className="my-16" />
 
           <div>
-            <div className="flex justify-between items-center">
-              <h4 className="h4">Milestones & Updates</h4>
-              <CreateMilestone projectId={project.$id} />
-            </div>
+            <h4 className="h4">Milestones & Updates</h4>
 
             <div className="mt-12 space-y-20">
-              {milestones && milestones.length === 0 ? (
+              {milestones && milestones.length !== 0 ? (
                 <Card className="flex flex-col items-center justify-center h-full pt-14 pb-16">
                   <MilestoneIcon
                     strokeWidth={1}
@@ -142,7 +138,7 @@ const Project = () => {
                     There are no milestones added yet
                   </h6>
                   <p className="mt-2 text-muted-foreground text-center max-w-md">
-                    Get started by adding one to your project.
+                    All your project milestones will be listed here.
                   </p>
                 </Card>
               ) : (
