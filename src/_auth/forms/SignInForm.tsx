@@ -55,7 +55,7 @@ const SignInForm = () => {
   }
 
   return (
-    <div className="mt-6">
+    <div className="mt-16 sm:mt-6">
       <Form {...form}>
         <StarSvg className="w-8 h-8 mb-8 mx-auto" />
         <h5 className="h5 mb-8 text-center">Log in to Spark + Mint</h5>

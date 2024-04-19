@@ -26,7 +26,10 @@ const Home = () => {
             Welcome to the Spark + Mint client portal.
           </p>
         </div>
-        <img src="/assets/stars-multiple.svg" className="w-14 h-14 mr-3" />
+        <img
+          src="/assets/stars-multiple.svg"
+          className="hidden sm:block w-14 h-14 mr-3"
+        />
       </div>
 
       <Link to="/details" className="block">
@@ -35,11 +38,13 @@ const Home = () => {
             <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full transition-colors duration-100">
               <Landmark strokeWidth={2} className="w-5 h-5" />
             </div>
-            <div>
+            <div className="flex-1">
               <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
                 Add company details
               </h6>
-              <p>Help us learn more about your mission.</p>
+              <p className="pr-2 sm:pr-0">
+                Help us learn more about your mission.
+              </p>
             </div>
           </div>
           <div className="flex items-center">
