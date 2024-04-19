@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 import { SignInValidation } from "@/lib/validation"
 import { useSignInAccount } from "@/lib/react-query/queries"
 import { useStakeholderContext } from "@/context/AuthContext"
-import { RotateCw } from "lucide-react"
+import { ArrowRight, RotateCw } from "lucide-react"
 import StarSvg from "@/svg/StarSvg"
 
 const SignInForm = () => {
@@ -55,14 +55,11 @@ const SignInForm = () => {
   }
 
   return (
-    <div className="mt-16 sm:mt-6">
+    <div className="mt-16 sm:mt-6 pb-16">
       <Form {...form}>
         <StarSvg className="w-8 h-8 mb-8 mx-auto" />
         <h5 className="h5 mb-8 text-center">Log in to Spark + Mint</h5>
-        <form
-          onSubmit={form.handleSubmit(handleSignin)}
-          className="space-y-4 pb-32"
-        >
+        <form onSubmit={form.handleSubmit(handleSignin)} className="space-y-4">
           <FormField
             control={form.control}
             name="email"
@@ -107,15 +104,20 @@ const SignInForm = () => {
               )}
             </Button>
           </div>
-
-          <p className="text-sm text-center">
-            Don&apos;t have an account?
-            <Link to="/sign-up" className="font-semibold ml-1">
-              Sign up
-            </Link>
-          </p>
         </form>
       </Form>
+
+      <Link to="/sign-up" className="group">
+        <div className="mt-10 py-3 border border-border rounded-md text-primary transition-colors group-hover:border-accent">
+          <p className="text-sm text-center transition-colors group-hover:text-white">
+            Don&apos;t have an account?
+            <span className="font-semibold ml-1">
+              Sign up{" "}
+              <ArrowRight className="h-4 w-4 inline transition group-hover:translate-x-0.5 group-hover:text-white" />
+            </span>
+          </p>
+        </div>
+      </Link>
     </div>
   )
 }
