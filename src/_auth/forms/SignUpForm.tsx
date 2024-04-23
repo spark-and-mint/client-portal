@@ -22,19 +22,17 @@ import { SignUpValidation } from "@/lib/validation"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { ArrowRight, RotateCw } from "lucide-react"
 import { account } from "@/lib/appwrite/config"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui"
+import { default as ReactSelect } from "react-select"
+import { Models } from "appwrite"
+import { useState } from "react"
+import { cn } from "@/lib/utils"
 
 const SignUpForm = () => {
   const navigate = useNavigate()
   const { checkAuthStakeholder, isLoading: isStakeholderLoading } =
     useStakeholderContext()
   const { data: clients, isPending: isPendingClients } = useGetClients()
+  const [menuIsOpen, setMenuIsOpen] = useState(false)
 
   const form = useForm<z.infer<typeof SignUpValidation>>({
     resolver: zodResolver(SignUpValidation),
@@ -75,9 +73,7 @@ const SignUpForm = () => {
         return
       }
 
-      account.createVerification(
-        "https://spark-and-mint-client-portal.netlify.app/verify"
-      )
+      account.createVerification("https://portal.sparkandmint.com/verify")
 
       const isLoggedIn = await checkAuthStakeholder()
 
@@ -91,6 +87,13 @@ const SignUpForm = () => {
     } catch (error) {
       console.log({ error })
     }
+  }
+
+  const getClientOptions = (clients?: Models.DocumentList<Models.Document>) => {
+    return clients?.documents.map((client) => ({
+      label: client.name,
+      value: client.$id,
+    }))
   }
 
   return (
@@ -158,25 +161,53 @@ const SignUpForm = () => {
             control={form.control}
             name="clientId"
             disabled={isPendingClients}
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Company or organization</FormLabel>
                 <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Please select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {clients?.documents.map((client) => (
-                        <SelectItem key={client.$id} value={client.$id}>
-                          {client.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <ReactSelect
+                    options={getClientOptions(clients)}
+                    isDisabled={isPendingClients}
+                    unstyled={true}
+                    placeholder="Search and select..."
+                    isClearable={true}
+                    noOptionsMessage={() => "No results found."}
+                    onInputChange={(input) => {
+                      if (input) {
+                        setMenuIsOpen(true)
+                      } else {
+                        setMenuIsOpen(false)
+                      }
+                    }}
+                    menuIsOpen={menuIsOpen}
+                    classNames={{
+                      control: (e) =>
+                        cn(
+                          `h-10 rounded-md border border-accent`,
+                          `px-3 py-2 bg-background text-sm `,
+                          e.isFocused
+                            ? "ring-2 ring-ring ring-offset-2 ring-offset-background"
+                            : ""
+                        ),
+                      indicatorSeparator: () => "opacity-0",
+                      dropdownIndicator: () => "opacity-0",
+                      clearIndicator: () => "opacity-0",
+                      placeholder: () => "text-placeholder",
+                      menu: () =>
+                        cn(
+                          "absolute top-0 mt-1 text-sm z-10 w-full",
+                          "rounded-md border bg-popover shadow-md overflow-x-hidden"
+                        ),
+                      option: () =>
+                        cn(
+                          "cursor-default",
+                          "rounded-sm py-1.5 m-1 px-2 text-sm outline-none",
+                          "focus:bg-gray-200 hover:bg-slate-700 w-auto"
+                        ),
+                      noOptionsMessage: () => "py-3",
+                      input: () => "text-sm overflow-x-hidden",
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

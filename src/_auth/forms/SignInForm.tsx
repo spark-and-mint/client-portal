@@ -55,7 +55,7 @@ const SignInForm = () => {
   }
 
   return (
-    <div className="mt-16 sm:mt-6 pb-16">
+    <div className="mt-16 sm:mt-3">
       <Form {...form}>
         <StarSvg className="w-8 h-8 mb-8 mx-auto" />
         <h5 className="h5 mb-8 text-center">Log in to Spark + Mint</h5>
@@ -83,6 +83,12 @@ const SignInForm = () => {
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
+                <Link
+                  to="/reset"
+                  className="block text-xs font-medium text-primary text-right transition-colors hover:text-white "
+                >
+                  Reset password
+                </Link>
                 <FormMessage />
               </FormItem>
             )}
@@ -108,7 +114,7 @@ const SignInForm = () => {
       </Form>
 
       <Link to="/sign-up" className="group">
-        <div className="mt-10 py-3 border border-border rounded-md text-primary transition-colors group-hover:border-accent">
+        <div className="mt-8 py-3 border border-border rounded-md text-primary transition-colors group-hover:border-accent">
           <p className="text-sm text-center transition-colors group-hover:text-white">
             Don&apos;t have an account?
             <span className="font-semibold ml-1">

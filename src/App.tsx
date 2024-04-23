@@ -18,6 +18,7 @@ import "./globals.css"
 import Header from "./components/shared/Header"
 import Section from "./components/shared/Section"
 import Details from "./_root/pages/Details"
+import ResetPassword from "./_auth/forms/ResetPassword"
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route element={<AuthLayout />}>
             <Route path="/sign-in" element={<SignInForm />} />
             <Route path="/sign-up" element={<SignUpForm />} />
+            <Route path="/reset" element={<ResetPassword />} />
           </Route>
 
           <Route element={<RootLayout />}>

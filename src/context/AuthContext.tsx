@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { createContext, useContext, useEffect, useState } from "react"
 import { IStakeholder } from "@/types"
 import { getCurrentStakeholder } from "@/lib/appwrite/api"
@@ -40,6 +40,7 @@ const AuthContext = createContext<IContextType>(INITIAL_STATE)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
+  const location = useLocation()
   const [stakeholder, setStakeholder] =
     useState<IStakeholder>(INITIAL_STAKEHOLDER)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -92,9 +93,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const cookieFallback = localStorage.getItem("cookieFallback")
     if (
-      cookieFallback === "[]" ||
-      cookieFallback === null ||
-      cookieFallback === undefined
+      (cookieFallback === "[]" ||
+        cookieFallback === null ||
+        cookieFallback === undefined) &&
+      location.pathname !== "/reset" &&
+      location.pathname !== "/verify"
     ) {
       navigate("/sign-in")
     }

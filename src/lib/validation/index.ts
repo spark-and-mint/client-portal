@@ -71,3 +71,14 @@ export const FeedbackValidation = z.object({
     .min(2, { message: "Please add more information." })
     .max(2200, { message: "Maximum 2200 caracters" }),
 })
+
+export const ResetValidation = z.object({
+  email: z.string().email(),
+})
+
+export const PasswordsValidation = z.object({
+  newPassword: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long" }),
+  confirmPassword: z.string(),
+})
