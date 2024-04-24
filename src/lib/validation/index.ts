@@ -11,10 +11,16 @@ export const SignUpValidation = z.object({
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long" }),
-  clientId: z.string({
-    required_error:
-      "Please select the company or organization that you belong to.",
-  }),
+  clientId: z.object(
+    {
+      label: z.string(),
+      value: z.string(),
+    },
+    {
+      required_error:
+        "Please select the company or organization that you belong to.",
+    }
+  ),
 })
 
 export const SignInValidation = z.object({

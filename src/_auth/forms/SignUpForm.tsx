@@ -23,7 +23,6 @@ import { useStakeholderContext } from "@/context/AuthContext"
 import { ArrowRight, RotateCw } from "lucide-react"
 import { account } from "@/lib/appwrite/config"
 import { default as ReactSelect } from "react-select"
-import { Models } from "appwrite"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 
@@ -41,7 +40,6 @@ const SignUpForm = () => {
       lastName: "",
       email: "",
       password: "",
-      clientId: "",
     },
   })
 
@@ -52,10 +50,12 @@ const SignUpForm = () => {
   const { mutateAsync: signInAccount, isPending: isSigningInStakeholder } =
     useSignInAccount()
 
-  const handleSignUp = async (
-    stakeholder: z.infer<typeof SignUpValidation>
-  ) => {
+  const handleSignUp = async (values: z.infer<typeof SignUpValidation>) => {
     try {
+      const stakeholder = {
+        ...values,
+        clientId: values.clientId.value,
+      }
       const newStakeholder = await createStakeholderAccount(stakeholder)
 
       if (!newStakeholder) {
@@ -64,8 +64,8 @@ const SignUpForm = () => {
       }
 
       const session = await signInAccount({
-        email: stakeholder.email,
-        password: stakeholder.password,
+        email: values.email,
+        password: values.password,
       })
 
       if (!session) {
@@ -89,12 +89,14 @@ const SignUpForm = () => {
     }
   }
 
-  const getClientOptions = (clients?: Models.DocumentList<Models.Document>) => {
+  const getClientOptions = (clients) => {
     return clients?.documents.map((client) => ({
       label: client.name,
       value: client.$id,
     }))
   }
+
+  const { clearErrors } = form
 
   return (
     <div className="mt-8 sm:mt-0 pb-16">
@@ -161,7 +163,7 @@ const SignUpForm = () => {
             control={form.control}
             name="clientId"
             disabled={isPendingClients}
-            render={() => (
+            render={({ field }) => (
               <FormItem>
                 <FormLabel>Company or organization</FormLabel>
                 <FormControl>
@@ -206,6 +208,10 @@ const SignUpForm = () => {
                         ),
                       noOptionsMessage: () => "py-3",
                       input: () => "text-sm overflow-x-hidden",
+                    }}
+                    onChange={(x) => {
+                      clearErrors("clientId")
+                      field.onChange(x)
                     }}
                   />
                 </FormControl>
