@@ -35,10 +35,10 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">
+            <p className="pt-1 text-sm font-medium leading-none">
               {stakeholder.firstName} {stakeholder.lastName}
             </p>
-            <p className="text-xs leading-none text-muted-foreground truncate">
+            <p className="py-1 text-xs leading-none text-muted-foreground truncate">
               {stakeholder.email}
             </p>
           </div>
