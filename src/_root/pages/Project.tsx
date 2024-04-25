@@ -128,7 +128,7 @@ const Project = () => {
             <h4 className="h4">Milestones & Updates</h4>
 
             <div className="mt-12 space-y-20">
-              {milestones && milestones.length !== 0 ? (
+              {milestones && milestones.length === 0 ? (
                 <Card className="flex flex-col items-center justify-center h-full pt-14 pb-16">
                   <MilestoneIcon
                     strokeWidth={1}
