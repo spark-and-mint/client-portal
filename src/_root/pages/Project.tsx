@@ -58,10 +58,10 @@ const Project = () => {
                     </div>
                   </div>
 
-                  {project?.briefLink && project?.roadmapLink && (
+                  {!project?.briefLink && !project?.roadmapLink ? null : (
                     <div className="flex items-center gap-4 mt-8">
                       {project?.briefLink && (
-                        <Link to={project?.briefLink}>
+                        <Link to={project?.briefLink} target="_blank">
                           <Button variant="outline" size="sm">
                             <LinkIcon className="h-4 w-4 mr-2 pb-0.25" />
                             Project brief
@@ -69,7 +69,7 @@ const Project = () => {
                         </Link>
                       )}
                       {project?.roadmapLink && (
-                        <Link to={project?.roadmapLink}>
+                        <Link to={project?.roadmapLink} target="_blank">
                           <Button variant="outline" size="sm">
                             <Waypoints className="h-4 w-4 mr-2 pb-0.25" />
                             Roadmap
@@ -84,28 +84,30 @@ const Project = () => {
 
             <div className="flex flex-col justify-end">
               <div className="flex flex-col gap-8">
-                <div>
-                  <div className="mt-4 text-primary tracking-[0.08em] uppercase text-xs font-semibold">
-                    Spark + Mint Representative
-                  </div>
+                {project.sparkRep?.email && (
+                  <div>
+                    <div className="mt-4 text-primary tracking-[0.08em] uppercase text-xs font-semibold">
+                      Spark + Mint Representative
+                    </div>
 
-                  <div className="mt-4 space-y-6 gap-4">
-                    <div className="flex items-center space-x-3">
-                      <Avatar className="w-9 h-9">
-                        <AvatarImage src="/assets/avatars/02.png" />
-                      </Avatar>
-                      <div>
-                        <p className="font-medium leading-none">
-                          {project.sparkRep?.firstName}{" "}
-                          {project.sparkRep?.lastName}
-                        </p>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {project.sparkRep?.email}
-                        </p>
+                    <div className="mt-4 space-y-6 gap-4">
+                      <div className="flex items-center space-x-3">
+                        <Avatar className="w-9 h-9">
+                          <AvatarImage src={project.sparkRep?.avatarUrl} />
+                        </Avatar>
+                        <div>
+                          <p className="font-medium leading-none">
+                            {project.sparkRep?.firstName}{" "}
+                            {project.sparkRep?.lastName}
+                          </p>
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            {project.sparkRep?.email}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 {teamMembers && teamMembers.length > 0 && (
                   <div>

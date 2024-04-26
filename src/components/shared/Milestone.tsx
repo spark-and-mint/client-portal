@@ -1,40 +1,22 @@
 import {
   CircleSlash,
-  MoreHorizontal,
   Pickaxe,
   RotateCw,
   ThumbsUp,
   TriangleAlert,
 } from "lucide-react"
 import { Button } from "../ui"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
 import { Card, CardContent, CardHeader } from "../ui/card"
 import { Models } from "appwrite"
 import {
-  useDeleteMilestone,
   useGetMilestoneById,
   useGetMilestoneUpdates,
   useUpdateMilestone,
 } from "@/lib/react-query/queries"
 import { toast } from "sonner"
-import { useConfirm } from "./AlertDialogProvider"
 import Update from "./Update"
 import { Skeleton } from "../ui/skeleton"
 import { useState } from "react"
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog"
-import MilestoneForm from "./MilestoneForm"
 
 const getMilestoneStatus = (feedback: string) => {
   switch (feedback) {
@@ -77,30 +59,9 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
   const { data: updates, isPending: isPendingUpdates } =
     useGetMilestoneUpdates(milestoneId)
   const isPending = isPendingMilestone || isPendingUpdates
-  const { mutateAsync: deleteMilestone } = useDeleteMilestone()
   const { mutateAsync: updateMilestone } = useUpdateMilestone()
-  const confirm = useConfirm()
-  const [showEditDialog, setShowEditDialog] = useState(false)
   const [loadingApproval, setLoadingApproval] = useState(false)
   const [loadingReject, setLoadingReject] = useState(false)
-
-  const handleDelete = async (milestoneId: string) => {
-    const declineConfirmed = await confirm({
-      title: `Are you sure you want to delete the "${milestone?.title}" milestone and all its updates?`,
-      cancelButton: "Cancel",
-      actionButton: "Delete",
-    })
-
-    if (!declineConfirmed) return
-
-    try {
-      await deleteMilestone({ milestoneId })
-      toast.success("Milestone deleted successfully.")
-    } catch (error) {
-      toast.error("Could not delete milestone. Please try again.")
-      console.error(error)
-    }
-  }
 
   const handleApprove = async () => {
     if (!milestone) return
@@ -222,43 +183,6 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
                       </>
                     )}
                   </Button>
-                  <Dialog
-                    open={showEditDialog}
-                    onOpenChange={setShowEditDialog}
-                  >
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="icon">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-6 w-6" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DialogTrigger asChild>
-                          <DropdownMenuItem>Edit milestone</DropdownMenuItem>
-                        </DialogTrigger>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          onClick={() => handleDelete(milestone.$id)}
-                        >
-                          <span className="font-medium text-[#e40808]">
-                            Delete
-                          </span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                    <DialogContent className="sm:max-w-md">
-                      <DialogHeader>
-                        <DialogTitle>Edit milestone</DialogTitle>
-                      </DialogHeader>
-
-                      <MilestoneForm
-                        action="update"
-                        setOpen={setShowEditDialog}
-                        milestone={milestone}
-                      />
-                    </DialogContent>
-                  </Dialog>
                 </div>
               </div>
             </CardHeader>
@@ -270,8 +194,8 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
                     There are no updates added yet
                   </h4>
                   <p className="mt-2 text-muted-foreground text-center">
-                    When updates are added by the team, they will be listed
-                    here.
+                    When updates are added by the team they will be listed here
+                    for you to review.
                   </p>
                 </Card>
               ) : (
