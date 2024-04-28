@@ -49,60 +49,54 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const checkAuthStakeholder = async () => {
     setIsLoading(true)
-
     try {
-      const {
-        stakeholder,
-        error,
-      }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      { stakeholder: Models.Document | null; error: any } =
-        await getCurrentStakeholder()
+      const { stakeholder, error } = await getCurrentStakeholder()
 
-      if (
-        error &&
-        error.message &&
-        !error.message.includes("User (role: guests) missing scope (account)")
-      ) {
+      if (!stakeholder || error) {
+        console.error("Failed to fetch stakeholder:", error)
+        setIsAuthenticated(false)
         setServerError(true)
+        return false
       }
 
-      if (stakeholder) {
-        setStakeholder({
-          id: stakeholder.$id,
-          clientId: stakeholder.clientId,
-          email: stakeholder.email,
-          firstName: stakeholder.firstName,
-          lastName: stakeholder.lastName,
-          name: stakeholder.name,
-          avatarUrl: stakeholder.avatarUrl,
-          avatarId: stakeholder.avatarId,
-          emailVerification: stakeholder.emailVerification,
-        })
-        setIsAuthenticated(true)
-        return true
-      }
-      return false
+      setStakeholder(serverResponseToStakeholderModel(stakeholder))
+      setIsAuthenticated(true)
+      setServerError(false)
+      return true
     } catch (error) {
-      console.error(error)
+      console.error("Error checking authentication:", error)
+      setIsAuthenticated(false)
+      setServerError(true)
       return false
     } finally {
       setIsLoading(false)
     }
   }
 
-  useEffect(() => {
-    const cookieFallback = localStorage.getItem("cookieFallback")
-    if (
-      (cookieFallback === "[]" ||
-        cookieFallback === null ||
-        cookieFallback === undefined) &&
-      location.pathname !== "/reset" &&
-      location.pathname !== "/verify"
-    ) {
-      navigate("/sign-in")
+  const serverResponseToStakeholderModel = (stakeholder: Models.Document) => {
+    return {
+      id: stakeholder.$id,
+      clientId: stakeholder.clientId,
+      email: stakeholder.email,
+      firstName: stakeholder.firstName,
+      lastName: stakeholder.lastName,
+      name: stakeholder.name,
+      avatarUrl: stakeholder.avatarUrl,
+      avatarId: stakeholder.avatarId,
+      emailVerification: stakeholder.emailVerification,
     }
+  }
 
-    checkAuthStakeholder()
+  useEffect(() => {
+    checkAuthStakeholder().then((authenticated) => {
+      if (
+        !authenticated &&
+        location.pathname !== "/reset" &&
+        location.pathname !== "/verify"
+      ) {
+        navigate("/sign-in")
+      }
+    })
   }, [])
 
   const value = {

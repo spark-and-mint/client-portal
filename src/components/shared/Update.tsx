@@ -102,7 +102,7 @@ const Update = ({ update }: { update: Models.Document }) => {
             <dl className="divide-y divide-stroke-1">
               {update.description && (
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="flex items-center text-sm font-medium leading-6 text-primary">
+                  <dt className="text-sm font-medium leading-6 text-primary">
                     Description
                   </dt>
                   <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0">

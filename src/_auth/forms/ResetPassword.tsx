@@ -53,6 +53,9 @@ const ResetPassword = () => {
     resolver: zodResolver(PasswordsValidation),
   })
 
+  const passwordsNotMatching =
+    passwordForm.watch("newPassword") !== passwordForm.watch("confirmPassword")
+
   if (passwordIsReset) {
     return (
       <div>
@@ -131,7 +134,7 @@ const ResetPassword = () => {
 
             <div>
               <Button
-                disabled={isResettingPassword}
+                disabled={isResettingPassword || passwordsNotMatching}
                 type="submit"
                 className="mt-2 w-full"
               >

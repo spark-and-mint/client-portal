@@ -96,21 +96,20 @@ export async function signInAccount(stakeholder: {
 
 export async function getCurrentStakeholder() {
   try {
-    const currentAccount = await getAccount()
+    const session = await account.getSession("current")
 
-    if (!currentAccount) throw Error
+    if (!session || !session.userId) throw new Error("No active session.")
 
     const currentStakeholder = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.stakeholderCollectionId,
-      [Query.equal("accountId", currentAccount.$id)]
+      [Query.equal("accountId", session.userId)]
     )
 
-    if (!currentStakeholder) throw Error
+    if (!currentStakeholder) throw new Error("Stakeholder not found.")
 
     return { stakeholder: currentStakeholder.documents[0], error: null }
   } catch (error) {
-    console.log(error)
     return { stakeholder: null, error }
   }
 }
