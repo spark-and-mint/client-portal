@@ -91,6 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuthStakeholder().then((authenticated) => {
       if (
         !authenticated &&
+        location.pathname !== "/sign-up" &&
         location.pathname !== "/reset" &&
         location.pathname !== "/verify"
       ) {
