@@ -17,6 +17,7 @@ import { toast } from "sonner"
 import Update from "./Update"
 import { Skeleton } from "../ui/skeleton"
 import { useState } from "react"
+import { useConfirm } from "./AlertDialogProvider"
 
 const getMilestoneStatus = (feedback: string) => {
   switch (feedback) {
@@ -54,6 +55,7 @@ const getMilestoneStatus = (feedback: string) => {
 }
 
 const Milestone = ({ milestoneId }: { milestoneId: string }) => {
+  const confirm = useConfirm()
   const { data: milestone, isPending: isPendingMilestone } =
     useGetMilestoneById(milestoneId)
   const { data: updates, isPending: isPendingUpdates } =
@@ -66,22 +68,14 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
   const handleApprove = async () => {
     if (!milestone) return
 
-    if (milestone.status === "approved") {
-      try {
-        setLoadingApproval(true)
-        await updateMilestone({
-          milestoneId: milestone.$id,
-          title: milestone.title,
-          status: "in progress",
-        })
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoadingApproval(false)
-      }
+    const approvalConfirmed = await confirm({
+      title: `Are you sure you want to approve this milestone?`,
+      body: "This action cannot be undone unless you contact Spark + Mint.",
+      cancelButton: "Cancel",
+      actionButton: "Approve",
+    })
 
-      return
-    }
+    if (!approvalConfirmed) return
 
     try {
       setLoadingApproval(true)
@@ -143,47 +137,43 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
                   </div>
                 </div>
 
-                <div className="flex gap-4">
-                  {milestone.status === "approval requested" && (
+                {milestone.status === "approved" ? null : (
+                  <div className="flex gap-4">
+                    {milestone.status === "approval requested" && (
+                      <Button
+                        variant="outline"
+                        disabled={loadingReject}
+                        onClick={handleReject}
+                        className="text-red-500"
+                      >
+                        {loadingReject ? (
+                          <div className="flex items-center gap-2">
+                            <RotateCw className="h-4 w-4 animate-spin" />
+                            Rejecting...
+                          </div>
+                        ) : (
+                          "Reject milestone"
+                        )}
+                      </Button>
+                    )}
                     <Button
-                      variant="outline"
-                      disabled={loadingReject}
-                      onClick={handleReject}
-                      className="text-red-500"
+                      variant="secondary"
+                      disabled={
+                        loadingApproval || (updates && updates?.length === 0)
+                      }
+                      onClick={handleApprove}
                     >
-                      {loadingReject ? (
+                      {loadingApproval ? (
                         <div className="flex items-center gap-2">
                           <RotateCw className="h-4 w-4 animate-spin" />
-                          Rejecting...
+                          Approving...
                         </div>
                       ) : (
-                        "Reject milestone"
+                        "Approve milestone"
                       )}
                     </Button>
-                  )}
-                  <Button
-                    variant="secondary"
-                    disabled={
-                      loadingApproval || (updates && updates?.length === 0)
-                    }
-                    onClick={handleApprove}
-                  >
-                    {loadingApproval ? (
-                      <div className="flex items-center gap-2">
-                        <RotateCw className="h-4 w-4 animate-spin" />
-                        {milestone.status === "approved"
-                          ? "Withdrawing..."
-                          : "Approving..."}
-                      </div>
-                    ) : (
-                      <>
-                        {milestone.status === "approved"
-                          ? "Withdraw approval"
-                          : "Approve milestone"}
-                      </>
-                    )}
-                  </Button>
-                </div>
+                  </div>
+                )}
               </div>
             </CardHeader>
 
