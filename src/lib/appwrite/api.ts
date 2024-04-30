@@ -659,7 +659,6 @@ export async function getMilestoneById(milestoneId?: string) {
 }
 
 export async function createFeedback(feedback: INewFeedback) {
-  console.log(feedback)
   try {
     const newFeedback = await databases.createDocument(
       appwriteConfig.databaseId,
@@ -668,6 +667,7 @@ export async function createFeedback(feedback: INewFeedback) {
       {
         updateId: feedback.updateId,
         text: feedback.text,
+        label: feedback.label,
       }
     )
 
@@ -699,7 +699,6 @@ export async function getUpdateFeedback(updateId?: string) {
 }
 
 export async function updateFeedback(feedback: IFeedback) {
-  console.log(feedback)
   try {
     const updatedFeedback = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -707,6 +706,7 @@ export async function updateFeedback(feedback: IFeedback) {
       feedback.feedbackId,
       {
         text: feedback.text,
+        label: feedback.label,
       }
     )
 

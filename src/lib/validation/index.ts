@@ -72,10 +72,8 @@ export const MilestoneValidation = z.object({
 })
 
 export const FeedbackValidation = z.object({
-  text: z
-    .string()
-    .min(2, { message: "Please add more information." })
-    .max(2200, { message: "Maximum 2200 caracters" }),
+  text: z.string().max(2200, { message: "Maximum 2200 caracters" }).optional(),
+  label: z.string().optional(),
 })
 
 export const ResetValidation = z.object({

@@ -20,6 +20,7 @@ import {
 } from "../ui/collapsible"
 import { cn, toRelativeTimeString } from "@/lib/utils"
 import { Badge } from "../ui/badge"
+import { Separator } from "../ui/separator"
 
 const Update = ({ update }: { update: Models.Document }) => {
   const confirm = useConfirm()
@@ -116,7 +117,7 @@ const Update = ({ update }: { update: Models.Document }) => {
                     Link
                   </dt>
                   <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0 truncate">
-                    <Button asChild variant="link" className="p-0 font-medium">
+                    <Button asChild variant="link" className="p-0 font-normal">
                       <Link to={update.link || update.fileUrl} target="_blank">
                         {update.link || update.fileUrl}
                       </Link>
@@ -131,7 +132,16 @@ const Update = ({ update }: { update: Models.Document }) => {
                 <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0">
                   {feedback && feedback.length > 0 ? (
                     <div className="flex justify-between items-center gap-8">
-                      <p>{feedback[0].text}</p>
+                      <div className="flex flex-col gap-4">
+                        {feedback[0].label && (
+                          <>
+                            <p className="">{feedback[0].label}</p>
+                            {feedback[0].text && <Separator />}
+                          </>
+                        )}
+
+                        {feedback[0].text && <p>{feedback[0].text}</p>}
+                      </div>
                       <div className="flex gap-3">
                         <FeedbackForm action="update" feedback={feedback[0]} />
                         <Button

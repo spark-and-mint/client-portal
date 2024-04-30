@@ -136,10 +136,12 @@ export type IUpdate = {
 
 export type INewFeedback = {
   updateId: string
-  text: string
+  text?: string
+  label?: string
 }
 
 export type IFeedback = {
   feedbackId: string
-  text: string
+  text?: string
+  label?: string
 }

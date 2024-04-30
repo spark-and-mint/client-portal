@@ -9,8 +9,13 @@ import {
   Landmark,
 } from "lucide-react"
 import FadeIn from "react-fade-in"
+import { useStakeholderContext } from "@/context/AuthContext"
+import { useGetClientProjects } from "@/lib/react-query/queries"
 
 export function SidebarNav() {
+  const { stakeholder } = useStakeholderContext()
+  const { data: projects } = useGetClientProjects(stakeholder?.clientId)
+
   const navLinks = [
     {
       title: "Home",
@@ -21,6 +26,10 @@ export function SidebarNav() {
       title: "My Projects",
       icon: BriefcaseBusinessIcon,
       to: "/projects",
+      badge:
+        projects && projects.documents.length > 0
+          ? `${projects.documents.length}`
+          : false,
     },
     {
       title: "Company Details",
@@ -57,6 +66,18 @@ export function SidebarNav() {
         >
           <link.icon className="w-4 h-4 mr-2" />
           {link.title}
+          {link.badge && (
+            <span
+              className={cn(
+                "ml-3 px-2.5 py-0.5 text-xs font-semibold rounded-full",
+                link.title === "My Projects"
+                  ? "text-white bg-gray-700"
+                  : "text-black bg-primary"
+              )}
+            >
+              {link.badge}
+            </span>
+          )}
         </NavLink>
       ))}
     </FadeIn>
