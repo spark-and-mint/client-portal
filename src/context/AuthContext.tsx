@@ -50,19 +50,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const checkAuthStakeholder = async () => {
     setIsLoading(true)
     try {
-      const { stakeholder, error } = await getCurrentStakeholder()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const {
+        stakeholder,
+        error,
+      }: { stakeholder: Models.Document | null; error: any } =
+        await getCurrentStakeholder()
 
-      if (!stakeholder || error) {
-        console.error("Failed to fetch stakeholder:", error)
-        setIsAuthenticated(false)
+      if (
+        error &&
+        error.message &&
+        !error.message.includes("User (role: guests) missing scope (account)")
+      ) {
         setServerError(true)
-        return false
       }
 
-      setStakeholder(serverResponseToStakeholderModel(stakeholder))
-      setIsAuthenticated(true)
-      setServerError(false)
-      return true
+      if (stakeholder) {
+        setStakeholder(serverResponseToStakeholderModel(stakeholder))
+        setIsAuthenticated(true)
+        setServerError(false)
+        return true
+      }
+
+      setIsAuthenticated(false)
+      return false
     } catch (error) {
       console.error("Error checking authentication:", error)
       setIsAuthenticated(false)
