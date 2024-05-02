@@ -18,6 +18,15 @@ import Update from "./Update"
 import { Skeleton } from "../ui/skeleton"
 import { useState } from "react"
 import { useConfirm } from "./AlertDialogProvider"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from "../ui/alert-dialog"
 
 const getMilestoneStatus = (feedback: string) => {
   switch (feedback) {
@@ -64,6 +73,8 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
   const { mutateAsync: updateMilestone } = useUpdateMilestone()
   const [loadingApproval, setLoadingApproval] = useState(false)
   const [loadingReject, setLoadingReject] = useState(false)
+  const [hasFeedback, setHasFeedback] = useState(false)
+  const [noFeedbackDialog, setNoFeedbackDialog] = useState(false)
 
   const handleApprove = async () => {
     if (!milestone) return
@@ -95,6 +106,11 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
 
   const handleReject = async () => {
     if (!milestone) return
+
+    if (!hasFeedback) {
+      setNoFeedbackDialog(true)
+      return
+    }
 
     const rejectionConfirmed = await confirm({
       title: `Are you sure you want to reject this milestone?`,
@@ -201,13 +217,40 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
                 <div className="space-y-8">
                   {updates &&
                     updates.length > 0 &&
-                    updates?.map((update: Models.Document) => (
-                      <Update key={update.$id} update={update} />
-                    ))}
+                    updates
+                      .sort((a: Models.Document, b: Models.Document) =>
+                        b.$createdAt.localeCompare(a.$createdAt)
+                      )
+                      .map((update: Models.Document) => (
+                        <Update
+                          key={update.$id}
+                          update={update}
+                          setHasFeedback={setHasFeedback}
+                        />
+                      ))}
                 </div>
               )}
             </CardContent>
           </Card>
+          <AlertDialog
+            open={noFeedbackDialog}
+            onOpenChange={setNoFeedbackDialog}
+          >
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Please add feedback before rejecting the milestone.
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  You can add feedback by clicking on the update and adding a
+                  comment.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogAction>Got it</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </>
       )}
     </div>
