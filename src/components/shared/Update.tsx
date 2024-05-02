@@ -1,4 +1,3 @@
-import { Models } from "appwrite"
 import { ChevronDown, Trash2, X } from "lucide-react"
 import { Button } from "../ui"
 import { Card } from "../ui/card"
@@ -22,7 +21,7 @@ import { cn, toRelativeTimeString } from "@/lib/utils"
 import { Badge } from "../ui/badge"
 import { Separator } from "../ui/separator"
 
-const Update = ({ update }: { update: Models.Document }) => {
+const Update = ({ update, setHasFeedback }) => {
   const confirm = useConfirm()
   const { data: creator } = useGetMemberById(update.creatorId)
   const { data: feedback } = useGetUpdateFeedback(update.$id)
@@ -66,6 +65,12 @@ const Update = ({ update }: { update: Models.Document }) => {
       setIsViewed()
     }
   }, [isOpen, update.isViewed])
+
+  useEffect(() => {
+    if (setHasFeedback && feedback && feedback.length > 0) {
+      setHasFeedback(true)
+    }
+  }, [setHasFeedback, feedback])
 
   return (
     <Card className="p-0">
