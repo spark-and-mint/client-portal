@@ -50,11 +50,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const checkAuthStakeholder = async () => {
     setIsLoading(true)
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const {
         stakeholder,
         error,
-      }: { stakeholder: Models.Document | null; error: any } =
+      }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      { stakeholder: Models.Document | null; error: any } =
         await getCurrentStakeholder()
 
       if (
