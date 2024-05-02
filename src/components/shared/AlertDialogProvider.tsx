@@ -154,7 +154,10 @@ export function AlertDialogProvider({
                 <Button
                   type="submit"
                   variant={
-                    state.actionButton === "Delete" ? "destructive" : "default"
+                    state.actionButton === "Delete" ||
+                    state.actionButton === "Reject"
+                      ? "destructive"
+                      : "default"
                   }
                 >
                   {state.actionButton}

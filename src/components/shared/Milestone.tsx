@@ -96,6 +96,15 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
   const handleReject = async () => {
     if (!milestone) return
 
+    const rejectionConfirmed = await confirm({
+      title: `Are you sure you want to reject this milestone?`,
+      body: "",
+      cancelButton: "Cancel",
+      actionButton: "Reject",
+    })
+
+    if (!rejectionConfirmed) return
+
     try {
       setLoadingReject(true)
       await updateMilestone({
