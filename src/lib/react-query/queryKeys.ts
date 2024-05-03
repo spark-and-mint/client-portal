@@ -26,6 +26,7 @@ export enum QUERY_KEYS {
   GET_CLIENT_PROJECTS = "getClientProjects",
   GET_PROJECT_BY_ID = "getProjectById",
   GET_PROJECT_TEAM = "getProjectTeam",
+  GET_PROJECTS_WITH_NEW_UPDATES = "getProjectsWithNewUpdates",
 
   // MILESTONE KEYS
   GET_MILESTONE_BY_ID = "getMilestoneById",

@@ -133,6 +133,8 @@ module.exports = {
           "pulse-reverse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;",
         "collapsible-down": "collapsible-down 250ms ease-out",
         "collapsible-up": "collapsible-up 250ms ease-out",
+        "bounce-right": "bounce-right 1s ease-in infinite",
+        wobble: "wobble 0.65s",
       },
       keyframes: {
         "accordion-down": {
@@ -158,6 +160,45 @@ module.exports = {
         "collapsible-up": {
           from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: "0" },
+        },
+        "bounce-right": {
+          "0%, 100%": {
+            transform: "translateX(-25%)",
+            offset: "0%",
+          },
+          "50%": {
+            transform: "translateX(0)",
+            offset: "50%",
+          },
+        },
+        wobble: {
+          from: {
+            transform: "translate3d(0, 0, 0)",
+          },
+
+          "15%": {
+            transform: "translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg)",
+          },
+
+          "30%": {
+            transform: "translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg)",
+          },
+
+          "45%": {
+            transform: "translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg)",
+          },
+
+          "60%": {
+            transform: "translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg)",
+          },
+
+          "75%": {
+            transform: "translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg)",
+          },
+
+          to: {
+            transform: "translate3d(0, 0, 0)",
+          },
         },
       },
     },

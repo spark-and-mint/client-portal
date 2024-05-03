@@ -44,9 +44,11 @@ import {
   getMilestoneUpdates,
   getMemberById,
   getUpdateFeedback,
+  getProjectsWithNewUpdates,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
+import { useStakeholderContext } from "@/context/AuthContext"
 
 export const useCreateStakeholderAccount = () => {
   return useMutation({
@@ -188,12 +190,19 @@ export const useUpdateUpdate = () => {
 }
 
 export const useUpdateIsViewed = () => {
+  const { stakeholder } = useStakeholderContext()
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (update: IUpdate) => updateUpdate(update),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_UPDATE_FEEDBACK],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEYS.GET_PROJECTS_WITH_NEW_UPDATES,
+          stakeholder?.clientId,
+        ],
       })
     },
   })
@@ -377,5 +386,13 @@ export const useGetMemberById = (memberId: string) => {
     queryKey: [QUERY_KEYS.GET_MEMBER_BY_ID, memberId],
     queryFn: () => getMemberById(memberId),
     enabled: !!memberId,
+  })
+}
+
+export const useGetProjectsWithNewUpdates = (clientId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_PROJECTS_WITH_NEW_UPDATES, clientId],
+    queryFn: () => getProjectsWithNewUpdates(clientId),
+    enabled: !!clientId,
   })
 }

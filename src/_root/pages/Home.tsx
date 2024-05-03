@@ -2,8 +2,10 @@ import { Button } from "@/components/ui"
 import { Card } from "@/components/ui/card"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { cn } from "@/lib/utils"
+import { Models } from "appwrite"
 import {
   ArrowRight,
+  BellRing,
   ExternalLink,
   Heart,
   Landmark,
@@ -13,7 +15,7 @@ import FadeIn from "react-fade-in"
 import { Link } from "react-router-dom"
 
 const Home = () => {
-  const { stakeholder } = useStakeholderContext()
+  const { stakeholder, projectsWithNewUpdates } = useStakeholderContext()
 
   return (
     <FadeIn className="pb-16 space-y-4">
@@ -32,28 +34,57 @@ const Home = () => {
         />
       </div>
 
-      <Link to="/details" className="block">
-        <Card className="flex items-center justify-between group hover:bg-slate-400/15 hover:border-cyan-400 transition-colors duration-100">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full transition-colors duration-100">
-              <Landmark strokeWidth={2} className="w-5 h-5" />
+      {projectsWithNewUpdates && projectsWithNewUpdates.length > 0 ? (
+        <>
+          {projectsWithNewUpdates.map((project: Models.Document) => (
+            <Link to={`/project/${project.$id}`} className="block">
+              <Card className="flex items-center justify-between group hover:bg-slate-400/15 border-cyan-400 transition-colors duration-100">
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full animate-wobble delay-300">
+                    <BellRing strokeWidth={2} className="w-5 h-5" />
+                  </div>
+                  <div className="flex-1">
+                    <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
+                      {project.title} has new updates!
+                    </h6>
+                    <p className="pr-2 sm:pr-0">
+                      Check out the latest updates from the team.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center animate-bounce-right">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full transition-colors duration-100 bg-transparent border border-primary text-primary group-hover:bg-primary group-hover:text-slate-600">
+                    <ArrowRight strokeWidth={1.3} className="w-6 h-6" />
+                  </div>
+                </div>
+              </Card>
+            </Link>
+          ))}
+        </>
+      ) : (
+        <Link to="/details" className="block">
+          <Card className="flex items-center justify-between group hover:bg-slate-400/15 hover:border-cyan-400 transition-colors duration-100">
+            <div className="flex items-center gap-6">
+              <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full">
+                <Landmark strokeWidth={2} className="w-5 h-5" />
+              </div>
+              <div className="flex-1">
+                <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
+                  Add company details
+                </h6>
+                <p className="pr-2 sm:pr-0">
+                  Help us learn more about your mission.
+                </p>
+              </div>
             </div>
-            <div className="flex-1">
-              <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
-                Add company details
-              </h6>
-              <p className="pr-2 sm:pr-0">
-                Help us learn more about your mission.
-              </p>
+            <div className="flex items-center">
+              <div className="flex items-center justify-center w-8 h-8 rounded-full transition-colors duration-100 bg-transparent border border-primary text-primary group-hover:bg-primary group-hover:text-slate-600">
+                <ArrowRight strokeWidth={1.3} className="w-6 h-6" />
+              </div>
             </div>
-          </div>
-          <div className="flex items-center">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full transition-colors duration-100 bg-transparent border border-primary text-primary group-hover:bg-primary group-hover:text-slate-600">
-              <ArrowRight strokeWidth={1.3} className="w-6 h-6" />
-            </div>
-          </div>
-        </Card>
-      </Link>
+          </Card>
+        </Link>
+      )}
 
       <div className="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2">
         <Card className="flex flex-col gap-5">

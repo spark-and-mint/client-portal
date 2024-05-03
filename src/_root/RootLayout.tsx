@@ -1,6 +1,6 @@
 import { SidebarNav } from "@/components/shared/SidebarNav"
 import { useStakeholderContext } from "@/context/AuthContext"
-import { Navigate, Outlet, useLocation } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import { EmailVerification } from "./pages"
 import { cn } from "@/lib/utils"
 import ServerError from "@/components/shared/ServerError"
@@ -15,7 +15,7 @@ const RootLayout = () => {
   }
 
   if (!stakeholder.id) {
-    return <Navigate to="/sign-in" />
+    return null
   }
 
   if (!stakeholder.emailVerification) {

@@ -78,7 +78,7 @@ const Header = () => {
           </SheetContent>
         </Sheet>
 
-        <Link to="/">
+        <Link to={isAuthenticated ? "/" : "/sign-in"}>
           <img src="/assets/logo.svg" alt="logo" className="w-[4.5rem]" />
         </Link>
 

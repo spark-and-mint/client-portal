@@ -795,3 +795,57 @@ export async function getMemberById(memberId: string) {
     console.log(error)
   }
 }
+
+export async function getProjectsWithNewUpdates(clientId: string) {
+  if (!clientId) return
+
+  try {
+    const projects = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.projectCollectionId,
+      [Query.equal("clientId", clientId)]
+    )
+
+    if (!projects || projects.documents.length === 0)
+      throw new Error("No projects found")
+
+    const projectsWithNewUpdates: Models.Document[] = []
+
+    for (const project of projects.documents) {
+      const milestones = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.milestoneCollectionId,
+        [Query.equal("projectId", project.$id)]
+      )
+
+      if (!milestones || milestones.documents.length === 0) continue
+
+      let hasUnviewedUpdates = false
+
+      for (const milestone of milestones.documents) {
+        const updates = await databases.listDocuments(
+          appwriteConfig.databaseId,
+          appwriteConfig.updateCollectionId,
+          [
+            Query.equal("milestoneId", milestone.$id),
+            Query.equal("isViewed", false),
+          ]
+        )
+
+        if (updates.documents.length > 0) {
+          hasUnviewedUpdates = true
+          break
+        }
+      }
+
+      if (hasUnviewedUpdates) {
+        projectsWithNewUpdates.push(project)
+      }
+    }
+
+    return projectsWithNewUpdates
+  } catch (error) {
+    console.error("Error fetching projects with new updates:", error)
+    throw error
+  }
+}

@@ -1,7 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import { createContext, useContext, useEffect, useState } from "react"
 import { IStakeholder } from "@/types"
-import { getCurrentStakeholder } from "@/lib/appwrite/api"
+import {
+  getCurrentStakeholder,
+  getProjectsWithNewUpdates,
+} from "@/lib/appwrite/api"
 import { Models } from "appwrite"
 
 export const INITIAL_STAKEHOLDER: IStakeholder = {
@@ -22,6 +25,7 @@ const INITIAL_STATE = {
   isAuthenticated: false,
   setStakeholder: () => {},
   setIsAuthenticated: () => {},
+  projectsWithNewUpdates: [],
   checkAuthStakeholder: async () => false as boolean,
   serverError: false,
 }
@@ -32,6 +36,7 @@ type IContextType = {
   setStakeholder: React.Dispatch<React.SetStateAction<IStakeholder>>
   isAuthenticated: boolean
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+  projectsWithNewUpdates: Models.Document[]
   checkAuthStakeholder: () => Promise<boolean>
   serverError: boolean
 }
@@ -44,6 +49,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [stakeholder, setStakeholder] =
     useState<IStakeholder>(INITIAL_STAKEHOLDER)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [projectsWithNewUpdates, setProjectsWithNewUpdates] = useState<
+    Models.Document[] | []
+  >([])
   const [isLoading, setIsLoading] = useState(false)
   const [serverError, setServerError] = useState(false)
 
@@ -66,7 +74,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (stakeholder) {
+        const projectsWithNewUpdatesData = await getProjectsWithNewUpdates(
+          stakeholder.clientId
+        )
         setStakeholder(serverResponseToStakeholderModel(stakeholder))
+        setProjectsWithNewUpdates(projectsWithNewUpdatesData || [])
         setIsAuthenticated(true)
         setServerError(false)
         return true
@@ -117,6 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isLoading,
     isAuthenticated,
     setIsAuthenticated,
+    projectsWithNewUpdates,
     checkAuthStakeholder,
     serverError,
   }
