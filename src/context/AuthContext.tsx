@@ -13,6 +13,7 @@ export const INITIAL_STAKEHOLDER: IStakeholder = {
   email: "",
   firstName: "",
   lastName: "",
+  company: "",
   name: "",
   avatarUrl: "",
   avatarId: "",
@@ -103,6 +104,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email: stakeholder.email,
       firstName: stakeholder.firstName,
       lastName: stakeholder.lastName,
+      company: stakeholder.company,
       name: stakeholder.name,
       avatarUrl: stakeholder.avatarUrl,
       avatarId: stakeholder.avatarId,
@@ -114,6 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuthStakeholder().then((authenticated) => {
       if (
         !authenticated &&
+        location.pathname !== "/hire" &&
         location.pathname !== "/sign-up" &&
         location.pathname !== "/reset" &&
         location.pathname !== "/verify"

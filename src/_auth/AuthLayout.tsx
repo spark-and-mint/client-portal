@@ -1,8 +1,13 @@
 import { useStakeholderContext } from "@/context/AuthContext"
-import { Navigate, Outlet } from "react-router-dom"
+import { Navigate, Outlet, useLocation } from "react-router-dom"
 
 const AuthLayout = () => {
   const { isAuthenticated } = useStakeholderContext()
+  const location = useLocation()
+
+  if (location.pathname === "/hire") {
+    return <Outlet />
+  }
 
   return (
     <>

@@ -10,6 +10,7 @@ import {
   INewFeedback,
   IFeedback,
   IMilestone,
+  INewRequest,
 } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
@@ -45,6 +46,7 @@ import {
   getMemberById,
   getUpdateFeedback,
   getProjectsWithNewUpdates,
+  createRequest,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
@@ -394,5 +396,11 @@ export const useGetProjectsWithNewUpdates = (clientId: string) => {
     queryKey: [QUERY_KEYS.GET_PROJECTS_WITH_NEW_UPDATES, clientId],
     queryFn: () => getProjectsWithNewUpdates(clientId),
     enabled: !!clientId,
+  })
+}
+
+export const useCreateRequest = () => {
+  return useMutation({
+    mutationFn: (request: INewRequest) => createRequest(request),
   })
 }

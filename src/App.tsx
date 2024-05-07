@@ -19,6 +19,7 @@ import Header from "./components/shared/Header"
 import Section from "./components/shared/Section"
 import Details from "./_root/pages/Details"
 import ResetPassword from "./_auth/forms/ResetPassword"
+import Hire from "./_auth/forms/hire/Hire"
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
       <Section crosses className="flex-grow">
         <Routes>
           <Route element={<AuthLayout />}>
+            <Route path="/hire" element={<Hire />} />
             <Route path="/sign-in" element={<SignInForm />} />
             <Route path="/sign-up" element={<SignUpForm />} />
             <Route path="/reset" element={<ResetPassword />} />

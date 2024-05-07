@@ -12,6 +12,7 @@ import {
   IFeedback,
   INewFeedback,
   IMilestone,
+  INewRequest,
 } from "@/types"
 import { nanoid } from "nanoid"
 
@@ -30,15 +31,30 @@ export async function createStakeholderAccount(stakeholder: INewStakeholder) {
       `${stakeholder.firstName} ${stakeholder.lastName}`
     )
 
-    const newStakeholder = await saveStakeholderToDB({
-      accountId: newAccount.$id,
-      clientId: stakeholder.clientId,
-      email: newAccount.email,
-      name: `${stakeholder.firstName} ${stakeholder.lastName}`,
-      firstName: stakeholder.firstName,
-      lastName: stakeholder.lastName,
-      avatarUrl,
-    })
+    // const newStakeholder = await saveStakeholderToDB({
+    //   accountId: newAccount.$id,
+    //   email: newAccount.email,
+    //   name: `${stakeholder.firstName} ${stakeholder.lastName}`,
+    //   firstName: stakeholder.firstName,
+    //   lastName: stakeholder.lastName,
+    //   company: stakeholder.company,
+    //   avatarUrl,
+    // })
+
+    const newStakeholder = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.stakeholderCollectionId,
+      ID.unique(),
+      {
+        accountId: newAccount.$id,
+        email: newAccount.email,
+        firstName: stakeholder.firstName,
+        lastName: stakeholder.lastName,
+        company: stakeholder.company,
+        avatarUrl,
+        avatarId: nanoid(),
+      }
+    )
 
     return newStakeholder
   } catch (error) {
@@ -49,11 +65,11 @@ export async function createStakeholderAccount(stakeholder: INewStakeholder) {
 
 export async function saveStakeholderToDB(stakeholder: {
   accountId: string
-  clientId: string
   email: string
   name: string
   firstName: string
   lastName: string
+  company: string
   avatarUrl: URL
 }) {
   try {
@@ -63,11 +79,11 @@ export async function saveStakeholderToDB(stakeholder: {
       ID.unique(),
       {
         accountId: stakeholder.accountId,
-        clientId: stakeholder.clientId,
         email: stakeholder.email,
         name: stakeholder.name,
         firstName: stakeholder.firstName,
         lastName: stakeholder.lastName,
+        company: stakeholder.company,
         avatarUrl: stakeholder.avatarUrl,
         avatarId: nanoid(),
       }
@@ -847,5 +863,27 @@ export async function getProjectsWithNewUpdates(clientId: string) {
   } catch (error) {
     console.error("Error fetching projects with new updates:", error)
     throw error
+  }
+}
+
+export async function createRequest(request: INewRequest) {
+  try {
+    const newRequest = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.requestCollectionId,
+      ID.unique(),
+      {
+        stakeholderId: request.stakeholderId,
+        individualOrTeam: request.individualOrTeam,
+        roles: request.roles,
+        industry: request.industry,
+        timeFrame: request.timeFrame,
+        budget: request.budget,
+      }
+    )
+
+    return newRequest
+  } catch (error) {
+    console.log(error)
   }
 }

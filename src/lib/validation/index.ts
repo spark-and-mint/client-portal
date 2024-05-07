@@ -23,6 +23,17 @@ export const SignUpValidation = z.object({
   ),
 })
 
+export const CreateAccountValidation = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  company: z
+    .string()
+    .min(1, { message: "Company must be at least 1 character." }),
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long" }),
+})
+
 export const SignInValidation = z.object({
   email: z.string().email(),
   password: z

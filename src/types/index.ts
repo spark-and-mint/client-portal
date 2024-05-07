@@ -3,7 +3,7 @@ export type INewStakeholder = {
   password: string
   firstName: string
   lastName: string
-  clientId: string
+  company: string
 }
 
 export type IStakeholder = {
@@ -12,6 +12,7 @@ export type IStakeholder = {
   email: string
   firstName: string
   lastName: string
+  company: string
   name: string
   avatarUrl: string
   avatarId: string
@@ -23,6 +24,8 @@ export type IUpdateStakeholder = {
   email: string
   firstName: string
   lastName: string
+  company?: string
+  clientId?: string
   file: File[]
   avatarId: string
   avatarUrl?: URL | string
@@ -144,4 +147,13 @@ export type IFeedback = {
   feedbackId: string
   text?: string
   label?: string
+}
+
+export type INewRequest = {
+  stakeholderId: string
+  individualOrTeam: string
+  roles: string
+  industry: string
+  timeFrame: string
+  budget: string
 }

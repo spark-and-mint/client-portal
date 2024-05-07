@@ -21,9 +21,9 @@ import {
 import { CreateAccountValidation } from "@/lib/validation"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { RotateCw } from "lucide-react"
-import StarSvg from "@/svg/StarSvg"
+import HireHeading from "./HireHeading"
 
-const SignUpForm = () => {
+const CreateAccount = () => {
   const navigate = useNavigate()
   const { checkAuthStakeholder, isLoading: isStakeholderLoading } =
     useStakeholderContext()
@@ -90,11 +90,13 @@ const SignUpForm = () => {
   }
 
   return (
-    <div className="mt-8 sm:mt-0 pb-16">
+    <div>
+      <HireHeading heading="Create your account" />
       <Form {...form}>
-        <StarSvg className="w-8 h-8 mb-6 mx-auto" />
-        <h1 className="h5 mb-8 text-center">Create your account</h1>
-        <form onSubmit={form.handleSubmit(handleSignUp)} className="space-y-4">
+        <form
+          onSubmit={form.handleSubmit(handleSignUp)}
+          className="mt-8 space-y-4"
+        >
           <FormField
             control={form.control}
             name="name"
@@ -179,4 +181,4 @@ const SignUpForm = () => {
   )
 }
 
-export default SignUpForm
+export default CreateAccount

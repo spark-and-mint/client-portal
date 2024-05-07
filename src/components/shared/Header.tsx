@@ -19,6 +19,19 @@ const Header = () => {
   const { stakeholder, isAuthenticated, isLoading } = useStakeholderContext()
   const location = useLocation()
 
+  if (location.pathname === "/hire") {
+    return (
+      <Section className="!px-0 !py-0 flex items-center min-h-24">
+        <div className="container flex justify-between items-center">
+          <img src="/assets/logo.svg" alt="logo" className="w-[4.5rem]" />
+          <Button variant="outline">
+            <Link to="#">Questions?</Link>
+          </Button>
+        </div>
+      </Section>
+    )
+  }
+
   return (
     <Section className="!px-0 !py-0 flex items-center min-h-24">
       <div className="container flex justify-between items-center gap-10">

@@ -8,8 +8,8 @@ import {
   BellRing,
   ExternalLink,
   Heart,
-  Landmark,
   ScrollText,
+  Sparkles,
 } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { Link } from "react-router-dom"
@@ -62,20 +62,29 @@ const Home = () => {
           ))}
         </>
       ) : (
-        <Link to="/details" className="block">
+        <Link to="/hire" className="block">
           <Card className="flex items-center justify-between group hover:bg-slate-400/15 hover:border-cyan-400 transition-colors duration-100">
             <div className="flex items-center gap-6">
               <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full">
-                <Landmark strokeWidth={2} className="w-5 h-5" />
+                <Sparkles strokeWidth={2} className="w-5 h-5" />
+                {/* <Landmark strokeWidth={2} className="w-5 h-5" /> */}
               </div>
               <div className="flex-1">
+                <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
+                  Hire talent
+                </h6>
+                <p className="pr-2 sm:pr-0">
+                  Find the perfect fit for your project.
+                </p>
+              </div>
+              {/* <div className="flex-1">
                 <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
                   Add company details
                 </h6>
                 <p className="pr-2 sm:pr-0">
                   Help us learn more about your mission.
                 </p>
-              </div>
+              </div> */}
             </div>
             <div className="flex items-center">
               <div className="flex items-center justify-center w-8 h-8 rounded-full transition-colors duration-100 bg-transparent border border-primary text-primary group-hover:bg-primary group-hover:text-slate-600">

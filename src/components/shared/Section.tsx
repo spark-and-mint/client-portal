@@ -1,5 +1,6 @@
 import { useStakeholderContext } from "@/context/AuthContext"
 import SectionSvg from "../../svg/SectionSvg"
+import { useLocation } from "react-router-dom"
 
 interface SectionProps {
   className?: string
@@ -19,27 +20,34 @@ const Section = ({
   children,
 }: SectionProps) => {
   const { stakeholder } = useStakeholderContext()
+  const location = useLocation()
+  const noPadding = location.pathname === "/hire"
+  const showLines = location.pathname === "/hire" || stakeholder.id
 
   return (
     <div
       id={id}
       className={`
       relative
-      ${customPaddings || `py-2 lg:py-16 ${crosses ? "lg:py-18" : ""}`}
+      ${
+        noPadding
+          ? ""
+          : customPaddings || `py-2 lg:py-16 ${crosses ? "lg:py-18" : ""}`
+      }
       ${className || ""}
       `}
     >
       {children}
       <div
         style={{
-          opacity: stakeholder.id ? 1 : 0,
+          opacity: showLines ? 1 : 0,
           transition: "opacity .5s ease-in-out",
         }}
         className="hidden absolute top-0 left-5 w-0.25 h-full bg-accent/40 pointer-events-none md:block lg:left-7.5 xl:left-40"
       />
       <div
         style={{
-          opacity: stakeholder.id ? 1 : 0,
+          opacity: showLines ? 1 : 0,
           transition: "opacity .5s ease-in-out",
         }}
         className="hidden absolute top-0 right-5 w-0.25 h-full bg-accent/40 pointer-events-none md:block lg:right-7.5 xl:right-40"
@@ -47,7 +55,7 @@ const Section = ({
       {crosses && (
         <div
           style={{
-            opacity: stakeholder.id ? 1 : 0,
+            opacity: showLines ? 1 : 0,
             transition: "opacity .5s ease-in-out",
           }}
         >
