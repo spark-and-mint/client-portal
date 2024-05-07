@@ -71,7 +71,7 @@ const Home = () => {
               </div>
               <div className="flex-1">
                 <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
-                  Hire talent
+                  Hire Talent
                 </h6>
                 <p className="pr-2 sm:pr-0">
                   Find the perfect fit for your project.

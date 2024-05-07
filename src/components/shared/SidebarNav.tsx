@@ -6,7 +6,7 @@ import {
   BriefcaseBusinessIcon,
   Scale,
   FileText,
-  Landmark,
+  Sparkles,
 } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { useStakeholderContext } from "@/context/AuthContext"
@@ -23,6 +23,11 @@ export function SidebarNav() {
       to: "/",
     },
     {
+      title: "Hire Talent",
+      icon: Sparkles,
+      to: "/hire",
+    },
+    {
       title: "My Projects",
       icon: BriefcaseBusinessIcon,
       to: "/projects",
@@ -30,11 +35,6 @@ export function SidebarNav() {
         projects && projects.documents.length > 0
           ? `${projects.documents.length}`
           : false,
-    },
-    {
-      title: "Company Details",
-      icon: Landmark,
-      to: "/details",
     },
     {
       title: "Legal Documents",
