@@ -5,6 +5,7 @@ import { Button } from "@/components/ui"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { SingleValue } from "react-select"
 import { IOption } from "@/types"
+import FadeIn from "react-fade-in"
 
 const goals: IOption[] = [
   {
@@ -65,7 +66,7 @@ interface GoalProps {
 
 const Goal = ({ goal, setGoal, setStep }: GoalProps) => {
   return (
-    <div>
+    <FadeIn>
       <HireHeading
         heading="Define your goal"
         text="What milestone do you aim to achieve?"
@@ -113,7 +114,7 @@ const Goal = ({ goal, setGoal, setStep }: GoalProps) => {
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
       </div>
-    </div>
+    </FadeIn>
   )
 }
 

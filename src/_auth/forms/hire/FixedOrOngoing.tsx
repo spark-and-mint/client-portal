@@ -2,10 +2,11 @@ import { ArrowLeft } from "lucide-react"
 import ButtonCard from "./ButtonCard"
 import HireHeading from "./HireHeading"
 import { Button } from "@/components/ui"
+import FadeIn from "react-fade-in"
 
 const FixedOrOngoing = ({ setFixedOrOngoing, setStep }) => {
   return (
-    <div>
+    <FadeIn>
       <HireHeading
         heading="Choose pricing model"
         text="Opt for a fixed price or a flexible monthly investment."
@@ -32,7 +33,7 @@ const FixedOrOngoing = ({ setFixedOrOngoing, setStep }) => {
           Back
         </Button>
       </div>
-    </div>
+    </FadeIn>
   )
 }
 

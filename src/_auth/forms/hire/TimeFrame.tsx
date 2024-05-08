@@ -2,6 +2,7 @@ import { Button } from "@/components/ui"
 import ButtonCard from "./ButtonCard"
 import HireHeading from "./HireHeading"
 import { ArrowLeft } from "lucide-react"
+import FadeIn from "react-fade-in"
 
 interface TimeFrameProps {
   setTimeFrame: (timeFrame: string) => void
@@ -17,7 +18,7 @@ const TimeFrame = ({
   const plural = individualOrTeam === "team"
 
   return (
-    <div>
+    <FadeIn>
       <HireHeading
         heading={
           plural
@@ -34,23 +35,23 @@ const TimeFrame = ({
         <ButtonCard
           heading="As soon as possible"
           onClick={() => {
-            setTimeFrame("As soon as possible"), setStep(7)
+            setTimeFrame("As soon as possible"), setStep(6)
           }}
         />
         <ButtonCard
           heading="In a few weeks from now"
           onClick={() => {
-            setTimeFrame("In a few weeks from now"), setStep(7)
+            setTimeFrame("In a few weeks from now"), setStep(6)
           }}
         />
       </div>
       <div className="mt-8">
-        <Button onClick={() => setStep(5)} size="sm" variant="ghost">
+        <Button onClick={() => setStep(4)} size="sm" variant="ghost">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
       </div>
-    </div>
+    </FadeIn>
   )
 }
 

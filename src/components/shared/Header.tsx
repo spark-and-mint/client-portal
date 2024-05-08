@@ -23,7 +23,9 @@ const Header = () => {
     return (
       <Section className="!px-0 !py-0 flex items-center min-h-24">
         <div className="container flex justify-between items-center">
-          <img src="/assets/logo.svg" alt="logo" className="w-[4.5rem]" />
+          <Link to={isAuthenticated ? "/" : "/sign-in"}>
+            <img src="/assets/logo.svg" alt="logo" className="w-[4.5rem]" />
+          </Link>
           <Button variant="outline">
             <Link to="#">Questions?</Link>
           </Button>

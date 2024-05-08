@@ -1,10 +1,11 @@
 import { UserIcon, UsersIcon } from "lucide-react"
 import ButtonCard from "./ButtonCard"
 import HireHeading from "./HireHeading"
+import FadeIn from "react-fade-in"
 
 const IndividualOrTeam = ({ setIndividualOrTeam, setStep }) => {
   return (
-    <div>
+    <FadeIn>
       <HireHeading
         heading="How can we contribute to your success?"
         text="Select your team size to get started."
@@ -27,7 +28,7 @@ const IndividualOrTeam = ({ setIndividualOrTeam, setStep }) => {
           }}
         />
       </div>
-    </div>
+    </FadeIn>
   )
 }
 

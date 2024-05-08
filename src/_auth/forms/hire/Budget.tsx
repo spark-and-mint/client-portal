@@ -1,67 +1,56 @@
 import HireHeading from "./HireHeading"
-import ButtonCard from "./ButtonCard"
-import { Button } from "@/components/ui"
-import { ArrowLeft } from "lucide-react"
+import { Button, Input, Label } from "@/components/ui"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import FadeIn from "react-fade-in"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
-const Budget = ({ setBudget, setStep, individualOrTeam, fixedOrOngoing }) => {
-  const plural = individualOrTeam === "team"
-  const fixed = fixedOrOngoing === "fixed"
+const Budget = ({ setBudget, setFixedOrOngoing, setStep }) => {
+  const handleSelect = (type: string) => {
+    setFixedOrOngoing(type)
+  }
 
   return (
-    <div>
-      <HireHeading
-        heading={
-          plural
-            ? `What is your ${
-                fixed ? "" : "monthly "
-              }budget range for this team?`
-            : `What is your ${
-                fixed ? "" : "monthly "
-              }budget range for this individual?`
-        }
-        text="All prices are in USD."
-      />
+    <FadeIn>
+      <HireHeading heading="What is your budget range for this project?" />
 
-      <div className="grid grid-cols-2 gap-4 mt-8">
-        <ButtonCard
-          small
-          text={fixed ? `$5,000 – $20,000` : "$5,000 – $10,000"}
-          onClick={() => {
-            setBudget(fixed ? `$5,000 – $20,000` : "$5,000 – $10,000"),
-              setStep(8)
-          }}
-        />
-        <ButtonCard
-          small
-          text={fixed ? `$20,000 – $55,000` : "$10,000 – $15,000"}
-          onClick={() => {
-            setBudget(fixed ? `$20,000 – $55,000` : "$10,000 – $15,000"),
-              setStep(8)
-          }}
-        />
-        <ButtonCard
-          small
-          text={fixed ? `$55,000 – $95,000` : "$15,000 – $20,000"}
-          onClick={() => {
-            setBudget(fixed ? `$55,000 – $95,000` : "$15,000 – $20,000"),
-              setStep(8)
-          }}
-        />
-        <ButtonCard
-          small
-          text={fixed ? "$95,000+" : "$20,000+"}
-          onClick={() => {
-            setBudget(fixed ? "$95,000+" : "$20,000+"), setStep(8)
-          }}
+      <div className="mt-6 space-y-6">
+        <Input
+          onChange={(e) => setBudget(e.target.value)}
+          placeholder="Enter your budget in USD"
+          className="h-12 px-3 py-2 text-base"
         />
       </div>
-      <div className="mt-8">
-        <Button onClick={() => setStep(6)} size="sm" variant="ghost">
+
+      <RadioGroup
+        onValueChange={handleSelect}
+        defaultValue="fixed"
+        className="mt-8 mb-10 space-y-2"
+      >
+        <div className="flex items-center space-x-3 cursor-pointer">
+          <RadioGroupItem value="fixed" id="fixed" />
+          <Label htmlFor="fixed" className="text-base cursor-pointer">
+            Fixed price
+          </Label>
+        </div>
+        <div className="flex items-center space-x-3 cursor-pointer">
+          <RadioGroupItem value="ongoing" id="ongoing" />
+          <Label htmlFor="ongoing" className="text-base cursor-pointer">
+            Monthly investment
+          </Label>
+        </div>
+      </RadioGroup>
+
+      <div className="flex justify-between mt-8">
+        <Button onClick={() => setStep(5)} size="sm" variant="ghost">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
+        <Button onClick={() => setStep(7)} size="sm">
+          Continue
+          <ArrowRight className="w-4 h-4 ml-2" />
+        </Button>
       </div>
-    </div>
+    </FadeIn>
   )
 }
 

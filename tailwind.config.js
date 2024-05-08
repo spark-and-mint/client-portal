@@ -135,6 +135,8 @@ module.exports = {
         "collapsible-up": "collapsible-up 250ms ease-out",
         "bounce-right": "bounce-right 1s ease-in infinite",
         wobble: "wobble 0.65s",
+        border: "border 4s ease infinite",
+        text: "text 3s ease infinite",
       },
       keyframes: {
         "accordion-down": {
@@ -198,6 +200,20 @@ module.exports = {
 
           to: {
             transform: "translate3d(0, 0, 0)",
+          },
+        },
+        border: {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        text: {
+          "0%, 100%": {
+            "background-size": "200% 200%",
+            "background-position": "left center",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right center",
           },
         },
       },
