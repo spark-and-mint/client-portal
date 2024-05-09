@@ -3,11 +3,11 @@ import HireHeading from "./HireHeading"
 import { Button, Input } from "@/components/ui"
 import FadeIn from "react-fade-in"
 
-const Skill = ({ setSkill, setStep }) => {
+const Skill = ({ skill, setSkill, setStep }) => {
   return (
     <FadeIn>
       <HireHeading
-        heading="What do you need to win? (optional)"
+        heading="What do you need to win?"
         text="Describe the skill requirements that you need to succeed."
       />
       <div className="mt-6 space-y-6">
@@ -22,7 +22,7 @@ const Skill = ({ setSkill, setStep }) => {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
-        <Button onClick={() => setStep(5)} size="sm">
+        <Button onClick={() => setStep(5)} size="sm" disabled={skill === ""}>
           Continue
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>

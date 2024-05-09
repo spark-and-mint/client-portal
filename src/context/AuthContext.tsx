@@ -27,6 +27,8 @@ const INITIAL_STATE = {
   setStakeholder: () => {},
   setIsAuthenticated: () => {},
   projectsWithNewUpdates: [],
+  hasRequest: false,
+  setHasRequest: () => {},
   checkAuthStakeholder: async () => false as boolean,
   serverError: false,
 }
@@ -38,6 +40,8 @@ type IContextType = {
   isAuthenticated: boolean
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
   projectsWithNewUpdates: Models.Document[]
+  hasRequest: boolean
+  setHasRequest: React.Dispatch<React.SetStateAction<boolean>>
   checkAuthStakeholder: () => Promise<boolean>
   serverError: boolean
 }
@@ -53,6 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [projectsWithNewUpdates, setProjectsWithNewUpdates] = useState<
     Models.Document[] | []
   >([])
+  const [hasRequest, setHasRequest] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [serverError, setServerError] = useState(false)
 
@@ -133,6 +138,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAuthenticated,
     setIsAuthenticated,
     projectsWithNewUpdates,
+    hasRequest,
+    setHasRequest,
     checkAuthStakeholder,
     serverError,
   }

@@ -13,7 +13,7 @@ import { useStakeholderContext } from "@/context/AuthContext"
 import { useGetClientProjects } from "@/lib/react-query/queries"
 
 export function SidebarNav() {
-  const { stakeholder } = useStakeholderContext()
+  const { stakeholder, hasRequest } = useStakeholderContext()
   const { data: projects } = useGetClientProjects(stakeholder?.clientId)
 
   const navLinks = [
@@ -26,6 +26,7 @@ export function SidebarNav() {
       title: "Hire Talent",
       icon: Sparkles,
       to: "/hire",
+      badge: hasRequest ? `1` : false,
     },
     {
       title: "My Projects",

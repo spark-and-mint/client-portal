@@ -14,11 +14,11 @@ import FadeIn from "react-fade-in"
 import { Link } from "react-router-dom"
 
 const Home = () => {
-  const { stakeholder } = useStakeholderContext()
+  const { stakeholder, hasRequest } = useStakeholderContext()
   // const { stakeholder, projectsWithNewUpdates } = useStakeholderContext()
 
   return (
-    <FadeIn className="pb-16 space-y-4">
+    <FadeIn className="pb-16 space-y-10">
       <div className="relative flex justify-between items-center mb-8 -mt-2">
         <div>
           <h4 className="h4 mb-1">
@@ -86,31 +86,33 @@ const Home = () => {
         </Link>
       )} */}
 
-      <Link to="/hire" className="block">
-        <BackgroundGradient className="rounded-xl bg-background">
-          <Card className="flex items-center justify-between group border-transparent hover:bg-slate-400/15 transition-colors duration-200">
-            <div className="flex items-center gap-6">
-              <div className="animate-border flex items-center justify-center w-11 h-11 bg-white bg-gradient-to-r from-cyan-300 via-purple-300 to-teal-300 bg-[length:400%_400%] text-slate-900 rounded-full">
-                <Sparkles strokeWidth={1.5} className="w-6 h-6" />
+      {!hasRequest && (
+        <Link to="/hire" className="block">
+          <BackgroundGradient className="rounded-xl bg-background">
+            <Card className="flex items-center justify-between group border-transparent hover:bg-slate-400/15 transition-colors duration-200">
+              <div className="flex items-center gap-6">
+                <div className="animate-border flex items-center justify-center w-11 h-11 bg-white bg-gradient-to-r from-cyan-300 via-purple-300 to-teal-300 bg-[length:400%_400%] text-slate-900 rounded-full">
+                  <Sparkles strokeWidth={1.5} className="w-6 h-6" />
+                </div>
+                <div className="flex-1">
+                  <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
+                    Hire Talent
+                  </h6>
+                  <p className="pr-2 sm:pr-0">
+                    Find the perfect fit for your project.
+                  </p>
+                </div>
               </div>
-              <div className="flex-1">
-                <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
-                  Hire Talent
-                </h6>
-                <p className="pr-2 sm:pr-0">
-                  Find the perfect fit for your project.
-                </p>
+              <div className="flex items-center">
+                <Button size="sm">
+                  Get started
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
               </div>
-            </div>
-            <div className="flex items-center">
-              <Button size="sm">
-                Get started
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
-          </Card>
-        </BackgroundGradient>
-      </Link>
+            </Card>
+          </BackgroundGradient>
+        </Link>
+      )}
 
       <div className="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2">
         <Card className="flex flex-col gap-5">
