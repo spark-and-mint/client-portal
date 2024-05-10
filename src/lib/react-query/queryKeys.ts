@@ -7,6 +7,7 @@ export enum QUERY_KEYS {
   GET_STAKEHOLDERS = "getStakeholders",
   GET_STAKEHOLDER_BY_ID = "getStakeholderById",
   GET_MEMBER_BY_ID = "getMemberById",
+  GET_STAKEHOLDER_REQUESTS = "getStakeholderRequests",
 
   // CLIENT KEYS
   GET_CLIENTS = "getClients",

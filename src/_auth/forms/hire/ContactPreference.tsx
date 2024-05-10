@@ -3,17 +3,16 @@ import { ArrowLeft, ArrowRight, RotateCw } from "lucide-react"
 import RadioButton from "./RadioButton"
 import HireHeading from "./HireHeading"
 import FadeIn from "react-fade-in"
-import { useEffect, useState } from "react"
-import { useStakeholderContext } from "@/context/AuthContext"
+import { useEffect } from "react"
 
 const ContactPreference = ({
   contactPreference,
   setContactPreference,
   setContactInfo,
+  handleSubmit,
+  isCreatingRequest,
   setStep,
 }) => {
-  const { setHasRequest } = useStakeholderContext()
-  const [loading, setLoading] = useState(false)
   const handleSelect = (preference: string) => {
     setContactPreference(preference)
   }
@@ -21,18 +20,6 @@ const ContactPreference = ({
   useEffect(() => {
     setContactInfo("")
   }, [setContactInfo])
-
-  useEffect(() => {
-    setHasRequest(true)
-  }, [setHasRequest])
-
-  const handleSubmit = () => {
-    setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      setStep(9)
-    }, 3000)
-  }
 
   return (
     <FadeIn>
@@ -70,9 +57,9 @@ const ContactPreference = ({
             contactPreference === "Email" ? handleSubmit() : setStep(8)
           }
           size="sm"
-          disabled={!contactPreference || loading}
+          disabled={!contactPreference || isCreatingRequest}
         >
-          {loading ? (
+          {isCreatingRequest ? (
             <div className="flex items-center gap-2">
               Submitting...
               <RotateCw className="h-4 w-4 animate-spin" />

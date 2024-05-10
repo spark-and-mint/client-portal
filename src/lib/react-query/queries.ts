@@ -47,6 +47,8 @@ import {
   getUpdateFeedback,
   getProjectsWithNewUpdates,
   createRequest,
+  getStakeholderRequests,
+  deleteRequest,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
@@ -402,5 +404,26 @@ export const useGetProjectsWithNewUpdates = (clientId: string) => {
 export const useCreateRequest = () => {
   return useMutation({
     mutationFn: (request: INewRequest) => createRequest(request),
+  })
+}
+
+export const useGetStakeholderRequests = (stakeholderId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_STAKEHOLDER_REQUESTS, stakeholderId],
+    queryFn: () => getStakeholderRequests(stakeholderId),
+    enabled: !!stakeholderId,
+  })
+}
+
+export const useDeleteRequest = () => {
+  const { setRequests } = useStakeholderContext()
+  return useMutation({
+    mutationFn: ({ requestId }: { requestId: string }) =>
+      deleteRequest(requestId),
+    onSuccess: (data) => {
+      setRequests((prev) =>
+        prev.filter((request) => request.$id !== data?.requestId)
+      )
+    },
   })
 }

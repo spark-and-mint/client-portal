@@ -9,10 +9,11 @@ const ContactInfo = ({
   contactPreference,
   contactInfo,
   setContactInfo,
+  handleSubmit,
+  isCreatingRequest,
   setStep,
 }) => {
   const [meetingBooked, setMeetingBooked] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
 
   const HEADINGS = {
     "Video meeting": "Book a meeting with us",
@@ -44,14 +45,6 @@ const ContactInfo = ({
   const PLACEHOLDERS = {
     Telegram: "SatoshiNakamoto",
     WhatsApp: "+1 (555) 987-6543",
-  }
-
-  const handleSubmit = () => {
-    setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      setStep(9)
-    }, 3000)
   }
 
   return (
@@ -86,9 +79,9 @@ const ContactInfo = ({
           <Button
             onClick={() => handleSubmit()}
             size="sm"
-            disabled={!meetingBooked || loading}
+            disabled={!meetingBooked || isCreatingRequest}
           >
-            {loading ? (
+            {isCreatingRequest ? (
               <div className="flex items-center gap-2">
                 Submitting...
                 <RotateCw className="h-4 w-4 animate-spin" />
@@ -104,9 +97,9 @@ const ContactInfo = ({
           <Button
             onClick={() => handleSubmit()}
             size="sm"
-            disabled={contactInfo === "" || loading}
+            disabled={contactInfo === "" || isCreatingRequest}
           >
-            {loading ? (
+            {isCreatingRequest ? (
               <div className="flex items-center gap-2">
                 Submitting...
                 <RotateCw className="h-4 w-4 animate-spin" />

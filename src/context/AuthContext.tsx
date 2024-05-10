@@ -4,6 +4,7 @@ import { IStakeholder } from "@/types"
 import {
   getCurrentStakeholder,
   getProjectsWithNewUpdates,
+  getStakeholderRequests,
 } from "@/lib/appwrite/api"
 import { Models } from "appwrite"
 
@@ -27,8 +28,8 @@ const INITIAL_STATE = {
   setStakeholder: () => {},
   setIsAuthenticated: () => {},
   projectsWithNewUpdates: [],
-  hasRequest: false,
-  setHasRequest: () => {},
+  requests: [],
+  setRequests: () => {},
   checkAuthStakeholder: async () => false as boolean,
   serverError: false,
 }
@@ -40,8 +41,8 @@ type IContextType = {
   isAuthenticated: boolean
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
   projectsWithNewUpdates: Models.Document[]
-  hasRequest: boolean
-  setHasRequest: React.Dispatch<React.SetStateAction<boolean>>
+  requests: Models.Document[]
+  setRequests: React.Dispatch<React.SetStateAction<Models.Document[]>>
   checkAuthStakeholder: () => Promise<boolean>
   serverError: boolean
 }
@@ -57,7 +58,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [projectsWithNewUpdates, setProjectsWithNewUpdates] = useState<
     Models.Document[] | []
   >([])
-  const [hasRequest, setHasRequest] = useState(false)
+  const [requests, setRequests] = useState<Models.Document[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [serverError, setServerError] = useState(false)
 
@@ -83,8 +84,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const projectsWithNewUpdatesData = await getProjectsWithNewUpdates(
           stakeholder.clientId
         )
-        setStakeholder(serverResponseToStakeholderModel(stakeholder))
         setProjectsWithNewUpdates(projectsWithNewUpdatesData || [])
+        const requests = await getStakeholderRequests(stakeholder.$id)
+        setRequests(requests?.documents || [])
+        setStakeholder(serverResponseToStakeholderModel(stakeholder))
         setIsAuthenticated(true)
         setServerError(false)
         return true
@@ -138,8 +141,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAuthenticated,
     setIsAuthenticated,
     projectsWithNewUpdates,
-    hasRequest,
-    setHasRequest,
+    requests,
+    setRequests,
     checkAuthStakeholder,
     serverError,
   }

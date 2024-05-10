@@ -24,7 +24,7 @@ const Budget = ({ setBudget, setFixedOrOngoing, setStep }) => {
       <RadioGroup
         onValueChange={handleSelect}
         defaultValue="fixed"
-        className="mt-8 mb-10 space-y-2"
+        className="mt-8 mb-10 pl-1 space-y-2"
       >
         <div className="flex items-center space-x-3 cursor-pointer">
           <RadioGroupItem value="fixed" id="fixed" />

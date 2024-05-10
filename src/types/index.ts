@@ -152,8 +152,12 @@ export type IFeedback = {
 export type INewRequest = {
   stakeholderId: string
   individualOrTeam: string
-  roles: string
+  fixedOrOngoing: string
+  goal: string
+  skill: string
   industry: string
   timeFrame: string
   budget: string
+  contactPreference: string
+  contactInfo: string
 }

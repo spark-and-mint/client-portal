@@ -20,6 +20,7 @@ import Section from "./components/shared/Section"
 import Details from "./_root/pages/Details"
 import ResetPassword from "./_auth/forms/ResetPassword"
 import Hire from "./_auth/forms/hire/Hire"
+import Requests from "./_root/pages/Requests"
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
 
           <Route element={<RootLayout />}>
             <Route index element={<Home />} />
+            <Route path="/requests" element={<Requests />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/project/:projectId" element={<Project />} />
             <Route path="/details" element={<Details />} />

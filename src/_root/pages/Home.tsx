@@ -14,11 +14,10 @@ import FadeIn from "react-fade-in"
 import { Link } from "react-router-dom"
 
 const Home = () => {
-  const { stakeholder, hasRequest } = useStakeholderContext()
-  // const { stakeholder, projectsWithNewUpdates } = useStakeholderContext()
+  const { stakeholder, requests } = useStakeholderContext()
 
   return (
-    <FadeIn className="pb-16 space-y-10">
+    <FadeIn className="pb-16 space-y-8">
       <div className="relative flex justify-between items-center mb-8 -mt-2">
         <div>
           <h4 className="h4 mb-1">
@@ -86,8 +85,8 @@ const Home = () => {
         </Link>
       )} */}
 
-      {!hasRequest && (
-        <Link to="/hire" className="block">
+      {requests && requests.length > 0 ? null : (
+        <Link to="/hire" className="block mt-9 mb-10">
           <BackgroundGradient className="rounded-xl bg-background">
             <Card className="flex items-center justify-between group border-transparent hover:bg-slate-400/15 transition-colors duration-200">
               <div className="flex items-center gap-6">

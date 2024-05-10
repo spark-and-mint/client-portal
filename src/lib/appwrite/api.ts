@@ -875,14 +875,55 @@ export async function createRequest(request: INewRequest) {
       {
         stakeholderId: request.stakeholderId,
         individualOrTeam: request.individualOrTeam,
-        roles: request.roles,
+        fixedOrOngoing: request.fixedOrOngoing,
+        goal: request.goal,
+        skill: request.skill,
         industry: request.industry,
         timeFrame: request.timeFrame,
         budget: request.budget,
+        contactPreference: request.contactPreference,
+        contactInfo: request.contactInfo,
       }
     )
 
     return newRequest
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getStakeholderRequests(stakeholderId: string) {
+  try {
+    const requests = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.requestCollectionId,
+      [
+        Query.equal("stakeholderId", stakeholderId),
+        Query.orderDesc("$createdAt"),
+      ]
+    )
+
+    if (!requests) throw Error
+
+    return requests
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function deleteRequest(requestId: string) {
+  if (!requestId) return
+
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.requestCollectionId,
+      requestId
+    )
+
+    if (!statusCode) throw Error
+
+    return { status: "Ok", requestId }
   } catch (error) {
     console.log(error)
   }

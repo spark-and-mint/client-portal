@@ -10,11 +10,12 @@ import {
 } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { useStakeholderContext } from "@/context/AuthContext"
-import { useGetClientProjects } from "@/lib/react-query/queries"
+// import { useGetClientProjects } from "@/lib/react-query/queries"
 
 export function SidebarNav() {
-  const { stakeholder, hasRequest } = useStakeholderContext()
-  const { data: projects } = useGetClientProjects(stakeholder?.clientId)
+  const { requests } = useStakeholderContext()
+  // const { data: projects } = useGetClientProjects(stakeholder?.clientId)
+  // const { data: requests } = useGetStakeholderRequests(stakeholder?.id)
 
   const navLinks = [
     {
@@ -25,17 +26,17 @@ export function SidebarNav() {
     {
       title: "Hire Talent",
       icon: Sparkles,
-      to: "/hire",
-      badge: hasRequest ? `1` : false,
+      to: requests && requests.length > 0 ? "/requests" : "/hire",
+      badge: requests && requests.length > 0 ? `${requests.length}` : false,
     },
     {
       title: "My Projects",
       icon: BriefcaseBusinessIcon,
       to: "/projects",
-      badge:
-        projects && projects.documents.length > 0
-          ? `${projects.documents.length}`
-          : false,
+      // badge:
+      //   projects && projects.documents.length > 0
+      //     ? `${projects.documents.length}`
+      //     : false,
     },
     {
       title: "Legal Documents",
@@ -70,7 +71,7 @@ export function SidebarNav() {
           {link.badge && (
             <span
               className={cn(
-                "ml-3 px-2.5 py-0.5 text-xs font-semibold rounded-full",
+                "ml-3 px-2 py-0.5 text-xs font-semibold rounded-full",
                 link.title === "My Projects"
                   ? "text-white bg-gray-700"
                   : "text-black bg-primary"
