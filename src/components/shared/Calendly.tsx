@@ -14,7 +14,7 @@ const Calendly = ({ setContactInfo }: CalendlyProps) => {
     <div>
       <Button variant="secondary" asChild>
         <PopupButton
-          url="https://calendly.com/spark-and-mint-talent/hello"
+          url="https://calendly.com/spark-and-mint-talent/brief"
           rootElement={document.getElementById("root")!}
           text="Click here to schedule"
         />
