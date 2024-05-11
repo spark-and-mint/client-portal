@@ -19,7 +19,7 @@ const Projects = () => {
     stakeholder?.clientId
   )
 
-  if (!client) {
+  if (!stakeholder.clientId) {
     return (
       <FadeIn>
         <Card className="flex flex-col items-center justify-center h-full py-16">
@@ -40,7 +40,7 @@ const Projects = () => {
 
   return (
     <div className="pb-16">
-      {!projects || !client || isPendingProjects || isPendingClient ? (
+      {!projects || !client || isPendingClient || isPendingProjects ? (
         <Card className="flex flex-col justify-between h-full p-2">
           <CardHeader>
             <CardTitle>

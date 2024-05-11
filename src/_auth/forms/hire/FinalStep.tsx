@@ -23,7 +23,7 @@ const FinalStep = ({ individualOrTeam }) => {
         <div className="animate-border flex items-center justify-center w-16 h-16 bg-white bg-gradient-to-r from-cyan-300 via-purple-300 to-teal-300 bg-[length:400%_400%] text-slate-900 rounded-full">
           <MailCheck strokeWidth={1.5} className="w-10 h-10" />
         </div>
-        <h3 className="h3 mt-4">
+        <h3 className="h5 sm:h3 mt-4">
           {individualOrTeam === "team"
             ? "Your Superstars are on the Way!"
             : "Your Superstar is on the Way!"}

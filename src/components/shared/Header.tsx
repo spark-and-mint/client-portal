@@ -7,7 +7,6 @@ import {
   BriefcaseBusiness,
   FileText,
   Home,
-  Landmark,
   PanelLeft,
   Scale,
   Sparkles,
@@ -73,10 +72,10 @@ const Header = () => {
                 <BriefcaseBusiness className="h-5 w-5" />
                 My Projects
               </Link>
-              <Link to="/details" className="flex items-center gap-4 px-2.5">
+              {/* <Link to="/details" className="flex items-center gap-4 px-2.5">
                 <Landmark className="h-5 w-5" />
                 Company details
-              </Link>
+              </Link> */}
               <Link to="/documents" className="flex items-center gap-4 px-2.5">
                 <Scale className="h-5 w-5" />
                 Legal documents
