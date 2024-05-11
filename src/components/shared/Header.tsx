@@ -14,12 +14,10 @@ import {
 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
 import StarSvg from "@/svg/StarSvg"
-import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 
 const Header = () => {
-  const { stakeholder, isAuthenticated, isLoading, requests } =
-    useStakeholderContext()
+  const { isAuthenticated, isLoading, requests } = useStakeholderContext()
   const { pathname } = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
 
