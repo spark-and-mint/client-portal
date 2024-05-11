@@ -47,14 +47,7 @@ const Header = () => {
       <div className="container flex justify-between items-center gap-10">
         <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
           <SheetTrigger asChild>
-            <Button
-              size="icon"
-              variant="outline"
-              className={cn(
-                "sm:hidden",
-                !stakeholder.emailVerification && "hidden"
-              )}
-            >
+            <Button size="icon" variant="outline" className="sm:hidden">
               <PanelLeft className="h-5 w-5" />
               <span className="sr-only">Toggle Menu</span>
             </Button>
