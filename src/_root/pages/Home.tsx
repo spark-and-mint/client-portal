@@ -10,11 +10,16 @@ import {
   ScrollText,
   Sparkles,
 } from "lucide-react"
+import { useEffect } from "react"
 import FadeIn from "react-fade-in"
 import { Link } from "react-router-dom"
 
 const Home = () => {
   const { stakeholder, requests } = useStakeholderContext()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <FadeIn className="pb-16 space-y-8">
