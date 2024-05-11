@@ -18,7 +18,11 @@ const Skill = ({ skill, setSkill, setStep }) => {
         />
       </div>
       <div className="flex justify-between mt-8">
-        <Button onClick={() => setStep(3)} size="sm" variant="ghost">
+        <Button
+          onClick={() => setStep(3)}
+          variant="link"
+          className="p-0 text-white"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>

@@ -1,9 +1,10 @@
-import { Trash2 } from "lucide-react"
+import { Dot, Trash2 } from "lucide-react"
 import { Card } from "../ui/card"
 import { Button } from "../ui"
 import { useConfirm } from "./AlertDialogProvider"
 import { toast } from "sonner"
 import { useDeleteRequest } from "@/lib/react-query/queries"
+import { Badge } from "../ui/badge"
 
 const RequestCard = ({ request }) => {
   const confirm = useConfirm()
@@ -38,9 +39,10 @@ const RequestCard = ({ request }) => {
         </div>
       </div>
       <div className="flex items-center">
-        <Button variant="outline" size="icon" onClick={handleDelete}>
-          <Trash2 strokeWidth={1.3} className="w-5 h-5" />
-        </Button>
+        <span className="flex gap-0.5 pr-3 pl-1 py-1.5 text-[0.9rem] border border-border rounded-lg">
+          <Dot className="w-6 h-6 text-amber-400 scale-150" />
+          In review
+        </span>
       </div>
     </Card>
   )

@@ -3,7 +3,6 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { IStakeholder } from "@/types"
 import {
   getCurrentStakeholder,
-  getProjectsWithNewUpdates,
   getStakeholderRequests,
 } from "@/lib/appwrite/api"
 import { Models } from "appwrite"
@@ -55,9 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [stakeholder, setStakeholder] =
     useState<IStakeholder>(INITIAL_STAKEHOLDER)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [projectsWithNewUpdates, setProjectsWithNewUpdates] = useState<
-    Models.Document[] | []
-  >([])
+  const [projectsWithNewUpdates] = useState<Models.Document[] | []>([])
   const [requests, setRequests] = useState<Models.Document[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [serverError, setServerError] = useState(false)
@@ -81,10 +78,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (stakeholder) {
-        const projectsWithNewUpdatesData = await getProjectsWithNewUpdates(
-          stakeholder.clientId
-        )
-        setProjectsWithNewUpdates(projectsWithNewUpdatesData || [])
+        // const projectsWithNewUpdatesData = await getProjectsWithNewUpdates(
+        //   stakeholder.clientId
+        // )
+        // setProjectsWithNewUpdates(projectsWithNewUpdatesData || [])
         const requests = await getStakeholderRequests(stakeholder.$id)
         setRequests(requests?.documents || [])
         setStakeholder(serverResponseToStakeholderModel(stakeholder))
@@ -124,7 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuthStakeholder().then((authenticated) => {
       if (
         !authenticated &&
-        location.pathname !== "/hire" &&
+        location.pathname !== "/start" &&
         location.pathname !== "/sign-up" &&
         location.pathname !== "/reset" &&
         location.pathname !== "/verify"

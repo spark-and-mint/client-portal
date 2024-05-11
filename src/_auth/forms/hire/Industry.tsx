@@ -68,7 +68,11 @@ const Industry = ({ setIndustry, setStep }) => {
         />
       </div>
       <div className="mt-8">
-        <Button onClick={() => setStep(2)} size="sm" variant="ghost">
+        <Button
+          onClick={() => setStep(2)}
+          variant="link"
+          className="p-0 text-white"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>

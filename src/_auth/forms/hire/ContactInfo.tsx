@@ -2,8 +2,7 @@ import { ArrowLeft, ArrowRight, AtSign, Phone, RotateCw } from "lucide-react"
 import HireHeading from "./HireHeading"
 import { Button, Input } from "@/components/ui"
 import FadeIn from "react-fade-in"
-import { useState } from "react"
-import { BookMeeting } from "@/components/shared/inputs"
+import VideoMeeting from "@/components/shared/inputs/VideoMeeting"
 
 const ContactInfo = ({
   contactPreference,
@@ -13,8 +12,6 @@ const ContactInfo = ({
   isCreatingRequest,
   setStep,
 }) => {
-  const [meetingBooked, setMeetingBooked] = useState<string | null>(null)
-
   const HEADINGS = {
     "Video meeting": "Book a meeting with us",
     Telegram: "Drop your Telegram handle",
@@ -55,9 +52,9 @@ const ContactInfo = ({
       />
       <div className="mt-6 space-y-6">
         {contactPreference === "Video meeting" ? (
-          <BookMeeting
-            meetingBooked={meetingBooked}
-            setMeetingBooked={setMeetingBooked}
+          <VideoMeeting
+            contactInfo={contactInfo}
+            setContactInfo={setContactInfo}
           />
         ) : (
           <div className="relative">
@@ -71,47 +68,32 @@ const ContactInfo = ({
         )}
       </div>
       <div className="flex justify-between mt-8">
-        <Button onClick={() => setStep(7)} size="sm" variant="ghost">
+        <Button
+          onClick={() => setStep(7)}
+          variant="link"
+          className="p-0 text-white"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
-        {contactPreference === "Video meeting" ? (
-          <Button
-            onClick={() => handleSubmit()}
-            size="sm"
-            disabled={!meetingBooked || isCreatingRequest}
-          >
-            {isCreatingRequest ? (
-              <div className="flex items-center gap-2">
-                Submitting...
-                <RotateCw className="h-4 w-4 animate-spin" />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                Submit
-                <ArrowRight className="w-4 h-4" />
-              </div>
-            )}
-          </Button>
-        ) : (
-          <Button
-            onClick={() => handleSubmit()}
-            size="sm"
-            disabled={contactInfo === "" || isCreatingRequest}
-          >
-            {isCreatingRequest ? (
-              <div className="flex items-center gap-2">
-                Submitting...
-                <RotateCw className="h-4 w-4 animate-spin" />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                Submit
-                <ArrowRight className="w-4 h-4" />
-              </div>
-            )}
-          </Button>
-        )}
+
+        <Button
+          onClick={() => handleSubmit()}
+          size="sm"
+          disabled={contactInfo === "" || isCreatingRequest}
+        >
+          {isCreatingRequest ? (
+            <div className="flex items-center gap-2">
+              Submitting...
+              <RotateCw className="h-4 w-4 animate-spin" />
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              Submit
+              <ArrowRight className="w-4 h-4" />
+            </div>
+          )}
+        </Button>
       </div>
     </FadeIn>
   )

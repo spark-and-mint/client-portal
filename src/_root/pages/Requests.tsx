@@ -20,8 +20,8 @@ const Requests = () => {
   return (
     <FadeIn className="pb-16">
       <div className="flex items-center justify-between mb-8">
-        <h5 className="h5">Talent requests</h5>
-        <Link to="/hire">
+        <h5 className="h5">Project requests</h5>
+        <Link to="/start">
           <Button size="sm">
             <PlusIcon className="mr-2 h-4 w-4" />
             New request

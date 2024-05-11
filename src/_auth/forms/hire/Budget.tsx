@@ -41,7 +41,11 @@ const Budget = ({ setBudget, setFixedOrOngoing, setStep }) => {
       </RadioGroup>
 
       <div className="flex justify-between mt-8">
-        <Button onClick={() => setStep(5)} size="sm" variant="ghost">
+        <Button
+          onClick={() => setStep(5)}
+          variant="link"
+          className="p-0 text-white"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>

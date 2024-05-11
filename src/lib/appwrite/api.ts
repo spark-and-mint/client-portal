@@ -883,6 +883,7 @@ export async function createRequest(request: INewRequest) {
         budget: request.budget,
         contactPreference: request.contactPreference,
         contactInfo: request.contactInfo,
+        status: "in review",
       }
     )
 

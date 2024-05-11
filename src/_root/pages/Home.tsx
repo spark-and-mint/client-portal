@@ -61,7 +61,7 @@ const Home = () => {
           ))}
         </>
       ) : (
-        <Link to="/hire" className="block">
+        <Link to="/start" className="block">
           <Card className="flex items-center justify-between group hover:bg-slate-400/15 hover:border-cyan-400 transition-colors duration-100">
             <div className="flex items-center gap-6">
               <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full">
@@ -86,7 +86,7 @@ const Home = () => {
       )} */}
 
       {requests && requests.length > 0 ? null : (
-        <Link to="/hire" className="block mt-9 mb-10">
+        <Link to="/start" className="block mt-9 mb-10">
           <BackgroundGradient className="rounded-xl bg-background">
             <Card className="flex items-center justify-between group border-transparent hover:bg-slate-400/15 transition-colors duration-200">
               <div className="flex items-center gap-6">
@@ -95,10 +95,10 @@ const Home = () => {
                 </div>
                 <div className="flex-1">
                   <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
-                    Hire Talent
+                    Start a Project
                   </h6>
                   <p className="pr-2 sm:pr-0">
-                    Find the perfect fit for your project.
+                    Find the best talent to bring your vision to life.
                   </p>
                 </div>
               </div>

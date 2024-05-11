@@ -15,7 +15,6 @@ import { useStakeholderContext } from "@/context/AuthContext"
 export function SidebarNav() {
   const { requests } = useStakeholderContext()
   // const { data: projects } = useGetClientProjects(stakeholder?.clientId)
-  // const { data: requests } = useGetStakeholderRequests(stakeholder?.id)
 
   const navLinks = [
     {
@@ -24,9 +23,9 @@ export function SidebarNav() {
       to: "/",
     },
     {
-      title: "Hire Talent",
+      title: "Start a Project",
       icon: Sparkles,
-      to: requests && requests.length > 0 ? "/requests" : "/hire",
+      to: requests && requests.length > 0 ? "/requests" : "/start",
       badge: requests && requests.length > 0 ? `${requests.length}` : false,
     },
     {

@@ -5,7 +5,7 @@ const AuthLayout = () => {
   const { isAuthenticated } = useStakeholderContext()
   const location = useLocation()
 
-  if (location.pathname === "/hire") {
+  if (location.pathname === "/start") {
     return <Outlet />
   }
 

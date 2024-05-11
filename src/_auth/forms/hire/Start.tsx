@@ -15,7 +15,7 @@ import Success from "./Success"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { useCreateRequest } from "@/lib/react-query/queries"
 
-const Hire = () => {
+const Start = () => {
   const { stakeholder, setRequests } = useStakeholderContext()
   const [step, setStep] = useState(1)
   const [individualOrTeam, setIndividualOrTeam] = useState("")
@@ -115,4 +115,4 @@ const Hire = () => {
   )
 }
 
-export default Hire
+export default Start

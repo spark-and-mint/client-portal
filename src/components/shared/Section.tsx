@@ -21,8 +21,8 @@ const Section = ({
 }: SectionProps) => {
   const { stakeholder } = useStakeholderContext()
   const location = useLocation()
-  const noPadding = location.pathname === "/hire"
-  const showLines = location.pathname === "/hire" || stakeholder.id
+  const noPadding = location.pathname === "/start"
+  const showLines = location.pathname === "/start" || stakeholder.id
 
   return (
     <div

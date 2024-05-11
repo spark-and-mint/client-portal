@@ -19,7 +19,7 @@ const Header = () => {
   const { stakeholder, isAuthenticated, isLoading } = useStakeholderContext()
   const location = useLocation()
 
-  if (location.pathname === "/hire") {
+  if (location.pathname === "/start") {
     return (
       <Section className="!px-0 !py-0 flex items-center min-h-24">
         <div className="container flex justify-between items-center">
