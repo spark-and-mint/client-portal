@@ -10,16 +10,24 @@ import {
   Landmark,
   PanelLeft,
   Scale,
+  Sparkles,
 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
 import StarSvg from "@/svg/StarSvg"
 import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
 
 const Header = () => {
-  const { stakeholder, isAuthenticated, isLoading } = useStakeholderContext()
-  const location = useLocation()
+  const { stakeholder, isAuthenticated, isLoading, requests } =
+    useStakeholderContext()
+  const { pathname } = useLocation()
+  const [menuOpen, setMenuOpen] = useState(false)
 
-  if (location.pathname === "/start") {
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
+
+  if (pathname === "/start") {
     return (
       <Section className="!px-0 !py-0 flex items-center min-h-24">
         <div className="container flex justify-between items-center">
@@ -37,7 +45,7 @@ const Header = () => {
   return (
     <Section className="!px-0 !py-0 flex items-center min-h-24">
       <div className="container flex justify-between items-center gap-10">
-        <Sheet>
+        <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
           <SheetTrigger asChild>
             <Button
               size="icon"
@@ -54,38 +62,35 @@ const Header = () => {
           <SheetContent side="left" className="sm:max-w-xs">
             <nav className="grid gap-6 text-lg font-medium">
               <StarSvg className="w-8 h-8 mb-8 pl-2" />
-              <Link
-                to="/"
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-              >
+              <Link to="/" className="flex items-center gap-4 px-2.5">
                 <Home className="h-5 w-5" />
                 Home
               </Link>
               <Link
-                to="/projects"
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                to={requests && requests.length > 0 ? "/requests" : "/start"}
+                className="flex items-center gap-4 px-2.5"
               >
+                <Sparkles className="h-5 w-5" />
+                Start a Project
+                {requests && requests.length > 0 && (
+                  <span className="ml-2 px-2.5 py-1 text-xs font-semibold rounded-full text-black bg-primary">
+                    {requests.length}
+                  </span>
+                )}
+              </Link>
+              <Link to="/projects" className="flex items-center gap-4 px-2.5">
                 <BriefcaseBusiness className="h-5 w-5" />
                 My Projects
               </Link>
-              <Link
-                to="/details"
-                className="flex items-center gap-4 px-2.5 text-foreground"
-              >
+              <Link to="/details" className="flex items-center gap-4 px-2.5">
                 <Landmark className="h-5 w-5" />
                 Company details
               </Link>
-              <Link
-                to="/documents"
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-              >
+              <Link to="/documents" className="flex items-center gap-4 px-2.5">
                 <Scale className="h-5 w-5" />
                 Legal documents
               </Link>
-              <Link
-                to="/invoices"
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-              >
+              <Link to="/invoices" className="flex items-center gap-4 px-2.5">
                 <FileText className="h-5 w-5" />
                 Invoices
               </Link>

@@ -13,7 +13,7 @@ const confettiProps: ConfettiProps = {
   zIndex: 1000,
 }
 
-const Success = ({ individualOrTeam }) => {
+const FinalStep = ({ individualOrTeam }) => {
   return (
     <FadeIn>
       <div className="flex flex-col mt-4 items-center text-center">
@@ -28,7 +28,7 @@ const Success = ({ individualOrTeam }) => {
             ? "Your Superstars are on the Way!"
             : "Your Superstar is on the Way!"}
         </h3>
-        <p className="w-[34rem] mt-2 text-[1.1rem] text-muted-foreground leading-7">
+        <p className="sm:w-[34rem] mt-2 text-[1.1rem] text-muted-foreground leading-7">
           Thanks for submitting your request. A Spark representative will
           connect with you within a business day to outline our game plan. Get
           ready to make some waves!
@@ -46,4 +46,4 @@ const Success = ({ individualOrTeam }) => {
   )
 }
 
-export default Success
+export default FinalStep

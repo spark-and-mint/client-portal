@@ -88,22 +88,20 @@ const Home = () => {
       {requests && requests.length > 0 ? null : (
         <Link to="/start" className="block mt-9 mb-10">
           <BackgroundGradient className="rounded-xl bg-background">
-            <Card className="flex items-center justify-between group border-transparent hover:bg-slate-400/15 transition-colors duration-200">
-              <div className="flex items-center gap-6">
-                <div className="animate-border flex items-center justify-center w-11 h-11 bg-white bg-gradient-to-r from-cyan-300 via-purple-300 to-teal-300 bg-[length:400%_400%] text-slate-900 rounded-full">
+            <Card className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 group border-transparent hover:bg-slate-400/15 transition-colors duration-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6">
+                <div className="animate-border flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 bg-white bg-gradient-to-r from-cyan-300 via-purple-300 to-teal-300 bg-[length:400%_400%] text-slate-900 rounded-full">
                   <Sparkles strokeWidth={1.5} className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
-                  <h6 className="h6 text-lg mb-1 group-hover:text-white transition-colors duration-100">
+                  <h6 className="h6 text-lg mb-2 group-hover:text-white transition-colors duration-100">
                     Start a Project
                   </h6>
-                  <p className="pr-2 sm:pr-0">
-                    Find the best talent to bring your vision to life.
-                  </p>
+                  <p>Find the best talent to bring your vision to life.</p>
                 </div>
               </div>
-              <div className="flex items-center">
-                <Button size="sm">
+              <div className="flex items-center mt-2">
+                <Button>
                   Get started
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>

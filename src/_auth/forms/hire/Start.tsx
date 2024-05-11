@@ -11,7 +11,7 @@ import ContactPreference from "./ContactPreference"
 import ContactInfo from "./ContactInfo"
 import ProgressBar from "./ProgressBar"
 import { toast } from "sonner"
-import Success from "./Success"
+import FinalStep from "./FinalStep"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { useCreateRequest } from "@/lib/react-query/queries"
 
@@ -97,7 +97,7 @@ const Start = () => {
         setStep={setStep}
       />
     ),
-    9: <Success individualOrTeam={individualOrTeam} />,
+    9: <FinalStep individualOrTeam={individualOrTeam} />,
   }
 
   return (

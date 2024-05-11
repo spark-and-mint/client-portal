@@ -7,7 +7,7 @@ import {
   useGetClientProjects,
 } from "@/lib/react-query/queries"
 import { Models } from "appwrite"
-import { TreePalm } from "lucide-react"
+import { BriefcaseBusinessIcon } from "lucide-react"
 import FadeIn from "react-fade-in"
 
 const Projects = () => {
@@ -18,6 +18,25 @@ const Projects = () => {
   const { data: client, isPending: isPendingClient } = useGetClientById(
     stakeholder?.clientId
   )
+
+  if (!client) {
+    return (
+      <FadeIn>
+        <Card className="flex flex-col items-center justify-center h-full py-16">
+          <BriefcaseBusinessIcon
+            strokeWidth={1}
+            className="h-14 w-14 text-primary"
+          />
+          <h6 className="h6 text-[1.325rem] mt-3 text-center">
+            No projects started yet
+          </h6>
+          <p className="mt-2 text-muted-foreground text-center ">
+            All your projects will be listed here.
+          </p>
+        </Card>
+      </FadeIn>
+    )
+  }
 
   return (
     <div className="pb-16">
@@ -65,7 +84,10 @@ const Projects = () => {
           ) : (
             <FadeIn>
               <Card className="flex flex-col items-center justify-center h-full py-16">
-                <TreePalm strokeWidth={1} className="h-14 w-14 text-primary" />
+                <BriefcaseBusinessIcon
+                  strokeWidth={1}
+                  className="h-14 w-14 text-primary"
+                />
                 <h6 className="h6 text-[1.325rem] mt-3 text-center">
                   No projects started yet
                 </h6>
