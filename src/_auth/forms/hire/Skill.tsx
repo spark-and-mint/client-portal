@@ -12,6 +12,7 @@ const Skill = ({ skill, setSkill, setStep }) => {
       />
       <div className="mt-6 space-y-6">
         <Input
+          defaultValue={skill}
           onChange={(e) => setSkill(e.target.value)}
           placeholder="ML Optimization, Smart Contracts, Mobile UX/UI Design..."
           className="h-12 px-3 py-2 text-base"

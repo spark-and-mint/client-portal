@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
-const Budget = ({ setBudget, setFixedOrOngoing, setStep }) => {
+const Budget = ({ budget, setBudget, setFixedOrOngoing, setStep }) => {
   const handleSelect = (type: string) => {
     setFixedOrOngoing(type)
   }
@@ -15,6 +15,7 @@ const Budget = ({ setBudget, setFixedOrOngoing, setStep }) => {
 
       <div className="mt-6 space-y-6">
         <Input
+          defaultValue={budget}
           onChange={(e) => setBudget(e.target.value)}
           placeholder="Enter your budget in USD"
           className="h-12 px-3 py-2 text-base"
@@ -49,7 +50,7 @@ const Budget = ({ setBudget, setFixedOrOngoing, setStep }) => {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
-        <Button onClick={() => setStep(7)} size="sm">
+        <Button onClick={() => setStep(7)} size="sm" disabled={budget === ""}>
           Continue
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>

@@ -72,6 +72,7 @@ const Start = () => {
     ),
     6: (
       <Budget
+        budget={budget}
         setBudget={setBudget}
         setStep={setStep}
         setFixedOrOngoing={setFixedOrOngoing}
