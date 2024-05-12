@@ -46,7 +46,7 @@ const Start = () => {
     })
 
     if (request) {
-      setRequests((prev) => [...prev, request])
+      setRequests((prev) => [...prev, request].reverse())
       setStep(9)
     } else {
       toast.error("Failed to create request. Please try again")
