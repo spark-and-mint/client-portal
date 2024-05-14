@@ -21,7 +21,7 @@ const ProjectCard = ({
             {client?.logoUrl ? (
               <img
                 src={client?.logoUrl.toString()}
-                className="w-14 h-14 rounded-full"
+                className="w-14 h-14 rounded-full border border-slate-600"
               />
             ) : (
               <Avatar>
