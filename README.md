@@ -1,1 +1,1 @@
-# Spark + Mint Client Portal
+# TeamSpark Client Portal

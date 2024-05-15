@@ -38,7 +38,7 @@ const EmailVerification = () => {
         navigate("/")
       } catch (error) {
         toast.error(
-          "Could not verify your email. Please contact Spark + Mint for assistance."
+          "Could not verify your email. Please contact TeamSpark for assistance."
         )
         console.log(error)
       }

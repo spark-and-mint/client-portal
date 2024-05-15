@@ -81,7 +81,7 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
 
     const approvalConfirmed = await confirm({
       title: `Are you sure you want to approve this milestone?`,
-      body: "This action cannot be undone unless you contact Spark + Mint.",
+      body: "This action cannot be undone unless you contact TeamSpark.",
       cancelButton: "Cancel",
       actionButton: "Approve",
     })

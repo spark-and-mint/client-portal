@@ -29,7 +29,7 @@ const Home = () => {
             Hello, <span className="capitalize">{stakeholder.firstName}</span>!
           </h4>
           <p className={cn("max-w-[34rem] mt-1.5 text-lg")}>
-            Welcome to the Spark + Mint client portal.
+            Welcome to the TeamSpark client portal.
           </p>
         </div>
         <img

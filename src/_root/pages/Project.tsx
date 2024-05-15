@@ -87,7 +87,7 @@ const Project = () => {
                 {project.sparkRep?.email && (
                   <div>
                     <div className="mt-4 text-primary tracking-[0.08em] uppercase text-xs font-semibold">
-                      Spark + Mint Representative
+                      TeamSpark Representative
                     </div>
 
                     <div className="mt-4 space-y-6 gap-4">

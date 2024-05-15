@@ -27,7 +27,7 @@ const TimeFrame = ({
         }
         text={
           plural
-            ? "Spark + Mint requires 5 business days to assemble a customized team and finalize contracts."
+            ? "TeamSpark requires 5 business days to assemble a customized team and finalize contracts."
             : null
         }
       />
