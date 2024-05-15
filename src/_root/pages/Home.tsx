@@ -127,7 +127,11 @@ const Home = () => {
           </div>
           <div className="mt-2">
             <Button asChild variant="secondary">
-              <Link to="/community" className="flex items-center">
+              <Link
+                to="https://mirror.xyz/0x6Bc6Fad80Dc2FD5CB2744db381bCfeE2b824da0E/NcWrygP3bmWqzZZ7ZkLzA9s4fzhmYuqx1P0Wp-nQ4_o"
+                target="_blank"
+                className="flex items-center"
+              >
                 Open manifesto <ExternalLink className="w-4 h-4 ml-2" />
               </Link>
             </Button>
