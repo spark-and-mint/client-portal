@@ -93,7 +93,10 @@ const SignUpForm = () => {
     <div className="mt-8 sm:mt-0 pb-16">
       <Form {...form}>
         <StarSvg className="w-8 h-8 mb-6 mx-auto" />
-        <h1 className="h5 mb-8 text-center">Create your account</h1>
+        <h1 className="h5 text-center">Game On!</h1>
+        <p className="mt-1 mb-8 text-sm text-muted-foreground text-center">
+          Let's start by creating an account.
+        </p>
         <form onSubmit={form.handleSubmit(handleSignUp)} className="space-y-4">
           <FormField
             control={form.control}
