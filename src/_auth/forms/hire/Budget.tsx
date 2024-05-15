@@ -14,12 +14,17 @@ const Budget = ({ budget, setBudget, setFixedOrOngoing, setStep }) => {
       <HireHeading heading="What is your budget range for this project?" />
 
       <div className="mt-6 space-y-6">
-        <Input
-          defaultValue={budget}
-          onChange={(e) => setBudget(e.target.value)}
-          placeholder="Enter your budget in USD"
-          className="h-12 px-3 py-2 text-base"
-        />
+        <div className="relative">
+          <span className="absolute left-[1.1rem] top-1/2 -translate-y-1/2 text-muted-foreground text-lg">
+            $
+          </span>
+          <Input
+            defaultValue={budget}
+            onChange={(e) => setBudget(e.target.value)}
+            placeholder="Enter your budget in USD"
+            className="h-12 px-3 py-2 pl-[2.45rem] text-base"
+          />
+        </div>
       </div>
 
       <RadioGroup
