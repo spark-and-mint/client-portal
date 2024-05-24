@@ -21,6 +21,8 @@ import Details from "./_root/pages/Details"
 import ResetPassword from "./_auth/forms/ResetPassword"
 import Start from "./_auth/forms/hire/Start"
 import Requests from "./_root/pages/Requests"
+import Partners from "./_root/pages/Partners"
+import OAuth2Callback from "./_auth/OAuth2Callback"
 
 const App = () => {
   return (
@@ -36,6 +38,7 @@ const App = () => {
             <Route path="/sign-in" element={<SignInForm />} />
             <Route path="/sign-up" element={<SignUpForm />} />
             <Route path="/reset" element={<ResetPassword />} />
+            <Route path="/oauth2callback" element={<OAuth2Callback />} />
           </Route>
 
           <Route element={<RootLayout />}>
@@ -45,6 +48,7 @@ const App = () => {
             <Route path="/project/:projectId" element={<Project />} />
             <Route path="/details" element={<Details />} />
             <Route path="/documents" element={<Documents />} />
+            <Route path="/partners" element={<Partners />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/account" element={<Account />} />
             <Route path="/verify" element={<EmailVerification />} />

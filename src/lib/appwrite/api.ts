@@ -13,6 +13,7 @@ import {
   INewFeedback,
   IMilestone,
   INewRequest,
+  INewOAuthStakeholder,
 } from "@/types"
 import { nanoid } from "nanoid"
 
@@ -31,16 +32,6 @@ export async function createStakeholderAccount(stakeholder: INewStakeholder) {
       `${stakeholder.firstName} ${stakeholder.lastName}`
     )
 
-    // const newStakeholder = await saveStakeholderToDB({
-    //   accountId: newAccount.$id,
-    //   email: newAccount.email,
-    //   name: `${stakeholder.firstName} ${stakeholder.lastName}`,
-    //   firstName: stakeholder.firstName,
-    //   lastName: stakeholder.lastName,
-    //   company: stakeholder.company,
-    //   avatarUrl,
-    // })
-
     const newStakeholder = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.stakeholderCollectionId,
@@ -50,7 +41,6 @@ export async function createStakeholderAccount(stakeholder: INewStakeholder) {
         email: newAccount.email,
         firstName: stakeholder.firstName,
         lastName: stakeholder.lastName,
-        company: stakeholder.company,
         avatarUrl,
         avatarId: nanoid(),
       }
@@ -63,28 +53,25 @@ export async function createStakeholderAccount(stakeholder: INewStakeholder) {
   }
 }
 
-export async function saveStakeholderToDB(stakeholder: {
-  accountId: string
-  email: string
-  name: string
-  firstName: string
-  lastName: string
-  company: string
-  avatarUrl: URL
-}) {
+export async function createOAuthStakeholderAccount(
+  stakeholder: INewOAuthStakeholder,
+  userId: string
+) {
   try {
+    const avatarUrl = avatars.getInitials(
+      `${stakeholder.firstName} ${stakeholder.lastName}`
+    )
+
     const newStakeholder = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.stakeholderCollectionId,
       ID.unique(),
       {
-        accountId: stakeholder.accountId,
+        accountId: userId,
         email: stakeholder.email,
-        name: stakeholder.name,
         firstName: stakeholder.firstName,
         lastName: stakeholder.lastName,
-        company: stakeholder.company,
-        avatarUrl: stakeholder.avatarUrl,
+        avatarUrl,
         avatarId: nanoid(),
       }
     )
@@ -92,6 +79,7 @@ export async function saveStakeholderToDB(stakeholder: {
     return newStakeholder
   } catch (error) {
     console.log(error)
+    return error
   }
 }
 
@@ -320,7 +308,6 @@ export async function updateClient(client: IClient) {
       {
         name: client.name,
         description: client.description,
-        resources: client.resources,
         logoUrl: logo.logoUrl,
         logoId: logo.logoId,
       }
@@ -927,5 +914,42 @@ export async function deleteRequest(requestId: string) {
     return { status: "Ok", requestId }
   } catch (error) {
     console.log(error)
+  }
+}
+
+export async function getClientDocuments(clientId?: string) {
+  if (!clientId) return
+
+  try {
+    const documents = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.documentCollectionId,
+      [Query.equal("clientId", clientId), Query.orderDesc("$createdAt")]
+    )
+
+    if (!documents) throw Error
+
+    return documents
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function checkIfUserExists(email: string) {
+  try {
+    const userDoc = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.stakeholderCollectionId,
+      [Query.equal("email", email)]
+    )
+
+    if (userDoc.total > 0) {
+      return userDoc.documents[0]
+    } else {
+      return null
+    }
+  } catch (error) {
+    console.error("Error checking user existence:", error)
+    return null
   }
 }

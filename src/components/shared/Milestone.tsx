@@ -182,7 +182,11 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
                       </Button>
                     )}
                     <Button
-                      variant="secondary"
+                      variant={
+                        milestone.status === "approval requested"
+                          ? "default"
+                          : "secondary"
+                      }
                       disabled={
                         loadingApproval || (updates && updates?.length === 0)
                       }

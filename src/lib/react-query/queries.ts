@@ -49,6 +49,7 @@ import {
   createRequest,
   getStakeholderRequests,
   deleteRequest,
+  getClientDocuments,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
@@ -425,5 +426,13 @@ export const useDeleteRequest = () => {
         prev.filter((request) => request.$id !== data?.requestId)
       )
     },
+  })
+}
+
+export const useGetClientDocuments = (clientId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CLIENT_DOCUMENTS, clientId],
+    queryFn: () => getClientDocuments(clientId),
+    enabled: !!clientId,
   })
 }

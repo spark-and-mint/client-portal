@@ -18,6 +18,8 @@ import { useSignInAccount } from "@/lib/react-query/queries"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { ArrowRight, RotateCw } from "lucide-react"
 import StarSvg from "@/svg/StarSvg"
+import GoogleIcon from "@/svg/GoogleIcon"
+import { account } from "@/lib/appwrite/config"
 
 const SignInForm = () => {
   const navigate = useNavigate()
@@ -54,11 +56,38 @@ const SignInForm = () => {
     }
   }
 
+  const onGoogleSignIn = async () => {
+    try {
+      account.createOAuth2Session(
+        "google",
+        "http://localhost:5175/oauth2callback"
+      )
+    } catch (error) {
+      toast.error("Login failed. Please try again.")
+    }
+  }
+
   return (
     <div className="mt-16 sm:mt-3">
       <Form {...form}>
         <StarSvg className="w-8 h-8 mb-8 mx-auto" />
         <h5 className="h5 mb-8 text-center">Log in to TeamSpark</h5>
+        <Button
+          variant="secondary"
+          size="sm"
+          className="flex items-center w-full h-10 text-xs font-medium"
+          onClick={onGoogleSignIn}
+        >
+          <GoogleIcon className="w-3 h-3 mr-3 text-white" />
+          Continue with Google
+        </Button>
+
+        <div className="flex items-center justify-center mt-6 mb-4">
+          <div className="w-full border-b border-border"></div>
+          <p className="mx-4 text-sm text-muted-foreground">or</p>
+          <div className="w-full border-b border-border"></div>
+        </div>
+
         <form onSubmit={form.handleSubmit(handleSignin)} className="space-y-4">
           <FormField
             control={form.control}

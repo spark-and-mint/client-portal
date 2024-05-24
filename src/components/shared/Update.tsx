@@ -1,4 +1,4 @@
-import { ChevronDown, Trash2, X } from "lucide-react"
+import { ChevronDown, ChevronUp, Trash2 } from "lucide-react"
 import { Button } from "../ui"
 import { Card } from "../ui/card"
 import FeedbackForm from "./FeedbackForm"
@@ -96,7 +96,7 @@ const Update = ({ update, setHasFeedback }) => {
             </div>
             <Button variant="ghost" size="sm" className="w-9 p-0">
               {isOpen ? (
-                <X className="h-6 w-6" />
+                <ChevronUp className="h-6 w-6" />
               ) : (
                 <ChevronDown className="h-6 w-6" />
               )}

@@ -3,7 +3,6 @@ export type INewStakeholder = {
   password: string
   firstName: string
   lastName: string
-  company: string
 }
 
 export type IStakeholder = {
@@ -12,11 +11,16 @@ export type IStakeholder = {
   email: string
   firstName: string
   lastName: string
-  company: string
   name: string
   avatarUrl: string
   avatarId: string
   emailVerification: boolean
+}
+
+export type INewOAuthStakeholder = {
+  email: string
+  firstName: string
+  lastName: string
 }
 
 export type IUpdateStakeholder = {
@@ -41,13 +45,7 @@ export type IMember = {
   importedAnswers: boolean
   name: string
   timezone: string
-  status:
-    | "in review"
-    | "1on1 done"
-    | "invite shared"
-    | "accepted"
-    | "rejected"
-    | null
+  status: string
   profileId: string
   profile: {
     workStatus: string
@@ -81,14 +79,13 @@ export type IClient = {
   website?: string
   description?: string
   stakeholders?: IStakeholder[]
-  resources?: IResource[]
   projects?: IProject[]
 }
 
-export type IResource = {
+export type IDocument = {
+  clientId: string
   title: string
   link: string
-  type: "design" | "document" | "other"
 }
 
 export type IOption = {

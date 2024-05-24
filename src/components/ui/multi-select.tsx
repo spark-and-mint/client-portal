@@ -142,7 +142,7 @@ const CommandEmpty = forwardRef<
   return (
     <div
       ref={forwardedRef}
-      className={cn("py-6 text-center text-sm", className)}
+      className={cn("py-6 text-center sm:text-sm", className)}
       cmdk-empty=""
       role="presentation"
       {...props}
@@ -361,7 +361,7 @@ const MultipleSelector = React.forwardRef<
       >
         <div
           className={cn(
-            "group rounded-md border border-accent bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+            "group rounded-md border border-accent bg-background px-3 py-2 sm:text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
             className
           )}
         >

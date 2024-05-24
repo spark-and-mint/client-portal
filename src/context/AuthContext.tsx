@@ -13,7 +13,6 @@ export const INITIAL_STAKEHOLDER: IStakeholder = {
   email: "",
   firstName: "",
   lastName: "",
-  company: "",
   name: "",
   avatarUrl: "",
   avatarId: "",
@@ -124,7 +123,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         location.pathname !== "/start" &&
         location.pathname !== "/sign-up" &&
         location.pathname !== "/reset" &&
-        location.pathname !== "/verify"
+        location.pathname !== "/verify" &&
+        location.pathname !== "/oauth2callback"
       ) {
         navigate("/sign-in")
       }

@@ -12,6 +12,7 @@ export enum QUERY_KEYS {
   // CLIENT KEYS
   GET_CLIENTS = "getClients",
   GET_CLIENT_BY_ID = "getClientById",
+  GET_CLIENT_DOCUMENTS = "getClientDocuments",
 
   // UPDATE KEYS
   GET_UPDATES_BY_PROJECT_ID = "getUpdatesByProjectId",

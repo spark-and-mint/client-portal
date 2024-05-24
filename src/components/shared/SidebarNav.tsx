@@ -7,14 +7,17 @@ import {
   Scale,
   FileText,
   Sparkles,
+  Handshake,
+  Building2,
 } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { useStakeholderContext } from "@/context/AuthContext"
-// import { useGetClientProjects } from "@/lib/react-query/queries"
+import { useGetClientProjects } from "@/lib/react-query/queries"
+import { Badge } from "../ui/badge"
 
 export function SidebarNav() {
-  const { requests } = useStakeholderContext()
-  // const { data: projects } = useGetClientProjects(stakeholder?.clientId)
+  const { stakeholder, requests } = useStakeholderContext()
+  const { data: projects } = useGetClientProjects(stakeholder?.clientId)
 
   const navLinks = [
     {
@@ -28,14 +31,23 @@ export function SidebarNav() {
       to: requests && requests.length > 0 ? "/requests" : "/start",
       badge: requests && requests.length > 0 ? `${requests.length}` : false,
     },
+    ...(stakeholder.clientId
+      ? [
+          {
+            title: "Company Details",
+            icon: Building2,
+            to: "/details",
+          },
+        ]
+      : []),
     {
       title: "My Projects",
       icon: BriefcaseBusinessIcon,
       to: "/projects",
-      // badge:
-      //   projects && projects.documents.length > 0
-      //     ? `${projects.documents.length}`
-      //     : false,
+      badge:
+        projects && projects.documents && projects.documents.length > 0
+          ? `${projects.documents.length}`
+          : false,
     },
     {
       title: "Legal Documents",
@@ -46,6 +58,11 @@ export function SidebarNav() {
       title: "Invoices",
       icon: FileText,
       to: "/invoices",
+    },
+    {
+      title: "Partner Network",
+      icon: Handshake,
+      to: "/partners",
     },
   ]
 
@@ -68,16 +85,9 @@ export function SidebarNav() {
           <link.icon className="w-4 h-4 mr-2" />
           {link.title}
           {link.badge && (
-            <span
-              className={cn(
-                "ml-3 px-2 py-0.5 text-xs font-semibold rounded-full",
-                link.title === "My Projects"
-                  ? "text-white bg-gray-700"
-                  : "text-black bg-primary"
-              )}
-            >
+            <Badge variant="outline" className="ml-3 px-2 py-0.25 text-xs">
               {link.badge}
-            </span>
+            </Badge>
           )}
         </NavLink>
       ))}
