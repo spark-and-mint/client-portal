@@ -70,6 +70,10 @@ export type IMember = {
   projects: IProject[]
 }
 
+export type INewClient = {
+  name: string
+}
+
 export type IClient = {
   id: string
   name: string

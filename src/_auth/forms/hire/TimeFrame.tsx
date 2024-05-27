@@ -35,19 +35,19 @@ const TimeFrame = ({
         <ButtonCard
           heading="As soon as possible"
           onClick={() => {
-            setTimeFrame("As soon as possible"), setStep(6)
+            setTimeFrame("As soon as possible"), setStep(7)
           }}
         />
         <ButtonCard
           heading="In a few weeks from now"
           onClick={() => {
-            setTimeFrame("In a few weeks from now"), setStep(6)
+            setTimeFrame("In a few weeks from now"), setStep(7)
           }}
         />
       </div>
       <div className="mt-8">
         <Button
-          onClick={() => setStep(4)}
+          onClick={() => setStep(5)}
           variant="link"
           className="p-0 text-white"
         >

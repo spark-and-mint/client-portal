@@ -106,14 +106,14 @@ const Goal = ({ goal, setGoal, setStep }: GoalProps) => {
       </div>
       <div className="flex justify-between mt-8">
         <Button
-          onClick={() => setStep(1)}
+          onClick={() => setStep(2)}
           variant="link"
           className="p-0 text-white"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
-        <Button onClick={() => setStep(3)} size="sm" disabled={!goal}>
+        <Button onClick={() => setStep(4)} size="sm" disabled={!goal}>
           Continue
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>

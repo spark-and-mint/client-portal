@@ -13,49 +13,49 @@ const Industry = ({ setIndustry, setStep }) => {
           small
           text="AI"
           onClick={() => {
-            setIndustry("AI"), setStep(4)
+            setIndustry("AI"), setStep(5)
           }}
         />
         <ButtonCard
           small
           text="Blockchain"
           onClick={() => {
-            setIndustry("Blockchain"), setStep(4)
+            setIndustry("Blockchain"), setStep(5)
           }}
         />
         <ButtonCard
           small
           text="DeFi / Crypto"
           onClick={() => {
-            setIndustry("DeFi / Crypto"), setStep(4)
+            setIndustry("DeFi / Crypto"), setStep(5)
           }}
         />
         <ButtonCard
           small
           text="NFT / Art"
           onClick={() => {
-            setIndustry("NFT / Art"), setStep(4)
+            setIndustry("NFT / Art"), setStep(5)
           }}
         />
         <ButtonCard
           small
           text="Education"
           onClick={() => {
-            setIndustry("Education"), setStep(4)
+            setIndustry("Education"), setStep(5)
           }}
         />
         <ButtonCard
           small
           text="Health"
           onClick={() => {
-            setIndustry("Health"), setStep(4)
+            setIndustry("Health"), setStep(5)
           }}
         />
         <ButtonCard
           small
           text="Finance"
           onClick={() => {
-            setIndustry("Finance"), setStep(4)
+            setIndustry("Finance"), setStep(5)
           }}
         />
 
@@ -63,13 +63,13 @@ const Industry = ({ setIndustry, setStep }) => {
           small
           text="Other"
           onClick={() => {
-            setIndustry("Other"), setStep(4)
+            setIndustry("Other"), setStep(5)
           }}
         />
       </div>
       <div className="mt-8">
         <Button
-          onClick={() => setStep(2)}
+          onClick={() => setStep(3)}
           variant="link"
           className="p-0 text-white"
         >

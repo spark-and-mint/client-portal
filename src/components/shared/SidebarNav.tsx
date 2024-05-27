@@ -7,7 +7,6 @@ import {
   Scale,
   FileText,
   Sparkles,
-  Handshake,
   Building2,
 } from "lucide-react"
 import FadeIn from "react-fade-in"
@@ -59,11 +58,11 @@ export function SidebarNav() {
       icon: FileText,
       to: "/invoices",
     },
-    {
-      title: "Partner Network",
-      icon: Handshake,
-      to: "/partners",
-    },
+    // {
+    //   title: "Partner Network",
+    //   icon: Handshake,
+    //   to: "/partners",
+    // },
   ]
 
   return (

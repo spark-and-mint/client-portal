@@ -19,7 +19,7 @@ const OAuth2Callback = () => {
     const handleOAuth2Callback = async () => {
       try {
         const session = await account.getSession("current")
-        const sessionId = session.$id
+        const userId = session.userId
         const accessToken = session.providerAccessToken
         const response = await fetch(
           `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${accessToken}`
@@ -34,8 +34,14 @@ const OAuth2Callback = () => {
         const existingUser = await checkIfUserExists(email)
 
         if (existingUser) {
-          await checkAuthStakeholder()
-          navigate("/")
+          const isLoggedIn = await checkAuthStakeholder()
+
+          if (isLoggedIn) {
+            navigate("/")
+          } else {
+            toast.error("Login failed. Please try again.")
+            return
+          }
         } else {
           const { firstName, lastName } = human.parseName(name)
 
@@ -47,7 +53,7 @@ const OAuth2Callback = () => {
 
           const newStakeholder = await createOAuthStakeholderAccount(
             stakeholder,
-            sessionId
+            userId
           )
 
           if (!newStakeholder) {

@@ -69,7 +69,7 @@ const ContactInfo = ({
       </div>
       <div className="flex justify-between mt-8">
         <Button
-          onClick={() => setStep(7)}
+          onClick={() => setStep(8)}
           variant="link"
           className="p-0 text-white"
         >

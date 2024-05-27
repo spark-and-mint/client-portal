@@ -14,6 +14,7 @@ import {
   IMilestone,
   INewRequest,
   INewOAuthStakeholder,
+  INewClient,
 } from "@/types"
 import { nanoid } from "nanoid"
 
@@ -62,6 +63,9 @@ export async function createOAuthStakeholderAccount(
       `${stakeholder.firstName} ${stakeholder.lastName}`
     )
 
+    console.log(stakeholder)
+    console.log(userId)
+
     const newStakeholder = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.stakeholderCollectionId,
@@ -75,6 +79,8 @@ export async function createOAuthStakeholderAccount(
         avatarId: nanoid(),
       }
     )
+
+    console.log(newStakeholder)
 
     return newStakeholder
   } catch (error) {
@@ -199,6 +205,7 @@ export async function updateStakeholder(stakeholder: IUpdateStakeholder) {
         lastName: stakeholder.lastName,
         avatarUrl: avatar.avatarUrl,
         avatarId: avatar.avatarId,
+        clientId: stakeholder.clientId,
       }
     )
 
@@ -214,6 +221,25 @@ export async function updateStakeholder(stakeholder: IUpdateStakeholder) {
     }
 
     return updatedStakeholder
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function createClient(client: INewClient) {
+  try {
+    const newClient = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.clientCollectionId,
+      ID.unique(),
+      {
+        name: client.name,
+        logoId: nanoid(),
+        logoUrl: avatars.getInitials(client.name),
+      }
+    )
+
+    return newClient
   } catch (error) {
     console.log(error)
   }

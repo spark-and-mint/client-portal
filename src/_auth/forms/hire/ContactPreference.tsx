@@ -49,7 +49,7 @@ const ContactPreference = ({
 
       <div className="flex justify-between mt-8">
         <Button
-          onClick={() => setStep(6)}
+          onClick={() => setStep(7)}
           variant="link"
           className="p-0 text-white"
         >
@@ -58,7 +58,7 @@ const ContactPreference = ({
         </Button>
         <Button
           onClick={() =>
-            contactPreference === "Email" ? handleSubmit() : setStep(8)
+            contactPreference === "Email" ? handleSubmit() : setStep(9)
           }
           size="sm"
           disabled={!contactPreference || isCreatingRequest}

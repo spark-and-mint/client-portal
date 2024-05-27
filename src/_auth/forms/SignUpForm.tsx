@@ -22,6 +22,8 @@ import { CreateAccountValidation } from "@/lib/validation"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { RotateCw } from "lucide-react"
 import StarSvg from "@/svg/StarSvg"
+import GoogleIcon from "@/svg/GoogleIcon"
+import { account } from "@/lib/appwrite/config"
 
 const SignUpForm = () => {
   const navigate = useNavigate()
@@ -89,6 +91,17 @@ const SignUpForm = () => {
     }
   }
 
+  const onGoogleSignIn = async () => {
+    try {
+      account.createOAuth2Session(
+        "google",
+        "https://portal.sparkandmint.com/oauth2callback"
+      )
+    } catch (error) {
+      toast.error("Login failed. Please try again.")
+    }
+  }
+
   return (
     <div className="mt-8 sm:mt-0 pb-16">
       <Form {...form}>
@@ -97,6 +110,23 @@ const SignUpForm = () => {
         <p className="mt-1 mb-8 text-sm text-muted-foreground text-center">
           Let's start by creating an account.
         </p>
+
+        <Button
+          variant="secondary"
+          size="sm"
+          className="flex items-center w-full h-10 text-xs font-medium"
+          onClick={onGoogleSignIn}
+        >
+          <GoogleIcon className="w-3 h-3 mr-3 text-white" />
+          Continue with Google
+        </Button>
+
+        <div className="flex items-center justify-center mt-6 mb-4">
+          <div className="w-full border-b border-border"></div>
+          <p className="mx-4 text-sm text-muted-foreground">or</p>
+          <div className="w-full border-b border-border"></div>
+        </div>
+
         <form onSubmit={form.handleSubmit(handleSignUp)} className="space-y-4">
           <FormField
             control={form.control}
@@ -104,20 +134,6 @@ const SignUpForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Full name</FormLabel>
-                <FormControl>
-                  <Input type="text" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="company"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Company or organization</FormLabel>
                 <FormControl>
                   <Input type="text" {...field} />
                 </FormControl>

@@ -11,6 +11,7 @@ import {
   IFeedback,
   IMilestone,
   INewRequest,
+  INewClient,
 } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
@@ -50,6 +51,7 @@ import {
   getStakeholderRequests,
   deleteRequest,
   getClientDocuments,
+  createClient,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
@@ -103,6 +105,18 @@ export const useGetStakeholders = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_STAKEHOLDERS],
     queryFn: getStakeholders,
+  })
+}
+
+export const useCreateClient = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (client: INewClient) => createClient(client),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CLIENTS],
+      })
+    },
   })
 }
 

@@ -13,11 +13,17 @@ import ProgressBar from "./ProgressBar"
 import { toast } from "sonner"
 import FinalStep from "./FinalStep"
 import { useStakeholderContext } from "@/context/AuthContext"
-import { useCreateRequest } from "@/lib/react-query/queries"
+import {
+  useCreateClient,
+  useCreateRequest,
+  useUpdateStakeholder,
+} from "@/lib/react-query/queries"
+import Company from "./Company"
 
 const Start = () => {
-  const { stakeholder, setRequests } = useStakeholderContext()
-  const [step, setStep] = useState(1)
+  const { stakeholder, setStakeholder, setRequests } = useStakeholderContext()
+  const [step, setStep] = useState(stakeholder.clientId ? 2 : 1)
+  const [company, setCompany] = useState<null | IOption>(null)
   const [individualOrTeam, setIndividualOrTeam] = useState("")
   const [fixedOrOngoing, setFixedOrOngoing] = useState("fixed")
   const [goal, setGoal] = useState<null | IOption>(null)
@@ -28,49 +34,107 @@ const Start = () => {
   const [contactPreference, setContactPreference] = useState("")
   const [contactInfo, setContactInfo] = useState("")
 
+  const { mutateAsync: createClient } = useCreateClient()
+  const { mutateAsync: updateStakeholder } = useUpdateStakeholder()
   const { mutateAsync: createRequest, isPending: isCreatingRequest } =
     useCreateRequest()
 
   const handleSubmit = async () => {
-    const request = await createRequest({
-      stakeholderId: stakeholder.id,
-      individualOrTeam,
-      fixedOrOngoing,
-      goal: goal?.value || "",
-      skill,
-      industry,
-      timeFrame,
-      budget,
-      contactPreference,
-      contactInfo,
-    })
+    try {
+      if (company) {
+        if (company.value) {
+          const updatedStakeholder = await updateStakeholder({
+            stakeholderId: stakeholder.id,
+            firstName: stakeholder.firstName,
+            lastName: stakeholder.lastName,
+            email: stakeholder.email,
+            avatarUrl: stakeholder.avatarUrl,
+            avatarId: stakeholder.avatarId,
+            file: [],
+            clientId: company.value,
+          })
+          if (updatedStakeholder) {
+            setStakeholder({
+              ...stakeholder,
+              ...updatedStakeholder,
+            })
+          } else {
+            toast.error("Something went wrong. Please try again")
+            return
+          }
+        } else {
+          const client = await createClient({ name: company.label })
+          if (client) {
+            const updatedStakeholder = await updateStakeholder({
+              stakeholderId: stakeholder.id,
+              firstName: stakeholder.firstName,
+              lastName: stakeholder.lastName,
+              email: stakeholder.email,
+              avatarUrl: stakeholder.avatarUrl,
+              avatarId: stakeholder.avatarId,
+              file: [],
+              clientId: client?.$id,
+            })
 
-    if (request) {
-      setRequests((prev) => [...prev, request].reverse())
-      setStep(9)
-    } else {
+            if (updatedStakeholder) {
+              setStakeholder({
+                ...stakeholder,
+                ...updatedStakeholder,
+              })
+            } else {
+              toast.error("Something went wrong. Please try again")
+              return
+            }
+          } else {
+            toast.error("Something went wrong. Please try again")
+            return
+          }
+        }
+      }
+
+      const request = await createRequest({
+        stakeholderId: stakeholder.id,
+        individualOrTeam,
+        fixedOrOngoing,
+        goal: goal?.value || "",
+        skill,
+        industry,
+        timeFrame,
+        budget,
+        contactPreference,
+        contactInfo,
+      })
+
+      if (request) {
+        setRequests((prev) => [...prev, request].reverse())
+        setStep(10)
+      }
+    } catch (error) {
+      console.log(error)
       toast.error("Failed to create request. Please try again")
     }
   }
 
   const steps = {
-    1: (
+    1: <Company company={company} setCompany={setCompany} setStep={setStep} />,
+    2: (
       <IndividualOrTeam
+        stakeholder={stakeholder}
         setIndividualOrTeam={setIndividualOrTeam}
         setStep={setStep}
       />
     ),
-    2: <Goal goal={goal} setGoal={setGoal} setStep={setStep} />,
-    3: <Industry setIndustry={setIndustry} setStep={setStep} />,
-    4: <Skill skill={skill} setSkill={setSkill} setStep={setStep} />,
-    5: (
+    3: <Goal goal={goal} setGoal={setGoal} setStep={setStep} />,
+    4: <Industry setIndustry={setIndustry} setStep={setStep} />,
+    5: <Skill skill={skill} setSkill={setSkill} setStep={setStep} />,
+    6: (
       <TimeFrame
         setTimeFrame={setTimeFrame}
         setStep={setStep}
         individualOrTeam={individualOrTeam}
       />
     ),
-    6: (
+    7: (
       <Budget
         budget={budget}
         setBudget={setBudget}
@@ -78,7 +142,7 @@ const Start = () => {
         setFixedOrOngoing={setFixedOrOngoing}
       />
     ),
-    7: (
+    8: (
       <ContactPreference
         contactPreference={contactPreference}
         setContactPreference={setContactPreference}
@@ -88,7 +152,7 @@ const Start = () => {
         handleSubmit={handleSubmit}
       />
     ),
-    8: (
+    9: (
       <ContactInfo
         contactPreference={contactPreference}
         contactInfo={contactInfo}
@@ -98,7 +162,7 @@ const Start = () => {
         setStep={setStep}
       />
     ),
-    9: <FinalStep individualOrTeam={individualOrTeam} />,
+    10: <FinalStep individualOrTeam={individualOrTeam} />,
   }
 
   return (

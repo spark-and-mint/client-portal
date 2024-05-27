@@ -20,14 +20,14 @@ const Skill = ({ skill, setSkill, setStep }) => {
       </div>
       <div className="flex justify-between mt-8">
         <Button
-          onClick={() => setStep(3)}
+          onClick={() => setStep(4)}
           variant="link"
           className="p-0 text-white"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
-        <Button onClick={() => setStep(5)} size="sm" disabled={skill === ""}>
+        <Button onClick={() => setStep(6)} size="sm" disabled={skill === ""}>
           Continue
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>

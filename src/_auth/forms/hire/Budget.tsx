@@ -48,14 +48,14 @@ const Budget = ({ budget, setBudget, setFixedOrOngoing, setStep }) => {
 
       <div className="flex justify-between mt-8">
         <Button
-          onClick={() => setStep(5)}
+          onClick={() => setStep(6)}
           variant="link"
           className="p-0 text-white"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
-        <Button onClick={() => setStep(7)} size="sm" disabled={budget === ""}>
+        <Button onClick={() => setStep(8)} size="sm" disabled={budget === ""}>
           Continue
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>

@@ -60,7 +60,7 @@ const SignInForm = () => {
     try {
       account.createOAuth2Session(
         "google",
-        "http://localhost:5175/oauth2callback"
+        "https://portal.sparkandmint.com/oauth2callback"
       )
     } catch (error) {
       toast.error("Login failed. Please try again.")
