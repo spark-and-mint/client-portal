@@ -7,6 +7,7 @@ import {
   BriefcaseBusiness,
   FileText,
   Home,
+  Landmark,
   PanelLeft,
   Scale,
   Sparkles,
@@ -16,7 +17,8 @@ import StarSvg from "@/svg/StarSvg"
 import { useEffect, useState } from "react"
 
 const Header = () => {
-  const { isAuthenticated, isLoading, requests } = useStakeholderContext()
+  const { stakeholder, isAuthenticated, isLoading, requests } =
+    useStakeholderContext()
   const { pathname } = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -93,10 +95,12 @@ const Header = () => {
                 <BriefcaseBusiness className="h-5 w-5" />
                 My Projects
               </Link>
-              {/* <Link to="/details" className="flex items-center gap-4 px-2.5">
-                <Landmark className="h-5 w-5" />
-                Company details
-              </Link> */}
+              {stakeholder.clientId && (
+                <Link to="/details" className="flex items-center gap-4 px-2.5">
+                  <Landmark className="h-5 w-5" />
+                  Company details
+                </Link>
+              )}
               <Link to="/documents" className="flex items-center gap-4 px-2.5">
                 <Scale className="h-5 w-5" />
                 Legal documents
@@ -110,7 +114,11 @@ const Header = () => {
         </Sheet>
 
         <Link to={isAuthenticated ? "/" : "/sign-in"}>
-          <img src="/assets/logo.svg" alt="logo" className="w-[7.25rem]" />
+          <img
+            src="/assets/logo.svg"
+            alt="logo"
+            className="w-[7.25rem] lg:translate-x-5"
+          />
         </Link>
 
         {import.meta.env.DEV && (
