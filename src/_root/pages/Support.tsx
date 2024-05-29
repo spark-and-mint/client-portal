@@ -47,8 +47,8 @@ const Support = () => {
                 variant="link"
                 className="text-white font-normal  p-0"
               >
-                <a href="mailto:hello@sparkandmint.com" target="_blank">
-                  hello@sparkandmint.com
+                <a href="mailto:hello@teamspark.xyz" target="_blank">
+                  hello@teamspark.xyz
                 </a>
               </Button>
             </p>

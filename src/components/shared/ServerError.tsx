@@ -27,8 +27,8 @@ const ServerError = () => {
         <p className="mt-4 leading-6 text-muted-foreground">
           If the issue persists, contact us on Slack or at{" "}
           <Button variant="link" asChild className="font-normal text-base p-0">
-            <a className="text-primary" href="mailto:hello@sparkandmint.com">
-              hello@sparkandmint.com
+            <a className="text-primary" href="mailto:hello@teamspark.xyz">
+              hello@teamspark.xyz
             </a>
           </Button>
         </p>

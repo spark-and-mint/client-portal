@@ -95,7 +95,7 @@ const SignUpForm = () => {
     try {
       account.createOAuth2Session(
         "google",
-        "https://portal.sparkandmint.com/oauth2callback"
+        "https://portal.teamspark.xyz/oauth2callback"
       )
     } catch (error) {
       toast.error("Login failed. Please try again.")

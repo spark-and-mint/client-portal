@@ -43,7 +43,7 @@ const ResetPassword = () => {
   const handleReset = async (email: z.infer<typeof ResetValidation>) => {
     const resetPassword = await account.createRecovery(
       email.email,
-      "https://portal.sparkandmint.com/reset"
+      "https://portal.teamspark.xyz/reset"
     )
 
     if (resetPassword) setEmailSent(true)

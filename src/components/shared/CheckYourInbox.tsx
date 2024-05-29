@@ -9,8 +9,8 @@ const CheckYourInbox = () => {
         Didn't receive a verification email?
         <br />
         Please contact us at{" "}
-        <a className="text-primary" href="mailto:hello@sparkandmint.com">
-          hello@sparkandmint.com
+        <a className="text-primary" href="mailto:hello@teamspark.xyz">
+          hello@teamspark.xyz
         </a>
       </p>
     </div>
