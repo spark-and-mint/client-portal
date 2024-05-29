@@ -3,25 +3,23 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { useGetClientDocuments } from "@/lib/react-query/queries"
 import { cn } from "@/lib/utils"
-import { Dot, ExternalLink, LinkIcon, Scale } from "lucide-react"
+import { Dot, ExternalLink, FileText } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { Link } from "react-router-dom"
 
-const Documents = () => {
+const Payments = () => {
   const { stakeholder } = useStakeholderContext()
-  const { data: documentData, isPending: isPendingDocuments } =
+  const { data: documents, isPending: isPendingDocuments } =
     useGetClientDocuments(stakeholder.clientId)
-  const documents = documentData?.documents.filter((doc) => !doc.invoice)
+  const invoices = documents?.documents.filter((doc) => doc.invoice === true)
 
   const statuses = {
-    yellow: ["Draft", "Pending Approval", "Under Negotiation", "Cancelled"],
-    purple: ["Amended", "Expired", "Archived"],
-    green: ["Signed", "Approved", "In Effect"],
+    yellow: ["Cancelled"],
+    green: ["Paid"],
   }
 
   const statusStyles = {
     yellow: "text-amber-400",
-    purple: "text-purple-500",
     green: "text-green-500",
   }
 
@@ -56,17 +54,19 @@ const Documents = () => {
         </Card>
       ) : (
         <>
-          {documents && documents.length > 0 ? (
+          {invoices && invoices.length > 0 ? (
             <>
               <div className="mb-8">
-                <h3 className="text-lg font-medium mb-2">Legal documents</h3>
+                <h3 className="text-lg font-medium mb-2">
+                  Payments and invoices
+                </h3>
                 <p className="text-sm text-muted-foreground">
-                  Here you can find all our agreements and legal documents.
+                  View and pay your invoices here.
                 </p>
               </div>
 
               <ul className="divide-y divide-accent rounded-md border border-accent">
-                {documents.map((document) => (
+                {invoices.map((document) => (
                   <Link
                     key={document.$id}
                     to={document.link}
@@ -75,7 +75,7 @@ const Documents = () => {
                   >
                     <li className="relative flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-accent/20">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
-                        <LinkIcon
+                        <FileText
                           className="hidden sm:block h-5 w-5 flex-shrink-0 text-gray-400"
                           aria-hidden="true"
                         />
@@ -99,12 +99,12 @@ const Documents = () => {
             </>
           ) : (
             <Card className="flex flex-col items-center justify-center h-full py-16">
-              <Scale strokeWidth={1} className="h-14 w-14 text-primary" />
+              <FileText strokeWidth={1} className="h-14 w-14 text-primary" />
               <h6 className="h6 text-[1.325rem] mt-3 text-center">
-                No documents yet
+                No invoices yet
               </h6>
               <p className="mt-2 text-muted-foreground text-center ">
-                All your legal documents will be listed here.
+                All your payments and invoices will be listed here.
               </p>
             </Card>
           )}
@@ -114,4 +114,4 @@ const Documents = () => {
   )
 }
 
-export default Documents
+export default Payments

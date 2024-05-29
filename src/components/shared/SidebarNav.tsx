@@ -5,9 +5,9 @@ import {
   HomeIcon,
   BriefcaseBusinessIcon,
   Scale,
-  FileText,
   Sparkles,
   Building2,
+  CreditCard,
 } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { useStakeholderContext } from "@/context/AuthContext"
@@ -40,7 +40,7 @@ export function SidebarNav() {
         ]
       : []),
     {
-      title: "My Projects",
+      title: "Active Projects",
       icon: BriefcaseBusinessIcon,
       to: "/projects",
       badge:
@@ -54,9 +54,9 @@ export function SidebarNav() {
       to: "/documents",
     },
     {
-      title: "Invoices",
-      icon: FileText,
-      to: "/invoices",
+      title: "Payments",
+      icon: CreditCard,
+      to: "/payments",
     },
     // {
     //   title: "Partner Network",
@@ -81,7 +81,7 @@ export function SidebarNav() {
           }
           end
         >
-          <link.icon className="w-4 h-4 mr-2" />
+          <link.icon className="w-4 h-4 mr-2 -translate-y-0.25" />
           {link.title}
           {link.badge && (
             <Badge variant="outline" className="ml-3 px-2 py-0.25 text-xs">

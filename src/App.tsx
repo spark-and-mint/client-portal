@@ -8,7 +8,7 @@ import {
   Project,
   Support,
   Documents,
-  Invoices,
+  Payments,
 } from "./_root/pages"
 import SignUpForm from "./_auth/forms/SignUpForm"
 import AuthLayout from "./_auth/AuthLayout"
@@ -49,7 +49,7 @@ const App = () => {
             <Route path="/details" element={<Details />} />
             <Route path="/documents" element={<Documents />} />
             <Route path="/partners" element={<Partners />} />
-            <Route path="/invoices" element={<Invoices />} />
+            <Route path="/payments" element={<Payments />} />
             <Route path="/account" element={<Account />} />
             <Route path="/verify" element={<EmailVerification />} />
             <Route path="/support" element={<Support />} />
