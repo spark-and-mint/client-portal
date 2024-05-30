@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { zodResolver } from "@hookform/resolvers/zod"
 import human from "humanparser"
@@ -192,6 +192,17 @@ const SignUpForm = () => {
               )}
             </Button>
           </div>
+
+          <p className="max-w-[9rem] mx-auto pt-2 text-[12px] leading-4 text-muted-foreground text-center font-medium">
+            By continuing you agree to our{" "}
+            <Link
+              to="https://teamspark.xyz/privacy"
+              target="_blank"
+              className="text-white/90 hover:text-white transition-colors"
+            >
+              Privacy Policy
+            </Link>
+          </p>
         </form>
       </Form>
     </div>
