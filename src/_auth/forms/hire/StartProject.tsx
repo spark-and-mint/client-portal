@@ -20,7 +20,7 @@ import {
 } from "@/lib/react-query/queries"
 import Company from "./Company"
 
-const Start = () => {
+const StartProject = () => {
   const { stakeholder, setStakeholder, setRequests } = useStakeholderContext()
   const [step, setStep] = useState(stakeholder.clientId ? 2 : 1)
   const [company, setCompany] = useState<null | IOption>(null)
@@ -33,14 +33,15 @@ const Start = () => {
   const [budget, setBudget] = useState("")
   const [contactPreference, setContactPreference] = useState("")
   const [contactInfo, setContactInfo] = useState("")
-
   const { mutateAsync: createClient } = useCreateClient()
   const { mutateAsync: updateStakeholder } = useUpdateStakeholder()
-  const { mutateAsync: createRequest, isPending: isCreatingRequest } =
-    useCreateRequest()
+  const { mutateAsync: createRequest } = useCreateRequest()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async () => {
     try {
+      setIsSubmitting(true)
+
       if (company) {
         if (company.value) {
           const updatedStakeholder = await updateStakeholder({
@@ -112,6 +113,8 @@ const Start = () => {
     } catch (error) {
       console.log(error)
       toast.error("Failed to create request. Please try again")
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -148,7 +151,7 @@ const Start = () => {
         setContactPreference={setContactPreference}
         setContactInfo={setContactInfo}
         setStep={setStep}
-        isCreatingRequest={isCreatingRequest}
+        isSubmitting={isSubmitting}
         handleSubmit={handleSubmit}
       />
     ),
@@ -158,7 +161,7 @@ const Start = () => {
         contactInfo={contactInfo}
         setContactInfo={setContactInfo}
         handleSubmit={handleSubmit}
-        isCreatingRequest={isCreatingRequest}
+        isSubmitting={isSubmitting}
         setStep={setStep}
       />
     ),
@@ -180,4 +183,4 @@ const Start = () => {
   )
 }
 
-export default Start
+export default StartProject

@@ -27,7 +27,7 @@ const Company = ({ company, setCompany, setStep }) => {
   return (
     <FadeIn>
       <HireHeading
-        heading="What's the name of your company?"
+        heading="Let's start with your company name."
         text="Enter or select the name of your company or organization."
       />
       <div className="mt-6 space-y-6">

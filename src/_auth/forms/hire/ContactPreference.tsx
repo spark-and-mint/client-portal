@@ -10,7 +10,7 @@ const ContactPreference = ({
   setContactPreference,
   setContactInfo,
   handleSubmit,
-  isCreatingRequest,
+  isSubmitting,
   setStep,
 }) => {
   const handleSelect = (preference: string) => {
@@ -61,9 +61,9 @@ const ContactPreference = ({
             contactPreference === "Email" ? handleSubmit() : setStep(9)
           }
           size="sm"
-          disabled={!contactPreference || isCreatingRequest}
+          disabled={!contactPreference || isSubmitting}
         >
-          {isCreatingRequest ? (
+          {isSubmitting ? (
             <div className="flex items-center gap-2">
               Submitting...
               <RotateCw className="h-4 w-4 animate-spin" />

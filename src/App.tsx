@@ -19,7 +19,7 @@ import Header from "./components/shared/Header"
 import Section from "./components/shared/Section"
 import Details from "./_root/pages/Details"
 import ResetPassword from "./_auth/forms/ResetPassword"
-import Start from "./_auth/forms/hire/Start"
+import StartProject from "./_auth/forms/hire/StartProject"
 import Requests from "./_root/pages/Requests"
 import Partners from "./_root/pages/Partners"
 import OAuth2Callback from "./_auth/OAuth2Callback"
@@ -34,7 +34,7 @@ const App = () => {
       <Section crosses className="flex-grow">
         <Routes>
           <Route element={<AuthLayout />}>
-            <Route path="/start" element={<Start />} />
+            <Route path="/start" element={<StartProject />} />
             <Route path="/sign-in" element={<SignInForm />} />
             <Route path="/sign-up" element={<SignUpForm />} />
             <Route path="/reset" element={<ResetPassword />} />
