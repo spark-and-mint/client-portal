@@ -43,9 +43,17 @@ const RequestItem = ({ request }) => {
   return (
     <div>
       <div className="bg-black/40 border border-accent rounded-xl">
-        <div className="flex justify-between px-6 py-4">
+        <div className="flex flex-col sm:flex-row gap-6 justify-between px-6 py-4">
+          <div className="flex justify-between sm:hidden">
+            <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 bg-primary text-slate-800 rounded-full">
+              {goals[request.goal]}
+            </div>
+            <div className="flex items-center flex-shrink-0">
+              {getStatus(request.status)}
+            </div>
+          </div>
           <div className="flex items-center gap-5">
-            <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full">
+            <div className="hidden sm:flex items-center justify-center flex-shrink-0 w-10 h-10 bg-primary text-slate-800 rounded-full">
               {goals[request.goal]}
             </div>
             <div className="sm:max-w-[24rem] space-y-1">
@@ -55,7 +63,7 @@ const RequestItem = ({ request }) => {
               </p>
             </div>
           </div>
-          <div className="flex items-center flex-shrink-0">
+          <div className="hidden sm:flex items-center flex-shrink-0">
             {getStatus(request.status)}
           </div>
         </div>

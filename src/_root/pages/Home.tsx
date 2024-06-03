@@ -86,11 +86,18 @@ const Home = () => {
         </Link>
       )} */}
 
+      <Link to="/start" className="block sm:hidden">
+        <Button className="w-full text-base" size="lg">
+          <Plus className="w-5 h-5 mr-2" />
+          Start a new project
+        </Button>
+      </Link>
+
       {requests && requests.length > 0 ? (
         <Card>
           <h6 className="h6 flex justify-between">
             Your project requests
-            <Link to="/start">
+            <Link to="/start" className="hidden sm:block">
               <Button size="sm" className="flex items-center">
                 <Plus className="w-4 h-5 mr-2" />
                 Start a project
