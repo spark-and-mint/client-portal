@@ -93,11 +93,11 @@ const Home = () => {
             <Link to="/start">
               <Button size="sm" className="flex items-center">
                 <Plus className="w-4 h-5 mr-2" />
-                Start a Project
+                Start a project
               </Button>
             </Link>
           </h6>
-          <ul className="mt-8 divide-y divide-accent *:py-6 first:*:pt-0 last:*:pb-0">
+          <ul className="mt-6 *:py-2 first:*:pt-0 last:*:pb-0">
             {requests.map((request) => (
               <RequestItem key={request.$id} request={request} />
             ))}

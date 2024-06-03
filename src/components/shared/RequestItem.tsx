@@ -41,18 +41,24 @@ const RequestItem = ({ request }) => {
   }, {})
 
   return (
-    <div className="flex justify-between">
-      <div className="flex items-center gap-5">
-        <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full">
-          {goals[request.goal]}
+    <div>
+      <div className="bg-black/40 border border-accent rounded-xl">
+        <div className="flex justify-between px-6 py-4">
+          <div className="flex items-center gap-5">
+            <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full">
+              {goals[request.goal]}
+            </div>
+            <div className="sm:max-w-[24rem] space-y-1">
+              <div className="font-semibold">{request.goal}</div>
+              <p className="sm:max-w-md pr-2 sm:pr-0 text-sm">
+                {request.skill}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center flex-shrink-0">
+            {getStatus(request.status)}
+          </div>
         </div>
-        <div className="sm:max-w-[26rem] space-y-1">
-          <div className="font-semibold">{request.goal}</div>
-          <p className="sm:max-w-md pr-2 sm:pr-0 text-sm">{request.skill}</p>
-        </div>
-      </div>
-      <div className="flex items-center flex-shrink-0">
-        {getStatus(request.status)}
       </div>
     </div>
   )
