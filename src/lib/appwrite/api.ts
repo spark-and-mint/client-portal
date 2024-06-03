@@ -63,9 +63,6 @@ export async function createOAuthStakeholderAccount(
       `${stakeholder.firstName} ${stakeholder.lastName}`
     )
 
-    console.log(stakeholder)
-    console.log(userId)
-
     const newStakeholder = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.stakeholderCollectionId,
@@ -79,8 +76,6 @@ export async function createOAuthStakeholderAccount(
         avatarId: nanoid(),
       }
     )
-
-    console.log(newStakeholder)
 
     return newStakeholder
   } catch (error) {

@@ -52,6 +52,7 @@ const StartProject = () => {
             avatarUrl: stakeholder.avatarUrl,
             avatarId: stakeholder.avatarId,
             file: [],
+            company: company.label,
             clientId: company.value,
           })
           if (updatedStakeholder) {
@@ -74,6 +75,7 @@ const StartProject = () => {
               avatarUrl: stakeholder.avatarUrl,
               avatarId: stakeholder.avatarId,
               file: [],
+              company: company.label,
               clientId: client?.$id,
             })
 
