@@ -1,18 +1,18 @@
-import PlusSvg from "./PlusSvg"
+import BoxSvg from "./BoxSvg"
 
 const SectionSvg = ({ crossesOffset }: { crossesOffset?: string }) => {
   return (
     <>
-      <PlusSvg
+      <BoxSvg
         className={`hidden absolute -top-[0.3125rem] left-[1.5625rem] ${
           crossesOffset && crossesOffset
-        } pointer-events-none lg:block xl:left-[9.7rem]`}
+        } pointer-events-none lg:block lg:left-[5.5rem] 2xl:left-[9.735rem]`}
       />
 
-      <PlusSvg
+      <BoxSvg
         className={`hidden absolute  -top-[0.3125rem] right-[1.5625rem] ${
           crossesOffset && crossesOffset
-        } pointer-events-none lg:block xl:right-[9.7rem]`}
+        } pointer-events-none lg:block lg:right-[5.5rem] 2xl:right-[9.735rem]`}
       />
     </>
   )

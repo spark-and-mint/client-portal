@@ -1,4 +1,4 @@
-const PlusSvg = ({ className = "" }) => {
+const BoxSvg = ({ className = "" }) => {
   return (
     <svg className={`${className} || ""`} width="10" height="10">
       <rect
@@ -14,4 +14,4 @@ const PlusSvg = ({ className = "" }) => {
   )
 }
 
-export default PlusSvg
+export default BoxSvg
