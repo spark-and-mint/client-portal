@@ -1,7 +1,7 @@
 import { Dot } from "lucide-react"
-import { Card } from "../ui/card"
+import goalData from "@/lib/constants/goals"
 
-const RequestCard = ({ request }) => {
+const RequestItem = ({ request }) => {
   const getStatus = (status: string) => {
     switch (status) {
       case "in review":
@@ -35,21 +35,27 @@ const RequestCard = ({ request }) => {
     }
   }
 
+  const goals = goalData.reduce((acc, { label, icon: Icon }) => {
+    acc[label] = <Icon strokeWidth={1.75} className="w-5 h-5" />
+    return acc
+  }, {})
+
   return (
-    <Card className="flex flex-col items-start gap-4 sm:flex-row sm:gap-8 sm:items-center justify-between px-7">
-      <div className="flex items-center gap-6">
-        <div className="flex-1">
-          <h6 className="h6 sm:max-w-md text-lg mb-1 group-hover:text-white transition-colors duration-100">
-            {request.goal}
-          </h6>
-          <p className="sm:max-w-md pr-2 sm:pr-0">{request.skill}</p>
+    <div className="flex justify-between">
+      <div className="flex items-center gap-5">
+        <div className="flex items-center justify-center w-10 h-10 bg-primary text-slate-800 rounded-full">
+          {goals[request.goal]}
+        </div>
+        <div className="sm:max-w-[26rem] space-y-1">
+          <div className="font-semibold">{request.goal}</div>
+          <p className="sm:max-w-md pr-2 sm:pr-0 text-sm">{request.skill}</p>
         </div>
       </div>
       <div className="flex items-center flex-shrink-0">
         {getStatus(request.status)}
       </div>
-    </Card>
+    </div>
   )
 }
 
-export default RequestCard
+export default RequestItem

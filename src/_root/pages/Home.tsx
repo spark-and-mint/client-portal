@@ -1,3 +1,4 @@
+import RequestItem from "@/components/shared/RequestItem"
 import { Button } from "@/components/ui"
 import { BackgroundGradient } from "@/components/ui/background-gradient"
 import { Card } from "@/components/ui/card"
@@ -7,6 +8,7 @@ import {
   ArrowRight,
   ExternalLink,
   Heart,
+  Plus,
   ScrollText,
   Sparkles,
 } from "lucide-react"
@@ -23,19 +25,13 @@ const Home = () => {
 
   return (
     <FadeIn className="pb-16 space-y-8">
-      <div className="relative flex justify-between items-center mb-8 -mt-2">
-        <div>
-          <h4 className="h4 mb-1">
-            Hello, <span className="capitalize">{stakeholder.firstName}</span>!
-          </h4>
-          <p className={cn("max-w-[34rem] mt-1.5 text-lg")}>
-            Welcome to the TeamSpark client portal.
-          </p>
-        </div>
-        <img
-          src="/assets/stars-multiple.svg"
-          className="hidden sm:block w-14 h-14 mr-3"
-        />
+      <div>
+        <h4 className="h4 mb-1">
+          Hello, <span className="capitalize">{stakeholder.firstName}</span>!
+        </h4>
+        <p className={cn("max-w-[34rem] mt-1.5 text-lg")}>
+          Welcome to the TeamSpark client portal.
+        </p>
       </div>
 
       {/* {projectsWithNewUpdates && projectsWithNewUpdates.length > 0 ? (
@@ -90,7 +86,24 @@ const Home = () => {
         </Link>
       )} */}
 
-      {requests && requests.length > 0 ? null : (
+      {requests && requests.length > 0 ? (
+        <Card>
+          <h6 className="h6 flex justify-between">
+            Your project requests
+            <Link to="/start">
+              <Button size="sm" className="flex items-center">
+                <Plus className="w-4 h-5 mr-2" />
+                Start a Project
+              </Button>
+            </Link>
+          </h6>
+          <ul className="mt-8 divide-y divide-accent *:py-6 first:*:pt-0 last:*:pb-0">
+            {requests.map((request) => (
+              <RequestItem key={request.$id} request={request} />
+            ))}
+          </ul>
+        </Card>
+      ) : (
         <Link to="/start" className="block mt-9 mb-10">
           <BackgroundGradient className="rounded-xl bg-background">
             <Card className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 group border-transparent hover:bg-slate-400/15 transition-colors duration-200">

@@ -15,7 +15,7 @@ import { useGetClientProjects } from "@/lib/react-query/queries"
 import { Badge } from "../ui/badge"
 
 export function SidebarNav() {
-  const { stakeholder, requests } = useStakeholderContext()
+  const { stakeholder } = useStakeholderContext()
   const { data: projects } = useGetClientProjects(stakeholder?.clientId)
 
   const navLinks = [
@@ -24,12 +24,7 @@ export function SidebarNav() {
       icon: HomeIcon,
       to: "/",
     },
-    {
-      title: "Start a Project",
-      icon: Sparkles,
-      to: requests && requests.length > 0 ? "/requests" : "/start",
-      badge: requests && requests.length > 0 ? `${requests.length}` : false,
-    },
+
     ...(stakeholder.clientId
       ? [
           {
@@ -57,6 +52,11 @@ export function SidebarNav() {
       title: "Payments",
       icon: CreditCard,
       to: "/payments",
+    },
+    {
+      title: "Start a Project",
+      icon: Sparkles,
+      to: "/start",
     },
     // {
     //   title: "Partner Network",

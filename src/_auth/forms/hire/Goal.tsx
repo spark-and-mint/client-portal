@@ -2,61 +2,11 @@ import CreatableSelect from "react-select/creatable"
 import { cn } from "@/lib/utils"
 import HireHeading from "./HireHeading"
 import { Button } from "@/components/ui"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, LucideIcon } from "lucide-react"
 import { SingleValue } from "react-select"
 import { IOption } from "@/types"
 import FadeIn from "react-fade-in"
-
-const goals: IOption[] = [
-  {
-    value: "Launch a website",
-    label: "Launch a website",
-  },
-  {
-    value: "Create a brand",
-    label: "Create a brand",
-  },
-  {
-    value: "Design a pitch deck",
-    label: "Design a pitch deck",
-  },
-  {
-    value: "Grow a community",
-    label: "Grow a community",
-  },
-  {
-    value: "Social media campaign",
-    label: "Social media campaign",
-  },
-  {
-    value: "Design a product",
-    label: "Design a product",
-  },
-  {
-    value: "Build a product",
-    label: "Build a product",
-  },
-  {
-    value: "PR/marketing support",
-    label: "PR/marketing support",
-  },
-  {
-    value: "Fractional leadership",
-    label: "Fractional leadership",
-  },
-  {
-    value: "Project management support ",
-    label: "Project management support ",
-  },
-  {
-    value: "Product management support",
-    label: "Product management support",
-  },
-  {
-    value: "Other",
-    label: "Other",
-  },
-]
+import goalData from "@/lib/constants/goals"
 
 interface GoalProps {
   goal: IOption | null
@@ -65,6 +15,13 @@ interface GoalProps {
 }
 
 const Goal = ({ goal, setGoal, setStep }: GoalProps) => {
+  const goals: IOption[] = goalData.map(
+    (goal: { label: string; icon: LucideIcon }) => ({
+      value: goal.label,
+      label: goal.label,
+    })
+  )
+
   return (
     <FadeIn>
       <HireHeading
