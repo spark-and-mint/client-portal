@@ -34,7 +34,6 @@ const SignUpForm = () => {
     resolver: zodResolver(CreateAccountValidation),
     defaultValues: {
       name: "",
-      company: "",
       email: "",
       password: "",
     },
@@ -56,7 +55,7 @@ const SignUpForm = () => {
     try {
       const stakeholder = {
         firstName: firstName || values.name,
-        lastName: lastName || "N/A",
+        lastName: lastName || "",
         ...values,
       }
 
