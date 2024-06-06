@@ -1,5 +1,12 @@
 import { ID, Models, Query } from "appwrite"
-import { appwriteConfig, account, databases, storage, avatars } from "./config"
+import {
+  appwriteConfig,
+  account,
+  databases,
+  storage,
+  avatars,
+  functions,
+} from "./config"
 import {
   IClient,
   IStakeholder,
@@ -96,6 +103,7 @@ export async function signInAccount(stakeholder: {
     return session
   } catch (error) {
     console.log(error)
+    return error
   }
 }
 
@@ -200,6 +208,7 @@ export async function updateStakeholder(stakeholder: IUpdateStakeholder) {
         lastName: stakeholder.lastName,
         avatarUrl: avatar.avatarUrl,
         avatarId: avatar.avatarId,
+        company: stakeholder.company,
         clientId: stakeholder.clientId,
       }
     )
@@ -963,5 +972,28 @@ export async function checkIfUserExists(email: string) {
   } catch (error) {
     console.error("Error checking user existence:", error)
     return null
+  }
+}
+
+export async function getEukapayInvoice(code: string) {
+  try {
+    const execution = await functions.createExecution(
+      "665f369b001ce922f8f5",
+      code
+    )
+
+    if (
+      execution.responseStatusCode >= 200 &&
+      execution.responseStatusCode < 300
+    ) {
+      return JSON.parse(execution.responseBody)
+    } else {
+      throw new Error(
+        `Function execution failed with status ${execution.responseStatusCode}: ${execution.responseBody}`
+      )
+    }
+  } catch (error) {
+    console.error("Error fetching invoices from server:", error)
+    throw error
   }
 }

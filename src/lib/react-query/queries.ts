@@ -52,6 +52,7 @@ import {
   deleteRequest,
   getClientDocuments,
   createClient,
+  getEukapayInvoice,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
@@ -448,5 +449,12 @@ export const useGetClientDocuments = (clientId?: string) => {
     queryKey: [QUERY_KEYS.GET_CLIENT_DOCUMENTS, clientId],
     queryFn: () => getClientDocuments(clientId),
     enabled: !!clientId,
+  })
+}
+
+export const useGetEukapayInvoice = (code: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_EUKAPAY_INVOICE],
+    queryFn: () => getEukapayInvoice(code),
   })
 }

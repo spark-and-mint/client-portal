@@ -32,7 +32,6 @@ const CreateAccount = () => {
     resolver: zodResolver(CreateAccountValidation),
     defaultValues: {
       name: "",
-      company: "",
       email: "",
       password: "",
     },
@@ -103,20 +102,6 @@ const CreateAccount = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Full name</FormLabel>
-                <FormControl>
-                  <Input type="text" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="company"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Company or organization</FormLabel>
                 <FormControl>
                   <Input type="text" {...field} />
                 </FormControl>

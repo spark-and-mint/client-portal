@@ -55,7 +55,7 @@ const App = () => {
         </Routes>
       </Section>
 
-      <Toaster position="top-right" expand={true} richColors />
+      <Toaster expand={true} richColors />
     </main>
   )
 }

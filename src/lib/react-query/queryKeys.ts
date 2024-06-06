@@ -36,4 +36,7 @@ export enum QUERY_KEYS {
 
   // OTHER KEYS
   GET_TYPEFORM_ANSWERS_BY_EMAIL = "getTypeformAnswersByEmail",
+
+  // EUKAPAY KEYS
+  GET_EUKAPAY_INVOICE = "getEukapayInvoice",
 }
