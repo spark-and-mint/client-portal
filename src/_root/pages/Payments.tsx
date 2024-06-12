@@ -2,9 +2,43 @@ import Invoice from "@/components/shared/Invoice"
 import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useStakeholderContext } from "@/context/AuthContext"
-import { useGetClientDocuments } from "@/lib/react-query/queries"
+import {
+  useGetClientDocuments,
+  useGetInvoiceData,
+} from "@/lib/react-query/queries"
 import { FileText } from "lucide-react"
 import FadeIn from "react-fade-in"
+
+const InvoiceList = ({ invoices }) => {
+  const { data: invoiceData, isPending, isError } = useGetInvoiceData(invoices)
+
+  if (isPending) {
+    return (
+      <Card className="flex flex-col items-center justify-center h-full py-16">
+        <Skeleton className="h-14 w-14 rounded-full" />
+        <Skeleton className="h-6 w-48 mt-3 rounded-md" />
+        <Skeleton className="h-5 w-80 mt-4 rounded-md" />
+      </Card>
+    )
+  }
+
+  if (isError) {
+    return <p>Error loading invoices. Please try again later.</p>
+  }
+
+  return (
+    <div className="space-y-8">
+      {invoiceData.map((invoiceData) => (
+        <Invoice
+          key={invoiceData.id}
+          title={invoiceData.title}
+          eukapayInvoice={invoiceData.eukapayInvoice}
+          stripePayment={invoiceData.stripePayment}
+        />
+      ))}
+    </div>
+  )
+}
 
 const Payments = () => {
   const { stakeholder } = useStakeholderContext()
@@ -33,10 +67,8 @@ const Payments = () => {
                 </p>
               </div>
 
-              <ul className="divide-y divide-accent rounded-md border border-accent">
-                {invoices.map((invoice) => (
-                  <Invoice key={invoice.$id} invoice={invoice} />
-                ))}
+              <ul className="space-y-10">
+                <InvoiceList invoices={invoices} />
               </ul>
             </>
           ) : (

@@ -53,10 +53,13 @@ import {
   getClientDocuments,
   createClient,
   getEukapayInvoice,
+  getStripePayment,
+  getInvoiceData,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
 import { useStakeholderContext } from "@/context/AuthContext"
+import { Models } from "appwrite"
 
 export const useCreateStakeholderAccount = () => {
   return useMutation({
@@ -456,5 +459,22 @@ export const useGetEukapayInvoice = (code: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_EUKAPAY_INVOICE],
     queryFn: () => getEukapayInvoice(code),
+    enabled: !!code,
+  })
+}
+
+export const useGetStripePayment = (id: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_STRIPE_PAYMENT],
+    queryFn: () => getStripePayment(id),
+    enabled: !!id,
+  })
+}
+
+export const useGetInvoiceData = (invoices: Models.Document[]) => {
+  return useQuery({
+    queryKey: ["GET_INVOICE_DATA", invoices],
+    queryFn: () => getInvoiceData(invoices),
+    enabled: invoices.length > 0,
   })
 }

@@ -34,9 +34,12 @@ export enum QUERY_KEYS {
   GET_MILESTONE_BY_ID = "getMilestoneById",
   GET_PROJECT_MILESTONES = "getProjectMilestones",
 
-  // OTHER KEYS
+  // TYPEFORM KEYS
   GET_TYPEFORM_ANSWERS_BY_EMAIL = "getTypeformAnswersByEmail",
 
   // EUKAPAY KEYS
   GET_EUKAPAY_INVOICE = "getEukapayInvoice",
+
+  // STRIPE KEYS
+  GET_STRIPE_PAYMENT = "getStripePayment",
 }

@@ -1,61 +1,97 @@
-import { useGetEukapayInvoice } from "@/lib/react-query/queries"
-import { Dot, FileText, ExternalLink } from "lucide-react"
+import { FileText, Bitcoin, CreditCard, Check } from "lucide-react"
 import { Link } from "react-router-dom"
-import { Skeleton } from "../ui/skeleton"
+import { Button } from "../ui"
+import { Badge } from "../ui/badge"
+import { useEffect, useState } from "react"
 
-const Invoice = ({ invoice }) => {
-  const { data: invoiceData, isPending: isPendingInvoice } =
-    useGetEukapayInvoice(invoice.code)
+const Invoice = ({ title, eukapayInvoice, stripePayment }) => {
+  const [isPaid, setIsPaid] = useState(false)
 
-  const getStatus = (status: string) => {
-    switch (status) {
-      case "Paid":
-        return (
-          <span className="flex gap-0.5 pr-3 pl-1 py-1.5 text-[0.8rem] font-medium border border-border rounded-lg">
-            <Dot className="w-6 h-6 text-green-500 scale-150" />
-            Accepted
-          </span>
-        )
-      default:
-        return (
-          <span className="flex gap-0.5 pr-3 pl-1 py-1.5 text-[0.8rem] font-medium border border-border rounded-lg">
-            <Dot className="w-6 h-6 text-amber-400 scale-150" />
-            {status}
-          </span>
-        )
+  const getStatusBadge = (paid: boolean) => {
+    if (paid) {
+      return (
+        <Badge
+          variant="outline"
+          className="rounded-md text-[0.7rem] px-1.5 py-0 border-green-600/20 bg-green-800/10 text-[#4ade80] tracking-wide"
+        >
+          <Check strokeWidth={3} className="w-3 h-3 mr-1" />
+          Paid
+        </Badge>
+      )
+    } else {
+      return (
+        <Badge
+          variant="outline"
+          className="rounded-md text-[0.7rem] px-1.5 py-0 border-yellow-600/20 bg-amber-900/10 text-[#eab308] tracking-wide"
+        >
+          Unpaid
+        </Badge>
+      )
     }
   }
 
-  if (isPendingInvoice) {
-    return (
-      <div className="flex justify-between p-6">
-        <Skeleton className="w-64 h-6" />
-        <Skeleton className="w-28 h-6" />
-      </div>
-    )
+  useEffect(() => {
+    if (stripePayment?.paid === true || eukapayInvoice?.status === "Paid") {
+      setIsPaid(true)
+    }
+  }, [stripePayment, eukapayInvoice])
+
+  const getPrice = () => {
+    if (stripePayment?.itemPrices && stripePayment?.itemPrices.length > 0) {
+      return `$${new Intl.NumberFormat().format(
+        stripePayment?.itemPrices[0].price / 100
+      )} ${stripePayment?.itemPrices[0].currency.toUpperCase()}`
+    } else if (eukapayInvoice) {
+      return `$${new Intl.NumberFormat().format(eukapayInvoice?.price)} ${
+        eukapayInvoice?.currency.unit
+      }`
+    }
   }
 
   return (
-    <Link to={invoiceData.paymentUrl} target="_blank" className="block">
-      <li className="relative flex items-center justify-between py-4 px-6 text-sm leading-6 hover:bg-accent/10">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
-          <FileText
-            className="hidden sm:block h-5 w-5 flex-shrink-0 text-gray-400"
-            aria-hidden="true"
-          />
-          <div className="sm:ml-4 flex items-center min-w-0 flex-1 gap-2">
-            <span className="truncate font-medium">{invoice.title}</span>
-          </div>
-          <div className="flex items-center sm:ml-5">
-            {getStatus(invoiceData.status)}
+    <li className="relative flex items-center justify-between py-4 px-6 border border-accent rounded-xl text-sm leading-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-5">
+        <FileText
+          strokeWidth={1.1}
+          className="hidden sm:block h-12 w-12 flex-shrink-0 text-primary opacity-90"
+          aria-hidden="true"
+        />
+        <div className="flex flex-col gap-1.5">
+          <div className="text-base font-medium">{title}</div>
+          <div className="flex items-center gap-3">
+            <p className="text-gray-300 font-medium">
+              Total amount: {getPrice()}
+            </p>
+            {getStatusBadge(isPaid)}
           </div>
         </div>
-        <div className="ml-4 flex font-medium text-primary items-center">
-          Open
-          <ExternalLink className="h-4 w-4 mb-0.5 ml-2" />
+      </div>
+
+      {!isPaid && (
+        <div className="flex flex-col gap-4">
+          {stripePayment?.url && (
+            <Link to={stripePayment?.url} target="_blank">
+              <Button size="sm" className="w-48">
+                <CreditCard className="w-4 h-4 mr-2" />
+                Pay with Stripe
+              </Button>
+            </Link>
+          )}
+          {eukapayInvoice?.paymentUrl && (
+            <Link to={eukapayInvoice?.paymentUrl} target="_blank">
+              <Button
+                size="sm"
+                variant={stripePayment?.url ? "outline" : "default"}
+                className="w-48"
+              >
+                <Bitcoin className="w-4 h-4 mr-2" />
+                Pay with Crypto
+              </Button>
+            </Link>
+          )}
         </div>
-      </li>
-    </Link>
+      )}
+    </li>
   )
 }
 
