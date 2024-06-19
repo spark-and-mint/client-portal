@@ -31,7 +31,7 @@ module.exports = {
           1: "#201e27",
         },
         n: {
-          1: "#FFFFFF",
+          1: "#F4FAFF",
           2: "#CAC6DD",
           3: "#ADA8C3",
           4: "#757185",

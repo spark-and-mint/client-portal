@@ -26,6 +26,10 @@
     overflow-y: scroll;
   }
 
+  input {
+    @apply autofill:shadow-[inset_0_0_0px_1000px_#190d07];
+  }
+
   :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
