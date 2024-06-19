@@ -143,12 +143,12 @@ const SignInForm = () => {
       </Form>
 
       <Link to="/sign-up" className="group">
-        <div className="mt-8 py-3 border border-border rounded-md text-primary transition-colors group-hover:border-accent">
-          <p className="text-sm text-center transition-colors group-hover:text-white">
+        <div className="mt-8 py-3 border border-border rounded-md text-white transition-colors group-hover:border-accent">
+          <p className="text-sm text-center transition-colors group-hover:text-primary">
             Don&apos;t have an account?
             <span className="font-semibold ml-1">
               Sign up{" "}
-              <ArrowRight className="h-4 w-4 inline transition group-hover:translate-x-0.5 group-hover:text-white" />
+              <ArrowRight className="h-4 w-4 inline transition group-hover:translate-x-0.5 group-hover:text-primary" />
             </span>
           </p>
         </div>

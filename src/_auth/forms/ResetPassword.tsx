@@ -205,10 +205,10 @@ const ResetPassword = () => {
           </Form>
 
           <Link to="/sign-in" className="group">
-            <div className="mt-8 py-3 border border-border rounded-md text-primary transition-colors group-hover:border-accent">
-              <p className="text-sm text-center transition-colors group-hover:text-white">
-                <span className="flex items-center font-semibold justify-center">
-                  <ArrowLeft className="h-4 w-4 mr-1.5 inline transition group-hover:-translate-x-0.5 group-hover:text-white" />
+            <div className="mt-8 py-3 border border-border rounded-md text-white transition-colors group-hover:border-accent">
+              <p className="text-sm text-center transition-colors group-hover:text-primary">
+                <span className="flex items-center font-medium justify-center">
+                  <ArrowLeft className="h-4 w-4 mr-1.5 inline transition group-hover:-translate-x-0.5 group-hover:text-primary" />
                   Return to sign in
                 </span>
               </p>

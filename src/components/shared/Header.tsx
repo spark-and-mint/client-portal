@@ -46,7 +46,7 @@ const Header = () => {
       <Section className="!px-0 !py-0 flex items-center min-h-24">
         <div className="container flex justify-between items-center">
           <Link to={isAuthenticated ? "/" : "/sign-in"}>
-            <img src="/assets/logo.svg" alt="logo" className="w-[7.25rem]" />
+            <img src="/assets/logo.svg" alt="logo" className="w-[2.25rem]" />
           </Link>
           {location.pathname === "/sign-up" ? (
             <Button asChild variant="outline">
