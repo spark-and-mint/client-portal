@@ -169,7 +169,6 @@ const Milestone = ({ milestoneId }: { milestoneId: string }) => {
                         variant="outline"
                         disabled={loadingReject}
                         onClick={handleReject}
-                        className="text-red-500"
                       >
                         {loadingReject ? (
                           <div className="flex items-center gap-2">

@@ -48,7 +48,7 @@ const Goal = ({ goal, setGoal, setStep }: GoalProps) => {
             menu: () =>
               cn(
                 "absolute top-0 mt-1 z-10 w-full",
-                "rounded-b-md border border-accent bg-popover shadow-md overflow-x-hidden"
+                "rounded-b-md border border-accent bg-background shadow-md overflow-x-hidden"
               ),
             option: () => cn("py-2 px-3 focus:bg-gray-200 hover:bg-slate-700"),
           }}

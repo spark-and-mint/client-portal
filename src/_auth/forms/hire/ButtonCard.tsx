@@ -19,7 +19,7 @@ const ButtonCard = ({
   if (small) {
     return (
       <Card
-        className="flex items-center justify-between px-4 py-3 group hover:bg-slate-400/10 hover:border-cyan-400 transition-colors duration-100 cursor-pointer"
+        className="flex items-center justify-between px-4 py-3 group hover:bg-slate-400/10 hover:border-primary transition-colors duration-100 cursor-pointer"
         onClick={onClick}
         tabIndex={0}
       >
@@ -31,7 +31,7 @@ const ButtonCard = ({
           </div>
         </div>
         <div className="flex items-center">
-          <div className="flex items-center justify-center w-6 h-6 rounded-full transition-colors duration-100 bg-transparent border border-primary text-primary group-hover:bg-primary group-hover:text-slate-600">
+          <div className="flex items-center justify-center w-6 h-6 rounded-full transition-colors duration-100 bg-transparent border border-primary text-primary group-hover:bg-primary group-hover:text-black">
             <ArrowRight strokeWidth={1.3} className="w-4 h-4" />
           </div>
         </div>
@@ -41,7 +41,7 @@ const ButtonCard = ({
 
   return (
     <Card
-      className="flex items-center justify-between py-4 group hover:bg-slate-400/15 hover:border-cyan-400 transition-colors duration-100 cursor-pointer"
+      className="flex items-center justify-between py-4 group hover:bg-slate-400/10 hover:border-primary transition-colors duration-100 cursor-pointer"
       onClick={onClick}
       tabIndex={0}
     >
@@ -61,7 +61,7 @@ const ButtonCard = ({
         </div>
       </div>
       <div className="flex items-center">
-        <div className="flex items-center justify-center w-8 h-8 rounded-full transition-colors duration-100 bg-transparent border border-primary text-primary group-hover:bg-primary group-hover:text-slate-600">
+        <div className="flex items-center justify-center w-8 h-8 rounded-full transition-colors duration-100 bg-transparent border border-primary text-primary group-hover:bg-primary group-hover:text-black">
           <ArrowRight strokeWidth={1.3} className="w-6 h-6" />
         </div>
       </div>

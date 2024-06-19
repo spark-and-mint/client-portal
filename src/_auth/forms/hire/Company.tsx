@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import HireHeading from "./HireHeading"
 import { Button } from "@/components/ui"
 import FadeIn from "react-fade-in"
@@ -7,10 +7,12 @@ import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { useGetClients } from "@/lib/react-query/queries"
 import { createFilter } from "react-select"
+import { useNavigate } from "react-router-dom"
 
 const Company = ({ company, setCompany, setStep }) => {
   const { data: clients } = useGetClients()
   const [menuIsOpen, setMenuIsOpen] = useState(false)
+  const navigate = useNavigate()
 
   const getClientOptions = (clients) => {
     return clients?.documents.map((client) => ({
@@ -69,7 +71,7 @@ const Company = ({ company, setCompany, setStep }) => {
             menu: () =>
               cn(
                 "absolute top-0 mt-2 text-sm z-10 w-full",
-                "rounded-md border border-accent bg-popover shadow-md "
+                "rounded-md border border-accent bg-background shadow-md "
               ),
             option: () =>
               cn(
@@ -84,7 +86,15 @@ const Company = ({ company, setCompany, setStep }) => {
           }}
         />
       </div>
-      <div className="flex justify-end mt-8">
+      <div className="flex justify-between mt-8">
+        <Button
+          onClick={() => navigate(-1)}
+          variant="link"
+          className="p-0 text-white"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back
+        </Button>
         <Button onClick={() => setStep(2)} size="sm" disabled={!company}>
           Continue
           <ArrowRight className="w-4 h-4 ml-2" />

@@ -26,7 +26,7 @@ import OAuth2Callback from "./_auth/OAuth2Callback"
 const App = () => {
   return (
     <main className="flex flex-col sm:h-screen">
-      <div className="absolute inset-x-0 h-[480px] bg-gradient-to-b from-[#06374e] to-transparent opacity-40" />
+      <div className="absolute inset-x-0 h-[480px] bg-gradient-to-b from-[#ff6a3425] to-transparent opacity-40" />
 
       <Header />
 

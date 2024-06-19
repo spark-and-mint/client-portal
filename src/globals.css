@@ -37,37 +37,37 @@
     -moz-osx-font-smoothing: grayscale;
     color-scheme: dark;
 
-    --gradient: #cbeafe;
+    --radius: 0.5rem;
 
-    --background: 216 62.4% 7.12%;
-    --foreground: 216 9.6% 99.45%;
+    --orange: #fd5a1e;
+    --apricot: #ffc632;
+    --light-yellow: #ffe45f;
 
-    --muted: 216 40% 15%;
-    --muted-foreground: 216 9.6% 70.9%;
+    --gradient: #ff7834;
 
-    --popover: 216 45.8% 11.57%;
-    --popover-foreground: 216 9.6% 99.45%;
+    --background: 10 15% 5%;
+    --foreground: 17 10% 98%;
 
-    --card: 216 45.8% 11.57%;
-    --card-foreground: 216 9.6% 99.45%;
+    --muted: 10 15% 10%;
+    --muted-foreground: 10 5% 55%;
 
-    --border: 216 40% 15%;
-    --input: 216 40% 15%;
+    --border: 17 20% 18%;
+    --input: 17 20% 18%;
 
-    --primary: #cbeafe;
-    --primary-foreground: 216 9.6% 8.9%;
+    --primary: #ff7834;
+    --primary-foreground: 17 10% 2%;
 
-    --secondary: 216 40% 15%;
-    --secondary-foreground: 216 9.6% 99.45%;
+    --secondary: 17 4.8% 15%;
+    --secondary-foreground: 17 9.8% 97.8%;
 
-    --accent: 216 40% 25%;
-    --accent-foreground: 216 9.6% 99.45%;
+    --accent: 17 20% 18%;
+    --accent-foreground: 17 10% 98%;
 
     --destructive: 0 82.8% 45%;
     --destructive-foreground: 216 9.6% 99.45%;
 
-    --ring: #cbeafe;
+    --dialog: 10 20% 1%;
 
-    --radius: 0.5rem;
+    --ring: #ff7834;
   }
 }

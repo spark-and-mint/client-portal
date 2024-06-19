@@ -18,10 +18,26 @@ import { Link } from "react-router-dom"
 
 const Home = () => {
   const { stakeholder, requests } = useStakeholderContext()
+  // const { stakeholder } = useStakeholderContext()
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  // const requests = [
+  //   {
+  //     $id: "1",
+  //     goal: "Design a product",
+  //     skill: "I need a product designer with web3 experience.",
+  //     status: "in review",
+  //   },
+  //   {
+  //     $id: "2",
+  //     goal: "Social media campaign",
+  //     skill: "DAO and crypto experience needed.",
+  //     status: "accepted",
+  //   },
+  // ]
 
   return (
     <FadeIn className="pb-16 space-y-8">
@@ -113,9 +129,9 @@ const Home = () => {
       ) : (
         <Link to="/start" className="block mt-9 mb-10">
           <BackgroundGradient className="rounded-xl bg-background">
-            <Card className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 group border-transparent hover:bg-slate-400/15 transition-colors duration-200">
+            <Card className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 group border-transparent hover:bg-slate-400/10 transition-colors duration-200">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6">
-                <div className="animate-border flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 bg-white bg-gradient-to-r from-cyan-300 via-purple-300 to-teal-300 bg-[length:400%_400%] text-slate-900 rounded-full">
+                <div className="animate-border flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 bg-white bg-gradient-to-r from-yellow-300 via-primary to-amber-600 bg-[length:400%_400%] text-slate-900 rounded-full">
                   <Sparkles strokeWidth={1.5} className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
@@ -168,7 +184,7 @@ const Home = () => {
           </div>
           <div className="mt-2">
             <Button asChild variant="secondary">
-              <Link to="https://x.com/sparkandmint" target="_blank">
+              <Link to="https://x.com/yourteamspark" target="_blank">
                 Connect with us <ExternalLink className="w-4 h-4 ml-2" />
               </Link>
             </Button>

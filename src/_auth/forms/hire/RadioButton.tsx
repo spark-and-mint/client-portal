@@ -12,8 +12,8 @@ const RadioButton = ({ text, onClick, selected }: RadioButtonProps) => {
   return (
     <Card
       className={cn(
-        "flex items-center justify-between px-4 py-3 group hover:bg-slate-400/10 hover:border-cyan-400 transition-colors duration-100 cursor-pointer",
-        selected && "bg-slate-400/10 border-cyan-400"
+        "flex items-center justify-between px-4 py-3 group hover:bg-slate-400/10 hover:border-primary transition-colors duration-100 cursor-pointer",
+        selected && "bg-slate-400/10 border-primary"
       )}
       onClick={onClick}
       tabIndex={0}

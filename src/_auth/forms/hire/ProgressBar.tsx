@@ -13,7 +13,7 @@ const ProgressBar = ({ step, steps }) => {
           duration: 0.35,
           ease: "easeInOut",
         }}
-        className="h-full bg-gradient-to-r from-cyan-900 to-cyan-400"
+        className="h-full bg-gradient-to-r from-amber-900 to-orange-200"
       />
     </div>
   )

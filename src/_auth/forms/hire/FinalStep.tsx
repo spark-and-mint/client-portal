@@ -9,7 +9,7 @@ const confettiProps: ConfettiProps = {
   duration: 3000,
   particleCount: 80,
   width: 1600,
-  colors: ["#1a2746", "#1471BF", "#5BB4DC", "#eeffff", "#cbeafe"],
+  colors: ["#fd5a1e", "#ffc632", "#ffe45f", "#ff6a34", "#fff"],
   zIndex: 1000,
 }
 
@@ -20,7 +20,7 @@ const FinalStep = ({ individualOrTeam }) => {
         <div className="flex items-center justify-center">
           <ConfettiExplosion {...confettiProps} />
         </div>
-        <div className="animate-border flex items-center justify-center w-16 h-16 bg-white bg-gradient-to-r from-cyan-300 via-purple-300 to-teal-300 bg-[length:400%_400%] text-slate-900 rounded-full">
+        <div className="animate-border flex items-center justify-center w-16 h-16 bg-white bg-gradient-to-r from-yellow-600 via-primary to-amber-400 bg-[length:400%_400%] text-slate-900 rounded-full">
           <MailCheck strokeWidth={1.5} className="w-10 h-10" />
         </div>
         <h3 className="h5 sm:h3 mt-4">

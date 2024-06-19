@@ -75,7 +75,7 @@ export function SidebarNav() {
             cn(
               buttonVariants({ variant: "ghost" }),
               `w-full justify-start rounded-md font-medium ${
-                isActive && "bg-muted hover:bg-muted"
+                isActive && "bg-secondary/30 hover:bg-secondary/30"
               }`
             )
           }

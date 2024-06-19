@@ -105,7 +105,7 @@ const Update = ({ update, setHasFeedback }) => {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="px-6 pb-6">
-            <dl className="divide-y divide-stroke-1">
+            <dl className="divide-y divide-accent">
               {update.description && (
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="text-sm font-medium leading-6 text-primary">
