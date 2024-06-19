@@ -21,7 +21,6 @@ import {
 import { CreateAccountValidation } from "@/lib/validation"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { RotateCw } from "lucide-react"
-import StarSvg from "@/svg/StarSvg"
 import GoogleIcon from "@/svg/GoogleIcon"
 import { account } from "@/lib/appwrite/config"
 
@@ -104,7 +103,6 @@ const SignUpForm = () => {
   return (
     <div className="mt-8 sm:mt-0 pb-16">
       <Form {...form}>
-        <StarSvg className="w-8 h-8 mb-6 mx-auto" />
         <h1 className="h5 text-center">Game On!</h1>
         <p className="mt-1 mb-8 text-sm text-muted-foreground text-center">
           Let's start by creating an account.

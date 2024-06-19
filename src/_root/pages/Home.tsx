@@ -18,7 +18,6 @@ import { Link } from "react-router-dom"
 
 const Home = () => {
   const { stakeholder, requests } = useStakeholderContext()
-  // const { stakeholder } = useStakeholderContext()
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -41,7 +40,7 @@ const Home = () => {
 
   return (
     <FadeIn className="pb-16 space-y-8">
-      <div>
+      <div className="-mt-2">
         <h4 className="h4 mb-1">
           Hello, <span className="capitalize">{stakeholder.firstName}</span>!
         </h4>
@@ -102,30 +101,32 @@ const Home = () => {
         </Link>
       )} */}
 
-      <Link to="/start" className="block sm:hidden">
-        <Button className="w-full text-base" size="lg">
-          <Plus className="w-5 h-5 mr-2" />
-          Start a new project
-        </Button>
-      </Link>
-
       {requests && requests.length > 0 ? (
-        <Card>
-          <h6 className="h6 flex justify-between">
-            Your project requests
-            <Link to="/start" className="hidden sm:block">
-              <Button size="sm" className="flex items-center">
-                <Plus className="w-4 h-5 mr-2" />
-                Start a project
-              </Button>
-            </Link>
-          </h6>
-          <ul className="mt-6 *:py-2 first:*:pt-0 last:*:pb-0">
-            {requests.map((request) => (
-              <RequestItem key={request.$id} request={request} />
-            ))}
-          </ul>
-        </Card>
+        <>
+          <Link to="/start" className="block sm:hidden">
+            <Button className="w-full text-base" size="lg">
+              <Plus className="w-5 h-5 mr-2" />
+              Start a new project
+            </Button>
+          </Link>
+
+          <Card>
+            <h6 className="h6 flex justify-between">
+              Your project requests
+              <Link to="/start" className="hidden sm:block">
+                <Button size="sm" className="flex items-center">
+                  <Plus className="w-4 h-5 mr-2" />
+                  Start a project
+                </Button>
+              </Link>
+            </h6>
+            <ul className="mt-6 *:py-2 first:*:pt-0 last:*:pb-0">
+              {requests.map((request) => (
+                <RequestItem key={request.$id} request={request} />
+              ))}
+            </ul>
+          </Card>
+        </>
       ) : (
         <Link to="/start" className="block mt-9 mb-10">
           <BackgroundGradient className="rounded-xl bg-background">
@@ -141,7 +142,7 @@ const Home = () => {
                   <p>Find the best talent to bring your vision to life.</p>
                 </div>
               </div>
-              <div className="flex items-center mt-2">
+              <div className="flex items-center">
                 <Button>
                   Get started
                   <ArrowRight className="w-4 h-4 ml-2" />

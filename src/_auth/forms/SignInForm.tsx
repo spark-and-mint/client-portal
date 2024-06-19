@@ -17,7 +17,6 @@ import { SignInValidation } from "@/lib/validation"
 import { useSignInAccount } from "@/lib/react-query/queries"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { ArrowRight, RotateCw } from "lucide-react"
-import StarSvg from "@/svg/StarSvg"
 import GoogleIcon from "@/svg/GoogleIcon"
 import { account } from "@/lib/appwrite/config"
 
@@ -70,7 +69,6 @@ const SignInForm = () => {
   return (
     <div className="mt-16 sm:mt-3">
       <Form {...form}>
-        <StarSvg className="w-8 h-8 mb-8 mx-auto" />
         <h5 className="h5 mb-8 text-center">Log in to TeamSpark</h5>
         <Button
           variant="secondary"
