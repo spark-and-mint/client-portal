@@ -47,13 +47,13 @@ const Project = () => {
 
                   <div className="flex gap-4 lg:gap-0 lg:mt-0 flex-wrap space-x-8">
                     <div className="flex items-center text-sm text-muted-foreground ">
-                      <PickaxeIcon className="mr-2 h-5 w-5 flex-shrink-0 text-primary" />
+                      <PickaxeIcon className="mr-2 h-5 w-5 flex-shrink-0 text-yellow-700" />
                       <span className="first-letter:uppercase">
                         {project?.status}
                       </span>
                     </div>
                     <div className="flex items-center text-sm text-muted-foreground">
-                      <MilestoneIcon className="mr-2 h-5 w-5 flex-shrink-0 text-primary" />
+                      <MilestoneIcon className="mr-2 h-5 w-5 flex-shrink-0 text-yellow-700" />
                       Milestone-based
                     </div>
                   </div>

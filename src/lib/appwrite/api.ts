@@ -775,7 +775,7 @@ export async function getProjectMilestones(projectId?: string) {
     const milestones = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.milestoneCollectionId,
-      [Query.equal("projectId", projectId)]
+      [Query.equal("projectId", projectId), Query.orderDesc("$createdAt")]
     )
 
     if (!milestones) throw Error
