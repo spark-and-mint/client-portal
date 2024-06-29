@@ -21,8 +21,8 @@ import {
 import { CreateAccountValidation } from "@/lib/validation"
 import { useStakeholderContext } from "@/context/AuthContext"
 import { RotateCw } from "lucide-react"
-import GoogleIcon from "@/svg/GoogleIcon"
-import { account } from "@/lib/appwrite/config"
+// import GoogleIcon from "@/svg/GoogleIcon"
+// import { account } from "@/lib/appwrite/config"
 
 const SignUpForm = () => {
   const navigate = useNavigate()
@@ -89,16 +89,16 @@ const SignUpForm = () => {
     }
   }
 
-  const onGoogleSignIn = async () => {
-    try {
-      account.createOAuth2Session(
-        "google",
-        "https://portal.teamspark.xyz/oauth2callback"
-      )
-    } catch (error) {
-      toast.error("Login failed. Please try again.")
-    }
-  }
+  // const onGoogleSignIn = async () => {
+  //   try {
+  //     account.createOAuth2Session(
+  //       "google",
+  //       "https://portal.teamspark.xyz/oauth2callback"
+  //     )
+  //   } catch (error) {
+  //     toast.error("Login failed. Please try again.")
+  //   }
+  // }
 
   return (
     <div className="mt-8 sm:mt-0 pb-16">
@@ -108,7 +108,7 @@ const SignUpForm = () => {
           Let's start by creating an account.
         </p>
 
-        <Button
+        {/* <Button
           variant="secondary"
           size="sm"
           className="flex items-center w-full h-10 text-xs font-medium"
@@ -122,7 +122,7 @@ const SignUpForm = () => {
           <div className="w-full border-b border-border"></div>
           <p className="mx-4 text-sm text-muted-foreground">or</p>
           <div className="w-full border-b border-border"></div>
-        </div>
+        </div> */}
 
         <form onSubmit={form.handleSubmit(handleSignUp)} className="space-y-4">
           <FormField
