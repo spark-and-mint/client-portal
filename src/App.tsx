@@ -20,8 +20,10 @@ import Section from "./components/shared/Section"
 import Details from "./_root/pages/Details"
 import ResetPassword from "./_auth/forms/ResetPassword"
 import StartProject from "./_auth/forms/hire/StartProject"
+import StartFeedbackProject from "./_auth/forms/feedback/StartFeedbackProject"
 import Partners from "./_root/pages/Partners"
 import OAuth2Callback from "./_auth/OAuth2Callback"
+import FeedbackRequestDetails from "./_root/pages/FeedbackRequestDetails"
 
 const App = () => {
   return (
@@ -34,6 +36,7 @@ const App = () => {
         <Routes>
           <Route element={<AuthLayout />}>
             <Route path="/start" element={<StartProject />} />
+            <Route path="/feedback" element={<StartFeedbackProject />} />
             <Route path="/sign-in" element={<SignInForm />} />
             <Route path="/sign-up" element={<SignUpForm />} />
             <Route path="/reset" element={<ResetPassword />} />
@@ -44,6 +47,10 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/project/:projectId" element={<Project />} />
+            <Route
+              path="/feedback/:feedbackRequestId"
+              element={<FeedbackRequestDetails />}
+            />
             <Route path="/details" element={<Details />} />
             <Route path="/documents" element={<Documents />} />
             <Route path="/partners" element={<Partners />} />

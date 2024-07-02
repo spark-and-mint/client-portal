@@ -12,6 +12,8 @@ import {
   IMilestone,
   INewRequest,
   INewClient,
+  INewFeedbackRequest,
+  IFeedbackRequest,
 } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
@@ -55,6 +57,9 @@ import {
   getEukapayInvoice,
   getStripePayment,
   getInvoiceData,
+  createFeedbackRequest,
+  getFeedbackRequestById,
+  updateFeedbackRequest,
 } from "../appwrite/api"
 import { QUERY_KEYS } from "./queryKeys"
 import { useParams } from "react-router-dom"
@@ -276,6 +281,14 @@ export const useGetProjectById = (projectId?: string) => {
   })
 }
 
+export const useGetFeedbackRequestById = (feedbackRequestId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_PROJECT_BY_ID, feedbackRequestId],
+    queryFn: () => getFeedbackRequestById(feedbackRequestId),
+    enabled: !!feedbackRequestId,
+  })
+}
+
 export const useGetClientProjects = (clientId?: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CLIENT_PROJECTS, clientId],
@@ -426,6 +439,13 @@ export const useCreateRequest = () => {
   })
 }
 
+export const useCreateFeedbackRequest = () => {
+  return useMutation({
+    mutationFn: (feedbackRequest: INewFeedbackRequest) =>
+      createFeedbackRequest(feedbackRequest),
+  })
+}
+
 export const useGetStakeholderRequests = (stakeholderId: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_STAKEHOLDER_REQUESTS, stakeholderId],
@@ -476,5 +496,18 @@ export const useGetInvoiceData = (invoices: Models.Document[]) => {
     queryKey: ["GET_INVOICE_DATA", invoices],
     queryFn: () => getInvoiceData(invoices),
     enabled: invoices.length > 0,
+  })
+}
+
+export const useUpdateFeedbackRequest = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (feedbackRequest: IFeedbackRequest) =>
+      updateFeedbackRequest(feedbackRequest),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_FEEDBACK_REQUEST_BY_ID, data?.$id],
+      })
+    },
   })
 }

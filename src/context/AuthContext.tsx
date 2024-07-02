@@ -2,7 +2,9 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { createContext, useContext, useEffect, useState } from "react"
 import { IStakeholder } from "@/types"
 import {
+  getClientProjects,
   getCurrentStakeholder,
+  getStakeholderFeedbackRequests,
   getStakeholderRequests,
 } from "@/lib/appwrite/api"
 import { Models } from "appwrite"
@@ -27,7 +29,11 @@ const INITIAL_STATE = {
   setIsAuthenticated: () => {},
   projectsWithNewUpdates: [],
   requests: [],
+  feedbackRequests: [],
+  projects: [],
+  setFeedbackRequests: () => {},
   setRequests: () => {},
+  setProjects: () => {},
   checkAuthStakeholder: async () => false as boolean,
   serverError: false,
 }
@@ -41,6 +47,10 @@ type IContextType = {
   projectsWithNewUpdates: Models.Document[]
   requests: Models.Document[]
   setRequests: React.Dispatch<React.SetStateAction<Models.Document[]>>
+  feedbackRequests: Models.Document[]
+  setFeedbackRequests: React.Dispatch<React.SetStateAction<any[]>>
+  projects: Models.Document[]
+  setProjects: React.Dispatch<React.SetStateAction<Models.Document[]>>
   checkAuthStakeholder: () => Promise<boolean>
   serverError: boolean
 }
@@ -55,6 +65,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [projectsWithNewUpdates] = useState<Models.Document[] | []>([])
   const [requests, setRequests] = useState<Models.Document[]>([])
+  const [feedbackRequests, setFeedbackRequests] = useState<any[]>([])
+  const [projects, setProjects] = useState<Models.Document[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [serverError, setServerError] = useState(false)
 
@@ -82,7 +94,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // )
         // setProjectsWithNewUpdates(projectsWithNewUpdatesData || [])
         const requests = await getStakeholderRequests(stakeholder.$id)
+        const feedbackRequests = await getStakeholderFeedbackRequests(
+          stakeholder.$id
+        )
+        const projects = await getClientProjects(stakeholder?.clientId)
         setRequests(requests?.documents || [])
+        setFeedbackRequests(feedbackRequests?.documents || [])
+        setProjects(projects?.documents || [])
         setStakeholder(serverResponseToStakeholderModel(stakeholder))
         setIsAuthenticated(true)
         setServerError(false)
@@ -121,6 +139,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (
         !authenticated &&
         location.pathname !== "/start" &&
+        location.pathname !== "/feedback" &&
         location.pathname !== "/sign-up" &&
         location.pathname !== "/reset" &&
         location.pathname !== "/verify" &&
@@ -140,6 +159,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     projectsWithNewUpdates,
     requests,
     setRequests,
+    feedbackRequests,
+    setFeedbackRequests,
+    projects,
+    setProjects,
     checkAuthStakeholder,
     serverError,
   }

@@ -22,6 +22,8 @@ import {
   INewRequest,
   INewOAuthStakeholder,
   INewClient,
+  INewFeedbackRequest,
+  IFeedbackRequest,
 } from "@/types"
 import { nanoid } from "nanoid"
 
@@ -938,6 +940,68 @@ export async function deleteRequest(requestId: string) {
   }
 }
 
+export async function createFeedbackRequest(
+  feedbackRequest: INewFeedbackRequest
+) {
+  try {
+    const newFeedbackRequest = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.feedbackRequestCollectionId,
+      ID.unique(),
+      {
+        stakeholderId: feedbackRequest.stakeholderId,
+        feedbackType: feedbackRequest.feedbackType,
+        numberOfExperts: feedbackRequest.numberOfExperts,
+        industry: feedbackRequest.industry,
+        expertise: feedbackRequest.expertise,
+        timeFrame: feedbackRequest.timeFrame,
+        status: "in review",
+      }
+    )
+
+    return newFeedbackRequest
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getStakeholderFeedbackRequests(stakeholderId: string) {
+  try {
+    const feedbackRequests = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.feedbackRequestCollectionId,
+      [
+        Query.equal("stakeholderId", stakeholderId),
+        Query.orderDesc("$createdAt"),
+      ]
+    )
+
+    if (!feedbackRequests) throw Error
+
+    return feedbackRequests
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function deleteFeedbackRequest(feedbackRequestId: string) {
+  if (!feedbackRequestId) return
+
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.feedbackRequestCollectionId,
+      feedbackRequestId
+    )
+
+    if (!statusCode) throw Error
+
+    return { status: "Ok", feedbackRequestId }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function getClientDocuments(clientId?: string) {
   if (!clientId) return
 
@@ -1084,4 +1148,84 @@ export const getInvoiceData = async (invoices: Models.Document[]) => {
   }
 
   return results
+}
+
+export async function getFeedbackRequestById(feedbackRequestId?: string) {
+  if (!feedbackRequestId) throw Error
+
+  try {
+    const feedbackRequest = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.feedbackRequestCollectionId,
+      feedbackRequestId
+    )
+
+    if (!feedbackRequest) throw Error
+
+    return feedbackRequest
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getFileView(fileId: string) {
+  try {
+    const fileUrl = storage.getFileView(appwriteConfig.storageId, fileId)
+
+    if (!fileUrl) throw Error
+
+    return fileUrl
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function updateFeedbackRequest(feedbackRequest: IFeedbackRequest) {
+  const hasFileToUpdate = feedbackRequest.file.length > 0
+
+  try {
+    let file = {
+      fileName: feedbackRequest.fileName,
+      fileUrl: feedbackRequest.fileUrl,
+      fileId: feedbackRequest.fileId,
+    }
+
+    if (hasFileToUpdate) {
+      const uploadedFile = await uploadFile(feedbackRequest.file[0])
+      if (!uploadedFile) throw Error
+
+      const fileUrl = getFileView(uploadedFile.$id)
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id)
+        throw Error
+      }
+
+      file = {
+        ...file,
+        fileName: uploadedFile.name,
+        fileUrl: fileUrl,
+        fileId: uploadedFile.$id,
+      }
+    }
+
+    const updatedFeedbackRequest = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.feedbackRequestCollectionId,
+      feedbackRequest.feedbackRequestId,
+      {
+        link: feedbackRequest.link,
+        fileName: file.fileName,
+        fileUrl: file.fileUrl,
+        fileId: file.fileId,
+      }
+    )
+
+    if (!updatedFeedbackRequest) {
+      throw Error
+    }
+
+    return updatedFeedbackRequest
+  } catch (error) {
+    console.log(error)
+  }
 }

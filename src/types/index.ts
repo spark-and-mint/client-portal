@@ -168,3 +168,22 @@ export type INewRequest = {
   contactPreference: string
   contactInfo: string
 }
+
+export type INewFeedbackRequest = {
+  stakeholderId: string
+  feedbackType: string
+  numberOfExperts: number
+  industry: string
+  expertise: string
+  timeFrame: string
+  status: string
+}
+
+export type IFeedbackRequest = {
+  feedbackRequestId: string
+  link: string
+  file: File[]
+  fileId: string
+  fileUrl: URL | string
+  fileName: string
+}

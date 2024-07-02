@@ -5,7 +5,7 @@ const AuthLayout = () => {
   const { isAuthenticated } = useStakeholderContext()
   const location = useLocation()
 
-  if (location.pathname === "/start") {
+  if (location.pathname === "/start" || location.pathname === "/feedback") {
     return <Outlet />
   }
 

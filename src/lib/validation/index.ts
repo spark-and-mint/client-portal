@@ -72,6 +72,15 @@ export const ClientValidation = z.object({
   file: z.custom<File[]>(),
 })
 
+export const FeedbackRequestValidation = z.object({
+  link: z
+    .string()
+    .url({ message: "Invalid url. Please add https." })
+    .optional()
+    .or(z.literal("")),
+  file: z.custom<File[]>(),
+})
+
 export const MilestoneValidation = z.object({
   title: z
     .string()

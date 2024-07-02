@@ -5,18 +5,18 @@ import {
   HomeIcon,
   BriefcaseBusinessIcon,
   Scale,
-  Sparkles,
   Building2,
   CreditCard,
+  Heart,
+  ScrollText,
+  ExternalLink,
 } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { useStakeholderContext } from "@/context/AuthContext"
-import { useGetClientProjects } from "@/lib/react-query/queries"
 import { Badge } from "../ui/badge"
 
 export function SidebarNav() {
-  const { stakeholder } = useStakeholderContext()
-  const { data: projects } = useGetClientProjects(stakeholder?.clientId)
+  const { stakeholder, projects } = useStakeholderContext()
 
   const navLinks = [
     {
@@ -39,8 +39,8 @@ export function SidebarNav() {
       icon: BriefcaseBusinessIcon,
       to: "/projects",
       badge:
-        projects && projects.documents && projects.documents.length > 0
-          ? `${projects.documents.length}`
+        projects && projects && projects.length > 0
+          ? `${projects.length}`
           : false,
     },
     {
@@ -52,11 +52,6 @@ export function SidebarNav() {
       title: "Payments",
       icon: CreditCard,
       to: "/payments",
-    },
-    {
-      title: "Start a Project",
-      icon: Sparkles,
-      to: "/start",
     },
     // {
     //   title: "Partner Network",
@@ -90,6 +85,34 @@ export function SidebarNav() {
           )}
         </NavLink>
       ))}
+      <NavLink
+        to="https://mirror.xyz/0x6Bc6Fad80Dc2FD5CB2744db381bCfeE2b824da0E/NcWrygP3bmWqzZZ7ZkLzA9s4fzhmYuqx1P0Wp-nQ4_o"
+        target="_blank"
+        className={() =>
+          cn(
+            buttonVariants({ variant: "ghost" }),
+            `group w-full justify-start rounded-md font-medium`
+          )
+        }
+      >
+        <ScrollText className="w-4 h-4 mr-2 -translate-y-0.25" />
+        Read our Manifesto
+        <ExternalLink className="w-4 h-4 ml-auto -translate-y-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+      </NavLink>
+      <NavLink
+        to="https://x.com/yourteamspark"
+        target="_blank"
+        className={() =>
+          cn(
+            buttonVariants({ variant: "ghost" }),
+            `group w-full justify-start rounded-md font-medium`
+          )
+        }
+      >
+        <Heart className="w-4 h-4 mr-2 -translate-y-0.25" />
+        Join our Fan Club
+        <ExternalLink className="w-4 h-4 ml-auto -translate-y-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+      </NavLink>
     </FadeIn>
   )
 }
