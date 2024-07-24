@@ -17,7 +17,7 @@ const NumberOfExperts = ({ setNumberOfExperts, setStep }) => {
           heading="Focused insights"
           text="1 expert for $495 USD"
           onClick={() => {
-            setNumberOfExperts(1), setStep(4)
+            setNumberOfExperts(1), setStep(5)
           }}
         />
         <ButtonCard
@@ -25,7 +25,7 @@ const NumberOfExperts = ({ setNumberOfExperts, setStep }) => {
           heading="Balanced perspectives"
           text="2 experts for $995 USD"
           onClick={() => {
-            setNumberOfExperts(2), setStep(4)
+            setNumberOfExperts(2), setStep(5)
           }}
         />
         <ButtonCard
@@ -33,13 +33,13 @@ const NumberOfExperts = ({ setNumberOfExperts, setStep }) => {
           heading="Comprehensive review"
           text="3 experts for $1495 USD"
           onClick={() => {
-            setNumberOfExperts(3), setStep(4)
+            setNumberOfExperts(3), setStep(5)
           }}
         />
       </div>
       <div className="mt-8">
         <Button
-          onClick={() => setStep(2)}
+          onClick={() => setStep(3)}
           variant="link"
           className="p-0 text-white"
         >

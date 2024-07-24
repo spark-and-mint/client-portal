@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui"
 import { Card } from "@/components/ui/card"
+import { removeTimezoneFromTimeString } from "@/lib/utils"
 import { ArrowLeft, Bitcoin, CreditCard } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { Link, useNavigate } from "react-router-dom"
@@ -19,7 +20,7 @@ const PaymentSummary = ({
     { title: "Number of Experts", description: numberOfExperts },
     { title: "Expertise", description: expertise },
     { title: "Industry", description: industry },
-    { title: "Timeframe", description: timeFrame },
+    { title: "When", description: removeTimezoneFromTimeString(timeFrame) },
   ]
 
   const getPrice = (numberOfExperts: number) => {

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import FeedbackType from "./FeedbackType"
 import Industry from "./Industry"
 import TimeFrame from "./TimeFrame"
@@ -17,14 +17,16 @@ import Expertise from "./Expertise"
 import NumberOfExperts from "./NumberOfExperts"
 import PaymentSummary from "./PaymentSummary"
 import AddMaterial from "./AddMaterial"
+import { Loader } from "@/components/shared"
 
 const StartFeedbackProject = () => {
   const { stakeholder, setStakeholder, setFeedbackRequests } =
     useStakeholderContext()
-  const [step, setStep] = useState(stakeholder.clientId ? 2 : 1)
+  const [loading, setLoading] = useState(false)
+  const [step, setStep] = useState(1)
   const [company, setCompany] = useState<null | IOption>(null)
-  const [feedbackType, setFeedbackType] = useState("")
-  const [numberOfExperts, setNumberOfExperts] = useState(0)
+  const [feedbackType, setFeedbackType] = useState("In-person")
+  const [numberOfExperts, setNumberOfExperts] = useState(1)
   const [expertise, setExpertise] = useState("")
   const [industry, setIndustry] = useState("")
   const [timeFrame, setTimeFrame] = useState("")
@@ -115,22 +117,24 @@ const StartFeedbackProject = () => {
         setStep={setStep}
       />
     ),
-    3: (
+    3: <Industry setIndustry={setIndustry} setStep={setStep} />,
+    4: (
       <NumberOfExperts
         setNumberOfExperts={setNumberOfExperts}
         setStep={setStep}
       />
     ),
-    4: (
+    5: (
       <Expertise
         expertise={expertise}
         setExpertise={setExpertise}
+        numberOfExperts={numberOfExperts}
         setStep={setStep}
       />
     ),
-    5: <Industry setIndustry={setIndustry} setStep={setStep} />,
     6: (
       <TimeFrame
+        timeFrame={timeFrame}
         setTimeFrame={setTimeFrame}
         setStep={setStep}
         feedbackType={feedbackType}
@@ -148,6 +152,27 @@ const StartFeedbackProject = () => {
       />
     ),
     8: <AddMaterial handleSubmit={handleSubmit} />,
+  }
+
+  useEffect(() => {
+    if (step > 1) return
+    setLoading(true)
+    if (stakeholder.id !== "") {
+      if (stakeholder.clientId) {
+        setStep(2)
+      } else {
+        setStep(1)
+      }
+      setLoading(false)
+    }
+  }, [step, stakeholder.id, stakeholder.clientId])
+
+  if (loading) {
+    return (
+      <div className="h-screen -mt-48">
+        <Loader />
+      </div>
+    )
   }
 
   return (

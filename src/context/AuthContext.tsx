@@ -89,10 +89,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (stakeholder) {
-        // const projectsWithNewUpdatesData = await getProjectsWithNewUpdates(
-        //   stakeholder.clientId
-        // )
-        // setProjectsWithNewUpdates(projectsWithNewUpdatesData || [])
         const requests = await getStakeholderRequests(stakeholder.$id)
         const feedbackRequests = await getStakeholderFeedbackRequests(
           stakeholder.$id

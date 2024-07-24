@@ -124,10 +124,7 @@ const Home = () => {
             <h6 className="h6">Your feedback sessions</h6>
             <ul className="mt-6 *:py-2 first:*:pt-0 last:*:pb-0">
               {feedbackRequests.map((request) => (
-                <FeedbackRequestItem
-                  key={request.stakeholderId}
-                  request={request}
-                />
+                <FeedbackRequestItem key={request.$id} request={request} />
               ))}
             </ul>
           </Card>

@@ -28,14 +28,14 @@ const Industry = ({ setIndustry, setStep }) => {
             text={industry}
             onClick={() => {
               setIndustry(industry)
-              setStep(6)
+              setStep(4)
             }}
           />
         ))}
       </div>
       <div className="mt-8">
         <Button
-          onClick={() => setStep(4)}
+          onClick={() => setStep(2)}
           variant="link"
           className="p-0 text-white"
         >

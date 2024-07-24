@@ -15,6 +15,7 @@ import {
   useGetFeedbackRequestById,
   useUpdateFeedbackRequest,
 } from "@/lib/react-query/queries"
+import { removeTimezoneFromTimeString } from "@/lib/utils"
 import { FeedbackRequestValidation } from "@/lib/validation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowLeft, RotateCw } from "lucide-react"
@@ -76,6 +77,10 @@ const FeedbackRequestDetails = () => {
       description: feedbackRequest?.numberOfExperts,
     },
     { title: "Expertise", description: feedbackRequest?.expertise },
+    {
+      title: "When",
+      description: removeTimezoneFromTimeString(feedbackRequest?.timeFrame),
+    },
     { title: "Status", description: feedbackRequest?.status },
   ]
 

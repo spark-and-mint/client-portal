@@ -49,3 +49,13 @@ export const toRelativeTimeString = (date: Date) => {
     return "Less than 1 hour ago"
   }
 }
+
+export const removeTimezoneFromTimeString = (timeString: string) => {
+  const parts = timeString.split(",")
+  if (parts.length > 1 && parts[parts.length - 1].includes("-")) {
+    parts.pop()
+    return parts.join(",").trim()
+  } else {
+    return timeString.trim()
+  }
+}
