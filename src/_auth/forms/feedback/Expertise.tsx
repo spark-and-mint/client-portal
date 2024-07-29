@@ -1,12 +1,20 @@
-import { Button } from "@/components/ui"
+import { Button, Input } from "@/components/ui"
 import HireHeading from "./HireHeading"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { useEffect, useState } from "react"
 import Checkbox from "./Checkbox"
 
-const Expertise = ({ expertise, setExpertise, numberOfExperts, setStep }) => {
+const Expertise = ({
+  expertise,
+  setExpertise,
+  otherExpertise,
+  setOtherExpertise,
+  numberOfExperts,
+  setStep,
+}) => {
   const [expertiseString, setExpertiseString] = useState<string[]>([])
+  const [showOther, setShowOther] = useState(false)
   const single = numberOfExperts === 1
 
   const handleSelect = (type: string) => {
@@ -18,8 +26,15 @@ const Expertise = ({ expertise, setExpertise, numberOfExperts, setStep }) => {
   }
 
   useEffect(() => {
-    setExpertise(expertiseString.length > 0 ? expertiseString.join(", ") : "")
-  }, [expertise, expertiseString, setExpertise])
+    let expertiseList = expertiseString
+
+    if (expertiseString.includes("Other") && otherExpertise.trim()) {
+      expertiseList = expertiseList.filter((item) => item !== "Other")
+      expertiseList.push(otherExpertise.trim())
+    }
+
+    setExpertise(expertiseList.length > 0 ? expertiseList.join(", ") : "")
+  }, [expertiseString, otherExpertise, setExpertise, expertise])
 
   return (
     <FadeIn>
@@ -45,15 +60,32 @@ const Expertise = ({ expertise, setExpertise, numberOfExperts, setStep }) => {
           single ? "AI Specialist" : "AI Specialists",
           single ? "Growth Hacker" : "Growth Hackers",
           "Other",
-        ].map((expertise) => (
+        ].map((option) => (
           <Checkbox
-            key={expertise}
-            text={expertise}
-            selected={expertiseString.includes(expertise)}
-            onClick={() => handleSelect(expertise)}
+            key={option}
+            text={option}
+            selected={
+              expertiseString.includes(option) || expertise.includes(option)
+            }
+            onClick={() => {
+              if (option === "Other") {
+                setShowOther(!showOther)
+              }
+              handleSelect(option)
+            }}
           />
         ))}
       </div>
+      {showOther && (
+        <div className="mt-6">
+          <Input
+            defaultValue={otherExpertise}
+            onChange={(e) => setOtherExpertise(e.target.value)}
+            placeholder="Please specify..."
+            className="h-12 px-3 py-2 text-base"
+          />
+        </div>
+      )}
       <div className="flex justify-between mt-8">
         <Button
           onClick={() => setStep(4)}
@@ -67,7 +99,7 @@ const Expertise = ({ expertise, setExpertise, numberOfExperts, setStep }) => {
         <Button
           onClick={() => setStep(6)}
           size="sm"
-          disabled={!expertiseString.length}
+          disabled={!expertiseString.length || (showOther && !otherExpertise)}
         >
           Continue
           <ArrowRight className="w-4 h-4 ml-2" />

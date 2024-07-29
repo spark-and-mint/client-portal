@@ -28,6 +28,7 @@ const StartFeedbackProject = () => {
   const [feedbackType, setFeedbackType] = useState("In-person")
   const [numberOfExperts, setNumberOfExperts] = useState(1)
   const [expertise, setExpertise] = useState("")
+  const [otherExpertise, setOtherExpertise] = useState("")
   const [industry, setIndustry] = useState("")
   const [timeFrame, setTimeFrame] = useState("")
   const { mutateAsync: createClient } = useCreateClient()
@@ -117,7 +118,13 @@ const StartFeedbackProject = () => {
         setStep={setStep}
       />
     ),
-    3: <Industry setIndustry={setIndustry} setStep={setStep} />,
+    3: (
+      <Industry
+        industry={industry}
+        setIndustry={setIndustry}
+        setStep={setStep}
+      />
+    ),
     4: (
       <NumberOfExperts
         setNumberOfExperts={setNumberOfExperts}
@@ -128,6 +135,8 @@ const StartFeedbackProject = () => {
       <Expertise
         expertise={expertise}
         setExpertise={setExpertise}
+        otherExpertise={otherExpertise}
+        setOtherExpertise={setOtherExpertise}
         numberOfExperts={numberOfExperts}
         setStep={setStep}
       />

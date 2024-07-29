@@ -48,7 +48,7 @@ const TimeFrame = ({
             ? "When do you want to receieve the report?"
             : "Schedule your feedback jam session"
         }
-        text="Choose the date and time that works best for you. We will do everything in our power to accommodate your schedule."
+        text="Choose the date and time that works best for you. We will do everything in our power to meet your preference."
       />
 
       <div className="grid gap-6 mt-8">
