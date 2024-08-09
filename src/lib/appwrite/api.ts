@@ -955,6 +955,8 @@ export async function createFeedbackRequest(
         industry: feedbackRequest.industry,
         expertise: feedbackRequest.expertise,
         timeFrame: feedbackRequest.timeFrame,
+        stripeLink: feedbackRequest.stripeLink,
+        eukapayLink: feedbackRequest.eukapayLink,
         status: "in review",
       }
     )

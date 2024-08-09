@@ -176,6 +176,8 @@ export type INewFeedbackRequest = {
   industry: string
   expertise: string
   timeFrame: string
+  stripeLink: string
+  eukapayLink: string
   status: string
 }
 
