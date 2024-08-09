@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import FeedbackType from "./FeedbackType"
 import Industry from "./Industry"
 import TimeFrame from "./TimeFrame"
-import { cn, getEukapayLink, getStripeLink } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { IOption } from "@/types"
 import ProgressBar from "./ProgressBar"
 import { toast } from "sonner"
@@ -97,8 +97,6 @@ const StartFeedbackProject = () => {
         industry,
         expertise,
         timeFrame,
-        stripeLink: getStripeLink(numberOfExperts),
-        eukapayLink: getEukapayLink(numberOfExperts),
         status: "in review",
       })
 

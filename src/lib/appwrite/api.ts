@@ -98,7 +98,7 @@ export async function signInAccount(stakeholder: {
   password: string
 }) {
   try {
-    const session = await account.createEmailPasswordSession(
+    const session = await account.createEmailSession(
       stakeholder.email,
       stakeholder.password
     )
@@ -955,8 +955,6 @@ export async function createFeedbackRequest(
         industry: feedbackRequest.industry,
         expertise: feedbackRequest.expertise,
         timeFrame: feedbackRequest.timeFrame,
-        stripeLink: feedbackRequest.stripeLink,
-        eukapayLink: feedbackRequest.eukapayLink,
         status: "in review",
       }
     )

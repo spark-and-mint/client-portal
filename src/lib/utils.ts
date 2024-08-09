@@ -51,7 +51,6 @@ export const toRelativeTimeString = (date: Date) => {
 }
 
 export const removeTimezoneFromTimeString = (timeString: string) => {
-  if (!timeString) return ""
   const parts = timeString.split(",")
   if (parts.length > 1 && parts[parts.length - 1].includes("-")) {
     parts.pop()
@@ -59,30 +58,4 @@ export const removeTimezoneFromTimeString = (timeString: string) => {
   } else {
     return timeString.trim()
   }
-}
-
-export const getStripeLink = (numberOfExperts: number) => {
-  let link = ""
-  if (numberOfExperts === 1) {
-    link = "https://buy.stripe.com/14kdS74wOgDb5l64gi"
-  } else if (numberOfExperts === 2) {
-    link = "https://buy.stripe.com/7sI01he7ogDb7tefZ1"
-  } else if (numberOfExperts === 3) {
-    link = "https://buy.stripe.com/dR66pFfbscmV6pa9AE"
-  }
-
-  return link
-}
-
-export const getEukapayLink = (numberOfExperts: number) => {
-  let link = ""
-  if (numberOfExperts === 1) {
-    link = "https://app.eukapay.com/templates/tmp_BPxeiuxUKlQhaeUYyBENAfGcQ9"
-  } else if (numberOfExperts === 2) {
-    link = "https://app.eukapay.com/templates/tmp_SzfuwWF5lg9uktS0MewVPsngXJ"
-  } else if (numberOfExperts === 3) {
-    link = "https://app.eukapay.com/templates/tmp_dpMgpwn2hPbcjqMz58ATEWbLUd"
-  }
-
-  return link
 }

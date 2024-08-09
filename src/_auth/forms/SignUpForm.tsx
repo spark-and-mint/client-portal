@@ -23,7 +23,6 @@ import { useStakeholderContext } from "@/context/AuthContext"
 import { RotateCw } from "lucide-react"
 import GoogleIcon from "@/svg/GoogleIcon"
 import { account } from "@/lib/appwrite/config"
-import { OAuthProvider } from "appwrite"
 
 const SignUpForm = () => {
   const navigate = useNavigate()
@@ -92,8 +91,8 @@ const SignUpForm = () => {
 
   const onGoogleSignIn = async () => {
     try {
-      account.createOAuth2Token(
-        OAuthProvider.Google,
+      account.createOAuth2Session(
+        "google",
         "https://portal.teamspark.xyz/oauth2callback"
       )
     } catch (error) {
