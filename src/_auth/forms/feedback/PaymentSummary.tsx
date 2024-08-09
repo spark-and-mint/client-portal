@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui"
 import { Card } from "@/components/ui/card"
-import { removeTimezoneFromTimeString } from "@/lib/utils"
+import {
+  getEukapayLink,
+  getStripeLink,
+  removeTimezoneFromTimeString,
+} from "@/lib/utils"
 import { ArrowLeft, Bitcoin, CreditCard } from "lucide-react"
 import FadeIn from "react-fade-in"
 import { Link, useNavigate } from "react-router-dom"
@@ -34,32 +38,6 @@ const PaymentSummary = ({
     }
 
     return price
-  }
-
-  const getStripeLink = (numberOfExperts: number) => {
-    let link = ""
-    if (numberOfExperts === 1) {
-      link = "https://buy.stripe.com/14kdS74wOgDb5l64gi"
-    } else if (numberOfExperts === 2) {
-      link = "https://buy.stripe.com/7sI01he7ogDb7tefZ1"
-    } else if (numberOfExperts === 3) {
-      link = "https://buy.stripe.com/dR66pFfbscmV6pa9AE"
-    }
-
-    return link
-  }
-
-  const getEukapayLink = (numberOfExperts: number) => {
-    let link = ""
-    if (numberOfExperts === 1) {
-      link = "https://app.eukapay.com/templates/tmp_BPxeiuxUKlQhaeUYyBENAfGcQ9"
-    } else if (numberOfExperts === 2) {
-      link = "https://app.eukapay.com/templates/tmp_SzfuwWF5lg9uktS0MewVPsngXJ"
-    } else if (numberOfExperts === 3) {
-      link = "https://app.eukapay.com/templates/tmp_dpMgpwn2hPbcjqMz58ATEWbLUd"
-    }
-
-    return link
   }
 
   const submit = () => {

@@ -53,9 +53,6 @@ const ResetPassword = () => {
     resolver: zodResolver(PasswordsValidation),
   })
 
-  const passwordsNotMatching =
-    passwordForm.watch("newPassword") !== passwordForm.watch("confirmPassword")
-
   if (passwordIsReset) {
     return (
       <div>
@@ -84,8 +81,7 @@ const ResetPassword = () => {
       const passwordUpdated = await account.updateRecovery(
         userId,
         secret,
-        passwords.newPassword,
-        passwords.confirmPassword
+        passwords.newPassword
       )
 
       if (passwordUpdated) {
@@ -118,23 +114,9 @@ const ResetPassword = () => {
               )}
             />
 
-            <FormField
-              control={passwordForm.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm your password</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <div>
               <Button
-                disabled={isResettingPassword || passwordsNotMatching}
+                disabled={isResettingPassword}
                 type="submit"
                 className="mt-2 w-full"
               >

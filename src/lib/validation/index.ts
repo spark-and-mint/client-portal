@@ -101,5 +101,4 @@ export const PasswordsValidation = z.object({
   newPassword: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long" }),
-  confirmPassword: z.string(),
 })

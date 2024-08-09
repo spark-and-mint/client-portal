@@ -31,7 +31,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tanstack/react-query": "^5.25.0",
     "@types/humanparser": "^1.1.8",
-    "appwrite": "13",
+    "appwrite": "14",
     "autoprefixer": "^10.4.18",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
